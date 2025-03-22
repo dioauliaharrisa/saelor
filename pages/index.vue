@@ -1,16 +1,34 @@
 <script setup>
-const selectedCategory = useState("selectedCategory", () => "");
+import { ref, watchEffect } from "vue";
+
+const selectedCategory = ref("");
+
+// Fetch categories correctly
+const { data: categories, error: categoriesError } = useFetch(
+  "/api/categories",
+  {
+    // Add key to ensure proper caching
+    key: "categories-list",
+    // Initialize with empty array to avoid null checks
+    default: () => [],
+  }
+);
+
+// Fetch products reactively when category changes
 const { data: products, refresh } = useFetch(() =>
   selectedCategory.value
     ? `/api/products/category/${selectedCategory.value}`
     : "/api/products"
 );
-const { data: categories } = useFetch("api/categories");
 
 const selectCategory = (category) => {
   selectedCategory.value = category;
-  refresh(); // Re-fetch products when category changes
+  refresh();
 };
+
+watchEffect(() => {
+  console.log("🦆 Categories updated:", categories.value);
+});
 </script>
 
 <template>
@@ -24,7 +42,7 @@ const selectCategory = (category) => {
       </div>
     </div>
     <!-- <p v-if="pending">Loading products...</p> -->
-    <div v-else-if="products && products.length" class="grid">
+    <div v-if="products && products.length" class="grid">
       <div v-for="product in products" :key="product.id" class="product">
         <img :src="product.image" :alt="product.title" />
         <p class="price">${{ product.price }}</p>

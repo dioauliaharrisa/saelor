@@ -35,10 +35,9 @@ const showOverlay = ref(false);
       />
       <input
         type="text"
-        v-model="searchQuery"
-        @input="onInput"
         placeholder="Search..."
         class="input"
+        @input="onInput"
       />
     </div>
     <div class="header_cart_button">
@@ -53,7 +52,7 @@ const showOverlay = ref(false);
     </div>
   </div>
 </template>
-
+<!-- v-model="searchQuery" -->
 <style scoped>
 .container_icon {
   width: 6rem;
