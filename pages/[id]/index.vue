@@ -56,6 +56,7 @@ console.log("🦆 ~ data:", product);
       <div class="container_product_name">
         <p class="title">{{ product?.name }}</p>
         <hr />
+        <!-- <Button label="Verify" /> -->
       </div>
     </div>
     <p class="price">${{ product.price }}</p>
@@ -64,10 +65,18 @@ console.log("🦆 ~ data:", product);
 </template>
 
 <style scoped>
+.title {
+  font-size: x-large;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
 hr {
   background-color: yellow;
   width: 100%;
+  height: 0.2rem;
   border-radius: 5px;
+  border: none;
 }
 
 .page {
@@ -76,18 +85,25 @@ hr {
   background-color: red;
 }
 .container_product_display {
-  width: 100%;
   display: flex;
+  width: 100%;
 }
 
 .container_product_image {
   flex: 1;
 }
 
+.container_product_image img {
+  width: 100%; /* Make it fill the container */
+  height: 100%; /* Ensure it scales correctly */
+  /* max-height: 300px; Adjust as needed */
+  object-fit: cover; /* Prevents distortion */
+}
+
 .container_product_name {
-  background-color: pink;
-  flex: 1;
   display: flex;
+  flex: 1;
+  background-color: pink;
   flex-direction: column;
 }
 </style>

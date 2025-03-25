@@ -22,38 +22,46 @@ const showOverlay = ref(false);
         </div>
       </div>
     </Teleport>
-    <div class="header_icon_buttons">
-      <IconButton icon="fluent:home-12-filled" />
-      <IconButton icon="tabler:category-filled" to="/categories" />
-      <IconButton icon="tabler:category-filled" to="/categories" />
+    <div class="wrapper">
+      <div class="header_icon_buttons">
+        <IconButton icon="fluent:home-12-filled" />
+        <IconButton icon="tabler:category-filled" to="/categories" />
+        <IconButton icon="tabler:category-filled" to="/categories" />
+      </div>
+      <div class="search_bar">
+        <Icon
+          name="material-symbols:search"
+          style="color: black; font-size: 30px"
+          class="search_bar_icon"
+        />
+        <input
+          type="text"
+          placeholder="Search..."
+          class="input"
+          @input="onInput"
+        />
+      </div>
+      <div class="header_cart_button">
+        <IconButton
+          icon="solar:cart-4-bold"
+          @click="
+            console.log('IconButton clicked');
+            showOverlay = !showOverlay;
+            console.log('Overlay state:', showOverlay.value);
+          "
+        />
+      </div>
     </div>
-    <div class="search_bar">
-      <Icon
-        name="material-symbols:search"
-        style="color: black; font-size: 30px"
-        class="search_bar_icon"
-      />
-      <input
-        type="text"
-        placeholder="Search..."
-        class="input"
-        @input="onInput"
-      />
-    </div>
-    <div class="header_cart_button">
-      <IconButton
-        icon="solar:cart-4-bold"
-        @click="
-          console.log('IconButton clicked');
-          showOverlay = !showOverlay;
-          console.log('Overlay state:', showOverlay.value);
-        "
-      />
-    </div>
+    <slot />
   </div>
 </template>
 <!-- v-model="searchQuery" -->
 <style scoped>
+.wrapper {
+  width: 100%;
+  display: flex;
+}
+
 .container_icon {
   width: 6rem;
   height: 6rem;
@@ -74,6 +82,7 @@ const showOverlay = ref(false);
 .container {
   margin: 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
   min-height: 60px;

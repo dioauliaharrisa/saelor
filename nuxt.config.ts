@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import Aura from "@primeuix/themes/aura";
 
 export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
@@ -10,11 +11,19 @@ export default defineNuxtConfig({
     "@nuxt/icon",
     "@nuxt/image",
     "@nuxtjs/apollo",
+    "@primevue/nuxt-module",
   ],
   apollo: {
     clients: {
       default: {
-        httpEndpoint: "https://store-7zyuop8t.saleor.cloud/graphql/",
+        httpEndpoint: process.env.NUXT_PUBLIC_GRAPHQL_SAELOR || "",
+      },
+    },
+  },
+  primevue: {
+    options: {
+      theme: {
+        preset: Aura,
       },
     },
   },

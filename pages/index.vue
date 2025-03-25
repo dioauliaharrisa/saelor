@@ -1,6 +1,5 @@
 <script setup>
 import { ref, watchEffect } from "vue";
-import { useProducts } from "../composables/useProducts.ts";
 
 const selectedCategory = ref("");
 
@@ -10,11 +9,6 @@ const { data: categories } = useFetch("/api/categories", {
 });
 
 // Fetch products reactively when category changes
-const { data: products, refresh } = useFetch(() =>
-  selectedCategory.value
-    ? `/api/products/category/${selectedCategory.value}`
-    : "/api/products"
-);
 
 const selectCategory = (category) => {
   selectedCategory.value = category;
@@ -24,9 +18,6 @@ const selectCategory = (category) => {
 watchEffect(() => {
   console.log("🦆 Categories updated:", categories.value);
 });
-
-// const { productssss } = useProducts();
-// console.log("🦆 ~ productssss:", productssss);
 
 const query = gql`
   query GetProducts {
@@ -51,12 +42,11 @@ const {
     },
   },
 } = await useAsyncQuery(query, variables);
-console.log("🦆 ~ data:", edges[0].node);
+// console.log("🦆 ~ data:", edges[0].node);
 </script>
 
 <template>
   <div class="page">
-    <HeaderTop />
     <div v-if="categories && categories.length" class="header">
       <div v-for="category in categories" :key="category">
         <div class="category_pill" @click="selectCategory(category)">
@@ -64,7 +54,6 @@ console.log("🦆 ~ data:", edges[0].node);
         </div>
       </div>
     </div>
-    <!-- <p v-if="pending">Loading products...</p> -->
     <div v-if="edges && edges.length" class="grid">
       <div v-for="product in edges" :key="product.id" class="product">
         <NuxtLink :to="`/${product?.node?.id}`">
