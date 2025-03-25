@@ -5,21 +5,17 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   alias: { "@": "./" },
   modules: [
-    "shadcn-nuxt",
     "@nuxt/eslint",
     "@nuxt/fonts",
     "@nuxt/icon",
     "@nuxt/image",
+    "@nuxtjs/apollo",
   ],
-  shadcn: {
-    /**
-     * Prefix for all the imported component
-     */
-    prefix: "",
-    /**
-     * Directory that the component lives in.
-     * @default "./components/ui"
-     */
-    componentDir: "./components/ui",
+  apollo: {
+    clients: {
+      default: {
+        httpEndpoint: "https://store-7zyuop8t.saleor.cloud/graphql/",
+      },
+    },
   },
 });

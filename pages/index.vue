@@ -1,18 +1,13 @@
 <script setup>
 import { ref, watchEffect } from "vue";
+import { useProducts } from "../composables/useProducts.ts";
 
 const selectedCategory = ref("");
 
-// Fetch categories correctly
-const { data: categories, error: categoriesError } = useFetch(
-  "/api/categories",
-  {
-    // Add key to ensure proper caching
-    key: "categories-list",
-    // Initialize with empty array to avoid null checks
-    default: () => [],
-  }
-);
+const { data: categories } = useFetch("/api/categories", {
+  key: "categories-list",
+  default: () => [],
+});
 
 // Fetch products reactively when category changes
 const { data: products, refresh } = useFetch(() =>
@@ -29,6 +24,34 @@ const selectCategory = (category) => {
 watchEffect(() => {
   console.log("🦆 Categories updated:", categories.value);
 });
+
+// const { productssss } = useProducts();
+// console.log("🦆 ~ productssss:", productssss);
+
+const query = gql`
+  query GetProducts {
+    products(channel: "default-channel", first: 10) {
+      edges {
+        node {
+          id
+          name
+          thumbnail {
+            url
+          }
+        }
+      }
+    }
+  }
+`;
+const variables = { limit: 5 };
+const {
+  data: {
+    value: {
+      products: { edges },
+    },
+  },
+} = await useAsyncQuery(query, variables);
+console.log("🦆 ~ data:", edges[0].node);
 </script>
 
 <template>
@@ -42,12 +65,14 @@ watchEffect(() => {
       </div>
     </div>
     <!-- <p v-if="pending">Loading products...</p> -->
-    <div v-if="products && products.length" class="grid">
-      <div v-for="product in products" :key="product.id" class="product">
-        <img :src="product.image" :alt="product.title" />
-        <p class="price">${{ product.price }}</p>
-        <p class="title">{{ product.title }}</p>
-        <p class="category">{{ product.category }}</p>
+    <div v-if="edges && edges.length" class="grid">
+      <div v-for="product in edges" :key="product.id" class="product">
+        <NuxtLink :to="`/${product?.node?.id}`">
+          <img :src="product?.node?.thumbnail?.url" :alt="product.title" />
+          <p class="price">${{ product.price }}</p>
+          <p class="title">{{ product?.node?.name }}</p>
+          <p class="category">{{ product.category }}</p>
+        </NuxtLink>
       </div>
     </div>
 
