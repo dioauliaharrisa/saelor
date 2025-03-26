@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.13.5",
+    "@editorjs/editorjs": "^2.30.8",
     "@nuxt/eslint": "^1.2.0",
     "@nuxt/fonts": "^0.11.0",
     "@nuxt/icon": "^1.11.0",
