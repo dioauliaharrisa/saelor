@@ -4,7 +4,10 @@
   const router = useRouter()
 
   function navigateToHome() {
-    router.push({ path: '/' }) // Navigate to the home route
+    router.push({ path: '/' })
+  }
+  function navigateToCart() {
+    router.push({ path: '/cart' })
   }
 </script>
 
@@ -38,7 +41,7 @@
           style="color: white; font-size: 15px"
         />
       </div>
-      <div class="icons">
+      <div class="icons" @click="navigateToCart">
         <Icon
           name="material-symbols:shopping-cart-rounded"
           style="color: white; font-size: 15px"

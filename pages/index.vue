@@ -1,4 +1,7 @@
 <script setup>
+  import { useRouter } from 'vue-router'
+
+  const router = useRouter()
   const query = gql`
     query GetProducts {
       products(channel: "default-channel", first: 10) {
@@ -8,6 +11,21 @@
             name
             thumbnail {
               url
+            }
+            description
+            pricing {
+              priceRange {
+                start {
+                  gross {
+                    amount
+                  }
+                }
+                stop {
+                  gross {
+                    amount
+                  }
+                }
+              }
             }
           }
         }
@@ -22,6 +40,15 @@
       }
     }
   } = await useAsyncQuery(query, variables)
+
+  function parseDescription(description) {
+    try {
+      return JSON.parse(description)
+    } catch (error) {
+      console.error('Failed to parse description:', error)
+      return null
+    }
+  }
 </script>
 
 <template>
@@ -67,13 +94,22 @@
       </div>
     </div>
     <div v-if="edges && edges.length" class="grid">
-      <div v-for="product in edges" :key="product.id" class="product">
-        <NuxtLink :to="`/${product?.node?.id}`">
-          <img :src="product?.node?.thumbnail?.url" :alt="product.title" />
-          <p class="price">${{ product.price }}</p>
-          <p class="title">{{ product?.node?.name }}</p>
-          <p class="category">{{ product.category }}</p>
-        </NuxtLink>
+      <div
+        v-for="product in edges"
+        :key="product.id"
+        class="product"
+        @click="router.push({ path: `/${product?.node?.id}` })"
+      >
+        <img :src="product?.node?.thumbnail?.url" :alt="product.title" />
+        <p class="price">
+          ${{ product?.node.pricing.priceRange.start.gross.amount }}
+        </p>
+        <p class="title">{{ product?.node?.name }}</p>
+        <RichTextRenderer
+          v-if="product?.node?.description"
+          :content="parseDescription(product.node.description)"
+          :font-size="'.75rem'"
+        />
       </div>
     </div>
 
@@ -134,6 +170,7 @@
   .price {
     font-size: small;
     font-weight: 700;
+    text-decoration: none;
   }
 
   .product > .title {
