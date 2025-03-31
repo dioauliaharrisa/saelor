@@ -22,6 +22,9 @@
             }
             product {
               description
+              media {
+                url
+              }
             }
           }
         }
@@ -35,32 +38,15 @@
   `
 
   const cartStore = useCartStore()
-  console.log('🦆 ~ cartStore:', cartStore)
 
-  const cartItems = ref([])
-  const totalPrice = ref(0)
-  const checkoutId = ref(null)
-  checkoutId.value = localStorage?.getItem('checkoutId') || null
+  const checkoutId = computed(() => cartStore.checkoutId)
 
-  // if (!checkoutId.value) return
-
-  const { result } = useAsyncQuery(GET_CHECKOUT, {
+  const { data } = useAsyncQuery(GET_CHECKOUT, {
     checkoutId: checkoutId.value
   })
-
-  // Watch for data changes
-  watch(
-    result,
-    (newData) => {
-      console.log('🦆 Checkout data updated:', newData)
-      if (newData?.checkout) {
-        cartItems.value = newData.checkout.lines || []
-        totalPrice.value = newData.checkout.totalPrice?.gross?.amount || 0
-      }
-    },
-    { deep: true }
-  )
-  // onMounted(() => {})
+  const totalPrice = data.value?.checkout?.totalPrice?.gross?.amount || 0
+  const products = data.value?.checkout?.lines || []
+  console.log('🦆 ~ products:', products[0])
 </script>
 
 <template>
@@ -72,18 +58,70 @@
     <div class="container_content">
       <div class="text-indicator-cart-items">
         <p class="title">Items in cart</p>
-        <p class="title">{{ cartItems?.length }} items</p>
+        <p class="title">{{ products?.length }} items</p>
       </div>
       <div>
-        <div v-for="product in cartItems" :key="product.id">
-          <img :src="product?.variant?.media?.[0]?.url" :alt="product.id" />
-        </div>
+        <!-- <div v-for="product in products" :key="product.id">
+          <img :src="product?.variant?.product?.media?.[0]?.url" />
+        </div> -->
+        <DataTable :value="products">
+          <Column field="code" header="Quantity">
+            <template #body="slotProps">
+              {{
+                slotProps.data.variant.pricing?.price?.gross?.amount.value ||
+                '1'
+              }}
+            </template>
+          </Column>
+          <Column header="Image">
+            <template #body="slotProps">
+              <img
+                :src="
+                  slotProps.data.variant.media?.[0]?.url ||
+                  slotProps.data.variant.product.media?.[0]?.url
+                "
+                alt="Product Image"
+                style="width: 50px; height: 50px; object-fit: cover"
+              />
+            </template>
+          </Column>
+          <Column header="Product Description">
+            <template #body="slotProps">
+              <RichTextRenderer
+                v-if="slotProps.data.variant.product.description"
+                :content="slotProps.data.variant.product.description"
+                :font-size="'.75rem'"
+              />
+            </template>
+          </Column>
+          <Column header="Total Price">
+            <template #body="slotProps">
+              ${{
+                slotProps.data.variant.pricing?.price?.gross?.amount || '0.00'
+              }}
+            </template>
+          </Column>
+        </DataTable>
+      </div>
+      <div id="container-checkout-total-price">
+        <p class="title">Total Price: $ {{ totalPrice }}</p>
+        <Button
+          id="button-proceed-to-checkout"
+          label="Proceed to checkout"
+        ></Button>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+  #container-checkout-total-price {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding: 2rem 0;
+  }
   .container_title {
     width: 100%;
   }

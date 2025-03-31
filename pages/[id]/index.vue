@@ -82,9 +82,10 @@
       life: 3000
     })
   }
+  const cartStore = useCartStore()
   const handleAddToCart = async () => {
-    let checkoutId = localStorage.getItem('checkoutId')
-    console.log('🦆 ~ handleAddToCart ~ checkoutId:', checkoutId)
+    let checkoutId = cartStore.checkoutId
+
     const mutation = gql`
       mutation CreateCheckout($id: ID!, $channel: String!) {
         checkoutCreate(
@@ -111,7 +112,7 @@
 
         checkoutId = data?.checkoutCreate?.checkout?.id
 
-        if (checkoutId) localStorage.setItem('checkoutId', checkoutId)
+        if (checkoutId) cartStore.checkoutId = checkoutId
       } catch (error) {
         console.error('Mutation error:', error)
       }
