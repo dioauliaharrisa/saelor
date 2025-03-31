@@ -6,6 +6,8 @@
   const route = useRoute()
   const id = route.params.id
 
+  const toast = useToast()
+
   const query = gql`
     query GetProduct($id: ID!, $channel: String!) {
       product(id: $id, channel: $channel, externalReference: "") {
@@ -30,6 +32,10 @@
         images {
           url(format: ORIGINAL, size: 600)
         }
+        variants {
+          id
+          name
+        }
         category {
           description
           level
@@ -48,6 +54,7 @@
             id
             slug
             name
+            unit
           }
         }
       }
@@ -58,16 +65,60 @@
     id,
     channel: 'default-channel'
   }
-  const {
-    data: {
-      value: { product }
-    }
-  } = await useAsyncQuery(query, variables)
-  console.log('🦆 ~ product:', product.attributes.values)
-  const home = ref({ label: 'Home', to: '/' }) // Define home link
+  const { data } = await useAsyncQuery(query, variables)
+  const product = data?.value?.product || null
+
+  const productVariantId = data?.value?.product?.variants[0]?.id || null
+  const home = ref({ label: 'Home', to: '/' })
   const items = ref([{ label: 'Shop', to: '/shop' }, { label: 'Categories' }])
 
   const visible = ref(false)
+
+  const showToast = () => {
+    toast.add({
+      severity: 'success',
+      summary: 'Info',
+      detail: `${product?.name} has been added to your cart`,
+      life: 3000
+    })
+  }
+  const handleAddToCart = async () => {
+    let checkoutId = localStorage.getItem('checkoutId')
+    console.log('🦆 ~ handleAddToCart ~ checkoutId:', checkoutId)
+    const mutation = gql`
+      mutation CreateCheckout($id: ID!, $channel: String!) {
+        checkoutCreate(
+          input: { channel: $channel, lines: [{ variantId: $id, quantity: 1 }] }
+        ) {
+          checkout {
+            id
+            token
+          }
+          errors {
+            field
+            message
+          }
+        }
+      }
+    `
+    if (!checkoutId) {
+      try {
+        const { mutate } = useMutation(mutation)
+        const { data } = await mutate({
+          id: productVariantId,
+          channel: 'default-channel'
+        })
+
+        checkoutId = data?.checkoutCreate?.checkout?.id
+
+        if (checkoutId) localStorage.setItem('checkoutId', checkoutId)
+      } catch (error) {
+        console.error('Mutation error:', error)
+      }
+    }
+
+    showToast()
+  }
 </script>
 
 <template>
@@ -88,6 +139,11 @@
         <p id="product-warranty-information" @click="visible = true">
           Warranty Information
         </p>
+        <Button
+          id="button-add-to-cart"
+          label="Add to cart"
+          @click="handleAddToCart()"
+        ></Button>
       </div>
     </div>
     <div class="container-product-informations">
@@ -100,11 +156,11 @@
           <p class="title">{{ attribute.attribute.name }}</p>
           <ul>
             <li v-for="value in attribute.values" :key="value.id">
-              {{ value.name }}
+              {{ value.name }} {{ attribute.attribute.unit?.toLowerCase() }}
             </li>
           </ul>
         </div>
-      </div>    
+      </div>
     </div>
     <Dialog
       v-model:visible="visible"
@@ -151,10 +207,15 @@
         </div>
       </div>
     </Dialog>
+    <Toast />
   </div>
 </template>
 
 <style scoped>
+  .container_product_name > button {
+    background-color: gray;
+    border: none;
+  }
   .p-dialog-header {
     padding: 0;
     width: 100%;

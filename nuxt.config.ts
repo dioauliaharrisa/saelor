@@ -12,7 +12,7 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxtjs/apollo',
     '@primevue/nuxt-module',
-    // '@pinia/nuxt'
+    '@pinia/nuxt'
   ],
   apollo: {
     clients: {
@@ -27,11 +27,5 @@ export default defineNuxtConfig({
         preset: Aura
       }
     }
-  },
-  // pinia: {
-  //   autoImports: ['defineStore', 'acceptHMRUpdate']
-  // },
-  // imports: {
-  //   dirs: ['stores']
-  // }
+  }
 })

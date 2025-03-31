@@ -41,14 +41,14 @@
     }
   } = await useAsyncQuery(query, variables)
 
-  function parseDescription(description) {
-    try {
-      return JSON.parse(description)
-    } catch (error) {
-      console.error('Failed to parse description:', error)
-      return null
-    }
-  }
+  // function parseDescription(description) {
+  //   try {
+  //     return JSON.parse(description)
+  //   } catch (error) {
+  //     console.error('Failed to parse description:', error)
+  //     return null
+  //   }
+  // }
 </script>
 
 <template>
@@ -107,7 +107,7 @@
         <p class="title">{{ product?.node?.name }}</p>
         <RichTextRenderer
           v-if="product?.node?.description"
-          :content="parseDescription(product.node.description)"
+          :content="JSON.parse(product.node.description)"
           :font-size="'.75rem'"
         />
       </div>
@@ -207,7 +207,7 @@
   .product {
     border: 1px solid #ddd;
     padding: 10px;
-    /* text-align: center; */
+    cursor: pointer;
     border-radius: 8px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
   }
