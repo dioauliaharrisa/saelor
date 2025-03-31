@@ -1,7 +1,17 @@
+<script setup>
+  import { useRouter } from 'vue-router'
+
+  const router = useRouter()
+
+  function navigateToHome() {
+    router.push({ path: '/' }) // Navigate to the home route
+  }
+</script>
+
 <template>
   <div class="wrapper">
     <div class="header-left-part">
-      <img src="/Logo_Jayben.svg" alt="Logo Jayben" />
+      <img src="/Logo_Jayben.svg" alt="Logo Jayben" @click="navigateToHome" />
     </div>
     <div class="header-middle-part">
       <SearchBar />

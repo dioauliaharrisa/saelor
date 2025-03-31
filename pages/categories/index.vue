@@ -142,11 +142,10 @@
     transition: background-color 0.3s ease;
   }
   .accordion_category:hover .accordion-hover-indicator {
-    background-color: black; /* Change color when the parent is hovered */
+    background-color: black;
   }
 
   .page {
-    /* background-color: aqua; */
     width: 100vw;
     padding: 0 14rem;
     overflow-x: hidden;

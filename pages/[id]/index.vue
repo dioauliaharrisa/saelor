@@ -3,20 +3,14 @@
   definePageMeta({
     layout: 'default'
   })
+  const route = useRoute()
+  const id = route.params.id
 
   const query = gql`
     query GetProduct($id: ID!, $channel: String!) {
-      product(id: $id, channel: $channel) {
+      product(id: $id, channel: $channel, externalReference: "") {
         id
         channel
-        category {
-          description
-          level
-          metadata {
-            key
-            value
-          }
-        }
         description
         pricing {
           priceRange {
@@ -36,19 +30,40 @@
         images {
           url(format: ORIGINAL, size: 600)
         }
+        category {
+          description
+          level
+          metadata {
+            key
+            value
+          }
+        }
+        attributes {
+          values {
+            id
+            name
+            slug
+          }
+          attribute {
+            id
+            slug
+            name
+          }
+        }
       }
     }
   `
 
   const variables = {
-    id: 'UHJvZHVjdDoxNTI=', // Replace with actual product ID
-    channel: 'default-channel' // Replace with the correct channel
+    id,
+    channel: 'default-channel'
   }
   const {
     data: {
       value: { product }
     }
   } = await useAsyncQuery(query, variables)
+  console.log('🦆 ~ product:', product.attributes.values)
   const home = ref({ label: 'Home', to: '/' }) // Define home link
   const items = ref([{ label: 'Shop', to: '/shop' }, { label: 'Categories' }])
 
@@ -74,6 +89,22 @@
           Warranty Information
         </p>
       </div>
+    </div>
+    <div class="container-product-informations">
+      <div class="container-product-informations-title">
+        <p class="title">Product Information</p>
+        <hr />
+      </div>
+      <div class="container-product-informations-content">
+        <div v-for="attribute in product?.attributes" :key="attribute.id">
+          <p class="title">{{ attribute.attribute.name }}</p>
+          <ul>
+            <li v-for="value in attribute.values" :key="value.id">
+              {{ value.name }}
+            </li>
+          </ul>
+        </div>
+      </div>    
     </div>
     <Dialog
       v-model:visible="visible"

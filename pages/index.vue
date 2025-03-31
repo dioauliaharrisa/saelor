@@ -1,24 +1,4 @@
 <script setup>
-  import { ref, watchEffect } from 'vue'
-
-  const selectedCategory = ref('')
-
-  const { data: categories } = useFetch('/api/categories', {
-    key: 'categories-list',
-    default: () => []
-  })
-
-  // Fetch products reactively when category changes
-
-  const selectCategory = (category) => {
-    selectedCategory.value = category
-    refresh()
-  }
-
-  watchEffect(() => {
-    console.log('🦆 Categories updated:', categories.value)
-  })
-
   const query = gql`
     query GetProducts {
       products(channel: "default-channel", first: 10) {
@@ -42,16 +22,48 @@
       }
     }
   } = await useAsyncQuery(query, variables)
-  // console.log("🦆 ~ data:", edges[0].node);
 </script>
 
 <template>
   <div class="page">
-    <div v-if="categories && categories.length" class="header">
-      <div v-for="category in categories" :key="category">
-        <div class="category_pill" @click="selectCategory(category)">
-          <p>{{ category }}</p>
-        </div>
+    <div class="container-search-box">
+      <div class="container-search-box-title">
+        <h1>Product Catalogue</h1>
+      </div>
+      <p class="container-description">
+        Search our extensive range of Hofparts: improved engineered parts that
+        are interchangeable with the OEM’s.
+      </p>
+      <div class="container-selects">
+        <Select
+          v-model="selectedCity"
+          :options="cities"
+          optionLabel="name"
+          placeholder="OEM Application"
+        />
+        <Select
+          v-model="selectedCity"
+          :options="cities"
+          optionLabel="name"
+          placeholder="OEM Name"
+        />
+        <Select
+          v-model="selectedCity"
+          :options="cities"
+          optionLabel="name"
+          placeholder="OEM Model"
+        />
+
+        <Select
+          v-model="selectedCity"
+          :options="cities"
+          optionLabel="name"
+          placeholder="Location"
+        />
+        <Button
+          label="Search Product Catalogue"
+          style="background-color: maroon; border: none"
+        />
       </div>
     </div>
     <div v-if="edges && edges.length" class="grid">
@@ -70,6 +82,38 @@
 </template>
 
 <style scoped>
+  .container-search-box-title {
+    background-color: maroon;
+    text-wrap: nowrap;
+    padding: 0.25rem;
+    text-align: center;
+  }
+  .container-description {
+    padding: 0.5rem;
+  }
+  .container-search-box {
+    width: 18vw;
+    margin-left: 2rem;
+    border: solid 2px maroon;
+  }
+  .container-selects {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 0.5rem;
+    padding: 0 1.25rem;
+  }
+  .container-selects > .p-select {
+    width: 100%;
+  }
+  .container-selects > .p-button {
+    width: 90%;
+    text-wrap: nowrap;
+    padding: 0.5rem;
+    font-size: 0.75rem;
+  }
   .page {
     width: 100vw;
   }
@@ -83,21 +127,8 @@
     flex-direction: row;
   }
 
-  .category_pill {
-    cursor: pointer;
-    background-color: aquamarine;
-    padding: 0.01rem 1rem;
-    margin: 0.4rem;
-    border-radius: 99px;
-  }
-
-  .category_pill > p {
-    font-size: smaller;
-    text-transform: capitalize;
-  }
-
   h1 {
-    /* margin-bottom: 20px; */
+    color: white;
   }
 
   .price {
