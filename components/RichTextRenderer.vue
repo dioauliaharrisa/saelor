@@ -39,7 +39,7 @@
     line-height: 1.6;
   }
 
-  .rich-text >>> b {
+  .rich-text :deep(b) {
     font-weight: 600;
 
     color: var(--color-primary);

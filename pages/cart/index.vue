@@ -40,13 +40,26 @@
   const cartStore = useCartStore()
 
   const checkoutId = computed(() => cartStore.checkoutId)
-
   const { data } = useAsyncQuery(GET_CHECKOUT, {
     checkoutId: checkoutId.value
   })
-  const totalPrice = data.value?.checkout?.totalPrice?.gross?.amount || 0
-  const products = data.value?.checkout?.lines || []
-  console.log('🦆 ~ products:', products[0])
+  // const totalPrice = data.value?.checkout?.totalPrice?.gross?.amount || 0
+  // const products = data.value?.checkout?.lines || []
+  // console.log('🦆 ~ products:', products[0])
+  // Reactive state
+  const products = ref([])
+  const totalPrice = ref(0)
+
+  watch(
+    data,
+    (newData) => {
+      if (newData?.checkout) {
+        products.value = newData.checkout.lines || []
+        totalPrice.value = newData.checkout.totalPrice?.gross?.amount || 0
+      }
+    },
+    { immediate: true, deep: true }
+  )
 </script>
 
 <template>

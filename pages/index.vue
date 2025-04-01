@@ -40,15 +40,6 @@
       }
     }
   } = await useAsyncQuery(query, variables)
-
-  // function parseDescription(description) {
-  //   try {
-  //     return JSON.parse(description)
-  //   } catch (error) {
-  //     console.error('Failed to parse description:', error)
-  //     return null
-  //   }
-  // }
 </script>
 
 <template>
@@ -62,31 +53,10 @@
         are interchangeable with the OEM’s.
       </p>
       <div class="container-selects">
-        <Select
-          v-model="selectedCity"
-          :options="cities"
-          optionLabel="name"
-          placeholder="OEM Application"
-        />
-        <Select
-          v-model="selectedCity"
-          :options="cities"
-          optionLabel="name"
-          placeholder="OEM Name"
-        />
-        <Select
-          v-model="selectedCity"
-          :options="cities"
-          optionLabel="name"
-          placeholder="OEM Model"
-        />
-
-        <Select
-          v-model="selectedCity"
-          :options="cities"
-          optionLabel="name"
-          placeholder="Location"
-        />
+        <Select option-label="name" placeholder="OEM Application" />
+        <Select option-label="name" placeholder="OEM Name" />
+        <Select option-label="name" placeholder="OEM Model" />
+        <Select option-label="name" placeholder="Location" />
         <Button
           label="Search Product Catalogue"
           style="background-color: maroon; border: none"
@@ -152,6 +122,7 @@
   }
   .page {
     width: 100vw;
+    padding: 0 8rem;
   }
 
   .container {
