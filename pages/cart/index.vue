@@ -1,41 +1,6 @@
 <script setup>
   import { useCartStore } from '../../stores/cart.js'
-  const GET_CHECKOUT = gql`
-    query GetCheckout($checkoutId: ID!) {
-      checkout(id: $checkoutId) {
-        id
-        lines {
-          id
-          quantity
-          variant {
-            id
-            name
-            pricing {
-              price {
-                gross {
-                  amount
-                }
-              }
-            }
-            media {
-              url
-            }
-            product {
-              description
-              media {
-                url
-              }
-            }
-          }
-        }
-        totalPrice {
-          gross {
-            amount
-          }
-        }
-      }
-    }
-  `
+  import { GET_CHECKOUT } from '../../gql/queries/GetCheckout'
 
   const cartStore = useCartStore()
 
@@ -43,10 +8,7 @@
   const { data } = useAsyncQuery(GET_CHECKOUT, {
     checkoutId: checkoutId.value
   })
-  // const totalPrice = data.value?.checkout?.totalPrice?.gross?.amount || 0
-  // const products = data.value?.checkout?.lines || []
-  // console.log('🦆 ~ products:', products[0])
-  // Reactive state
+
   const products = ref([])
   const totalPrice = ref(0)
 
@@ -60,6 +22,22 @@
     },
     { immediate: true, deep: true }
   )
+
+  const handleCheckout = async () => {
+    const checkoutId = cartStore.checkoutId
+    console.log('🦆 ~ handleCheckout ~ checkoutId:', checkoutId)
+    if (!checkoutId) {
+      console.error('No checkout ID found')
+      return
+    }
+    return
+
+    try {
+    
+    } catch (error) {
+      console.error('Error during checkout:', error)
+    }
+  }
 </script>
 
 <template>
@@ -74,9 +52,6 @@
         <p class="title">{{ products?.length }} items</p>
       </div>
       <div>
-        <!-- <div v-for="product in products" :key="product.id">
-          <img :src="product?.variant?.product?.media?.[0]?.url" />
-        </div> -->
         <DataTable :value="products">
           <Column field="code" header="Quantity">
             <template #body="slotProps">
@@ -121,7 +96,8 @@
         <Button
           id="button-proceed-to-checkout"
           label="Proceed to checkout"
-        ></Button>
+          @click="handleCheckout()"
+        />
       </div>
     </div>
   </div>
