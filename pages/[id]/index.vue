@@ -1,6 +1,6 @@
 <script setup>
   import { GET_PRODUCT } from '../../gql/queries/GetProduct.ts'
-  import { CREATE_CHECKOUT } from '../../gql/mutations/CreateCHeckout.ts'
+  import { CREATE_CHECKOUT } from '../../gql/mutations/CreateCheckout.ts'
   import { ADD_ITEM_TO_CHECKOUT } from '../../gql/mutations/AddItemToCheckout.ts'
   definePageMeta({
     layout: 'default'
