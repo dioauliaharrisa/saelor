@@ -31,5 +31,16 @@ export default defineNuxtConfig({
         preset: Aura
       }
     }
+  },
+  eslint: {
+    config: {
+      settings: {
+        'import/resolver': {
+          node: {
+            extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue']
+          }
+        }
+      }
+    }
   }
 })

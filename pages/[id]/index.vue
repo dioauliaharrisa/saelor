@@ -1,5 +1,4 @@
 <script setup>
-  // import Dialog from 'primevue/dialog'
   import { GET_PRODUCT } from '../../gql/queries/GetProduct.ts'
   import { CREATE_CHECKOUT } from '../../gql/mutations/CreateCHeckout.ts'
   import { ADD_ITEM_TO_CHECKOUT } from '../../gql/mutations/AddItemToCheckout.ts'

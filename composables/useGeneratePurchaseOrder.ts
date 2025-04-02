@@ -94,28 +94,28 @@ const template = {
         fontName: '',
         name: 'billedToInput'
       },
-      {
-        type: 'multiVariableText',
-        position: { x: 119.87, y: 67.88 },
-        content: '{"InvoiceNo":"12345","Date":"16 June 2025"}',
-        width: 70.13,
-        height: 33.52,
-        rotate: 0,
-        alignment: 'right',
-        verticalAlignment: 'top',
-        fontSize: 13,
-        lineHeight: 1.5,
-        characterSpacing: 0,
-        fontColor: '#000000',
-        backgroundColor: '',
-        opacity: 1,
-        strikethrough: false,
-        underline: false,
-        text: 'Invoice No.{InvoiceNo}\n{Date}',
-        variables: ['InvoiceNo', 'Date'],
-        fontName: '',
-        name: 'info'
-      },
+      // {
+      //   type: 'multiVariableText',
+      //   position: { x: 119.87, y: 67.88 },
+      //   content: '{"InvoiceNo":"12345","Date":"16 June 2025"}',
+      //   width: 70.13,
+      //   height: 33.52,
+      //   rotate: 0,
+      //   alignment: 'right',
+      //   verticalAlignment: 'top',
+      //   fontSize: 13,
+      //   lineHeight: 1.5,
+      //   characterSpacing: 0,
+      //   fontColor: '#000000',
+      //   backgroundColor: '',
+      //   opacity: 1,
+      //   strikethrough: false,
+      //   underline: false,
+      //   text: 'Invoice No.{InvoiceNo}\n{Date}',
+      //   variables: ['InvoiceNo', 'Date'],
+      //   fontName: '',
+      //   name: 'info'
+      // },
       {
         type: 'table',
         position: { x: 20, y: 110.81 },
@@ -324,7 +324,7 @@ const template = {
       {
         type: 'text',
         content:
-          'Briard Bank\nAccount Name: Samira Hadid\nAccount No.: 123-456-7890\nPay by: 5 July 2025',
+          'Briard Bank\nAccount Name: Dhio Aulia Harrisa\nAccount No.: 123-456-7890\nPay by: 5 July 2025',
         position: { x: 20, y: 242.83 },
         width: 84.95,
         height: 34.07,
@@ -344,7 +344,7 @@ const template = {
       {
         type: 'text',
         position: { x: 119.33, y: 248.39 },
-        content: 'Samira Hadid',
+        content: 'Dhio Aulia Harrisa',
         width: 70.67,
         height: 8.36,
         rotate: 0,
@@ -402,7 +402,7 @@ const template = {
       {
         name: 'footerInfo',
         type: 'text',
-        content: 'Invoice No.{info.InvoiceNo} • {total}USD due {date}',
+        content: 'PO No.{info.InvoiceNo} • {total}USD due {date}',
         position: { x: 20, y: 282 },
         width: 122.51,
         height: 10,
@@ -455,8 +455,8 @@ const inputs = [
     }),
     taxInput: '{"rate":"10"}',
     orders: [
-      ['Eggshell Camisole Top', '1', '123', '123'],
-      ['Cuban Collar Shirt', '2', '127', '254']
+      ['Axle Shaft', '1', '123', '123'],
+      ['Turbine', '2', '127', '254']
     ],
     // Payment Information
     paymentInfoInput:
