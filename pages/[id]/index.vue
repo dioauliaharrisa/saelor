@@ -1,5 +1,8 @@
 <script setup>
-  import Dialog from 'primevue/dialog'
+  // import Dialog from 'primevue/dialog'
+  import { GET_PRODUCT } from '../../gql/queries/GetProduct.ts'
+  import { CREATE_CHECKOUT } from '../../gql/mutations/CreateCHeckout.ts'
+  import { ADD_ITEM_TO_CHECKOUT } from '../../gql/mutations/AddItemToCheckout.ts'
   definePageMeta({
     layout: 'default'
   })
@@ -8,64 +11,11 @@
 
   const toast = useToast()
 
-  const query = gql`
-    query GetProduct($id: ID!, $channel: String!) {
-      product(id: $id, channel: $channel, externalReference: "") {
-        id
-        channel
-        description
-        pricing {
-          priceRange {
-            start {
-              gross {
-                amount
-              }
-            }
-            stop {
-              gross {
-                amount
-              }
-            }
-          }
-        }
-        name
-        images {
-          url(format: ORIGINAL, size: 600)
-        }
-        variants {
-          id
-          name
-        }
-        category {
-          description
-          level
-          metadata {
-            key
-            value
-          }
-        }
-        attributes {
-          values {
-            id
-            name
-            slug
-          }
-          attribute {
-            id
-            slug
-            name
-            unit
-          }
-        }
-      }
-    }
-  `
-
   const variables = {
     id,
     channel: 'default-channel'
   }
-  const { data } = await useAsyncQuery(query, variables)
+  const { data } = await useAsyncQuery(GET_PRODUCT, variables)
   const product = data?.value?.product || null
 
   const productVariantId = data?.value?.product?.variants[0]?.id || null
@@ -85,34 +35,34 @@
   const cartStore = useCartStore()
   const handleAddToCart = async () => {
     let checkoutId = cartStore.checkoutId
+    console.log('🦆 ~ handleAddToCart ~ checkoutId:', checkoutId)
 
-    const mutation = gql`
-      mutation CreateCheckout($id: ID!, $channel: String!) {
-        checkoutCreate(
-          input: { channel: $channel, lines: [{ variantId: $id, quantity: 1 }] }
-        ) {
-          checkout {
-            id
-            token
-          }
-          errors {
-            field
-            message
-          }
-        }
+    if (checkoutId) {
+      try {
+        const { mutate } = useMutation(ADD_ITEM_TO_CHECKOUT)
+        const { data } = await mutate({
+          checkoutId,
+          variantId: productVariantId
+        })
+        console.log('🦆 ~ handleAddToCart ~ data:', data)
+      } catch (error) {
+        console.error('Mutation error:', error)
       }
-    `
+    }
+
     if (!checkoutId) {
       try {
-        const { mutate } = useMutation(mutation)
+        const { mutate } = useMutation(CREATE_CHECKOUT)
         const { data } = await mutate({
           id: productVariantId,
           channel: 'default-channel'
         })
 
         checkoutId = data?.checkoutCreate?.checkout?.id
+        console.log('🦆 ~ handleAddToCart ~ checkoutId:', checkoutId)
 
         if (checkoutId) cartStore.checkoutId = checkoutId
+        console.log('🦆 ~ handleAddToCart ~ cartStore:', cartStore)
       } catch (error) {
         console.error('Mutation error:', error)
       }

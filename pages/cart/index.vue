@@ -1,16 +1,24 @@
 <script setup>
   import { useCartStore } from '../../stores/cart.js'
   import { GET_CHECKOUT } from '../../gql/queries/GetCheckout'
+  import { COMPLETE_CHECKOUT } from '../../gql/mutations/CompleteCheckout'
+  import { UPDATE_CHECKOUT_EMAIL } from '../../gql/mutations/UpdateCheckoutEmail'
 
   const cartStore = useCartStore()
 
   const checkoutId = computed(() => cartStore.checkoutId)
+  console.log('🦆 ~ checkoutId:', checkoutId)
   const { data } = useAsyncQuery(GET_CHECKOUT, {
-    checkoutId: checkoutId.value
+    checkoutId
   })
+
+  const { mutate: completeCheckout } = useMutation(COMPLETE_CHECKOUT)
+  const { mutate: updateEmail } = useMutation(UPDATE_CHECKOUT_EMAIL)
 
   const products = ref([])
   const totalPrice = ref(0)
+  const isDialogOpen = ref(false)
+  const email = ref('daharrisa@gmail.com')
 
   watch(
     data,
@@ -23,17 +31,45 @@
     { immediate: true, deep: true }
   )
 
-  const handleCheckout = async () => {
-    const checkoutId = cartStore.checkoutId
-    console.log('🦆 ~ handleCheckout ~ checkoutId:', checkoutId)
-    if (!checkoutId) {
+  const handleCheckoutViaPurchaseOrder = async () => {
+    generatePurchaseOrderPdf()
+    return
+
+    if (!checkoutId.value) {
       console.error('No checkout ID found')
       return
     }
-    return
 
     try {
-    
+      isDialogOpen.value = true
+    } catch (error) {
+      console.error('Error during checkout:', error)
+    }
+  }
+  const handleCheckoutViaStripe = async () => {
+    if (!checkoutId.value) {
+      console.error('No checkout ID found')
+      return
+    }
+
+    try {
+      const emailResult = await updateEmail({
+        checkoutId: checkoutId.value,
+        email: email.value
+      })
+
+      if (emailResult?.data?.checkoutEmailUpdate?.errors.length) {
+        console.error(
+          'Error setting email:',
+          emailResult.data.checkoutEmailUpdate.errors
+        )
+        return
+      }
+
+      const result = await completeCheckout({
+        checkoutId: checkoutId.value
+      })
+      console.log('🦆 ~ handleCheckoutViaStripe ~ result:', result)
     } catch (error) {
       console.error('Error during checkout:', error)
     }
@@ -42,6 +78,7 @@
 
 <template>
   <div class="page">
+    <DialogCheckoutPurchaseOrder :visible="isDialogOpen" />
     <div class="container_title">
       <p class="title">Cart</p>
       <hr />
@@ -55,6 +92,10 @@
         <DataTable :value="products">
           <Column field="code" header="Quantity">
             <template #body="slotProps">
+              <Icon
+                name="material-symbols:android-emergency-location-service"
+                style="color: black; font-size: 15px; cursor: pointer"
+              />
               {{
                 slotProps.data.variant.pricing?.price?.gross?.amount.value ||
                 '1'
@@ -95,8 +136,13 @@
         <p class="title">Total Price: $ {{ totalPrice }}</p>
         <Button
           id="button-proceed-to-checkout"
-          label="Proceed to checkout"
-          @click="handleCheckout()"
+          label="Proceed to checkout via Purchase Order"
+          @click="handleCheckoutViaPurchaseOrder()"
+        />
+        <Button
+          id="button-proceed-to-checkout"
+          label="Proceed to checkout via Stripe"
+          @click="handleCheckoutViaStripe()"
         />
       </div>
     </div>

@@ -15,10 +15,13 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt'
   ],
+  vite: {
+    assetsInclude: ['**/*.svg']
+  },
   apollo: {
     clients: {
       default: {
-        httpEndpoint: process.env.NUXT_PUBLIC_GRAPHQL_SAELOR || ''
+        httpEndpoint: 'https://store-7zyuop8t.saleor.cloud/graphql/'
       }
     }
   },
