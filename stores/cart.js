@@ -7,5 +7,10 @@ export const useCartStore = defineStore('cartStore', {
     totalPrice: 0,
     user: null
   }),
+  actions: {
+    resetUser() {
+      this.user = null
+    }
+  },
   persist: true
 })

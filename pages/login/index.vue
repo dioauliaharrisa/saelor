@@ -1,9 +1,10 @@
 <script setup>
   import { LOG_IN } from '../../gql/mutations/LogIn.ts'
-  import Cookies from 'js-cookie'
+  import { GET_USER } from '../gql/queries/GetUser.ts'
   import { z } from 'zod'
   import { zodResolver } from '@primevue/forms/resolvers/zod'
 
+  const { accessToken, refreshAccessToken, refreshToken } = useAuth()
   const { mutate: logIn } = useMutation(LOG_IN)
   // const router = useRouter()
 
@@ -35,21 +36,12 @@
           console.error('Error login', errors)
         }
         if (data.tokenCreate?.token && data.tokenCreate?.refreshToken) {
-          const accessToken = data.tokenCreate.token
-          const refreshToken = data.tokenCreate.refreshToken
-          Cookies.set('accessToken', accessToken, {
-            expires: 1, // Set expiry based on JWT expiration
-            secure: true, // Make sure it's sent over HTTPS
-            path: '/' // Cookie available for the whole site
-          })
+          refreshToken.value = data.tokenCreate.refreshToken
+          accessToken.value = data.tokenCreate.token
 
-          Cookies.set('refreshToken', refreshToken, {
-            expires: 7, // Refresh token typically lasts longer
-            secure: true,
-            path: '/'
-          })
+          await refreshAccessToken()
+          // await refetchUser()
           router.push('/')
-          return { data }
         }
       } catch (error) {
         console.error('🦆 ~ onFormSubmit ~ error:', error)

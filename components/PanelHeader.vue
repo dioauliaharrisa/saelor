@@ -1,90 +1,29 @@
 <script setup>
-  import { ref, watch } from 'vue'
   import { useRouter } from 'vue-router'
-  import { GET_USER } from '../gql/queries/GetUser.ts'
-  import { REFRESH_TOKEN } from '../gql/mutations/RefreshToken.ts'
-  import Cookies from 'js-cookie'
-  import { useQuery, useMutation } from '@vue/apollo-composable'
 
   const router = useRouter()
-  const refreshToken = ref(Cookies.get('refreshToken'))
-  const accessToken = ref(Cookies.get('accessToken')) // Keep token reference
-  const user = ref(null) // Make user reactive
   const visible = ref(false)
 
+  const { handleSignOut, refreshAccessToken, refreshToken } = useAuth()
+
   const cartStore = useCartStore()
-
-  // Initialize query at top level with proper token handling
-  const { result: userResult, refetch: refetchUser } = useQuery(
-    GET_USER,
-    null,
-    {
-      context: {
-        headers: {
-          Authorization: accessToken.value ? `Bearer ${accessToken.value}` : ''
-        }
-      },
-      skip: !accessToken.value // Skip if no token
-    }
-  )
-
-  // Watch for changes in the query result
-  watch(userResult, (newValue) => {
-    if (newValue?.me) {
-      user.value = newValue.me
-      // Also update in cart store if needed
-      cartStore.user = newValue.me
-    }
-  })
-
-  const { mutate: refreshTokenMutation } = useMutation(REFRESH_TOKEN)
-
-  const refreshAccessToken = async () => {
-    try {
-      if (!refreshToken.value) {
-        console.warn('No refresh token available')
-        return
-      }
-
-      const { data } = await refreshTokenMutation({
-        refreshToken: refreshToken.value
-      })
-
-      if (data?.tokenRefresh?.token) {
-        // Update token in cookies and reactive state
-        Cookies.set('accessToken', data.tokenRefresh.token, {
-          expires: 1,
-          secure: true
-        })
-        accessToken.value = data.tokenRefresh.token
-
-        // Refetch user with new token
-        await refetchUser({
-          context: {
-            headers: {
-              Authorization: `Bearer ${data.tokenRefresh.token}`
-            }
-          }
-        })
-      }
-    } catch (error) {
-      console.error('Failed to refresh token:', error)
-    }
-  }
+  const { user } = storeToRefs(cartStore)
 
   onMounted(async () => {
     if (refreshToken.value && !user.value) {
       await refreshAccessToken()
     }
   })
-
-  // Rest of your component code...
 </script>
 
 <template>
   <div class="wrapper">
     <div class="header-left-part">
-      <img src="/Logo_Jayben.svg" alt="Logo Jayben" @click="navigateToHome" />
+      <img
+        src="/Logo_Jayben.svg"
+        alt="Logo Jayben"
+        @click="router.push({ path: '/' })"
+      />
     </div>
     <div class="header-middle-part">
       <SearchBar />
@@ -143,8 +82,8 @@
           v-if="user"
           id="button-sign-out"
           severity="secondary"
-          label="Register"
-          @click="router.push({ path: '/register' })"
+          label="Sign out"
+          @click="handleSignOut"
         />
       </div>
     </Drawer>
@@ -175,6 +114,7 @@
     width: 10%;
     display: flex;
     align-items: center;
+    cursor: pointer;
   }
 
   .header-left-part > img {
