@@ -4,7 +4,8 @@ export const useCartStore = defineStore('cartStore', {
   state: () => ({
     checkoutId: null,
     cartItems: [],
-    totalPrice: 0
+    totalPrice: 0,
+    user: null
   }),
   persist: true
 })

@@ -3,19 +3,18 @@ export const REGISTER_ACCOUNT = gql`
     $email: String!
     $password: String!
     $channel: String!
+    $firstName: String!
+    $lastName: String!
   ) {
     accountRegister(
       input: {
         email: $email
         password: $password
         channel: $channel
-        autoConfirm: true
+        firstName: $firstName 
+        lastName: $lastName
       }
     ) {
-      errors {
-        field
-        code
-      }
       user {
         email
         isActive

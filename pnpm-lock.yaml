@@ -56,6 +56,9 @@ importers:
       graphql:
         specifier: ^16.10.0
         version: 16.10.0
+      js-cookie:
+        specifier: ^3.0.5
+        version: 3.0.5
       jspdf:
         specifier: ^3.0.1
         version: 3.0.1

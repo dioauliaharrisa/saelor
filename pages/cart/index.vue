@@ -7,7 +7,6 @@
   const cartStore = useCartStore()
 
   const checkoutId = computed(() => cartStore.checkoutId)
-  console.log('🦆 ~ checkoutId:', checkoutId)
   const { data } = useAsyncQuery(GET_CHECKOUT, {
     checkoutId
   })
@@ -69,7 +68,6 @@
       const result = await completeCheckout({
         checkoutId: checkoutId.value
       })
-      console.log('🦆 ~ handleCheckoutViaStripe ~ result:', result)
     } catch (error) {
       console.error('Error during checkout:', error)
     }

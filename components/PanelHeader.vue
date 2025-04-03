@@ -1,7 +1,15 @@
 <script setup>
   import { useRouter } from 'vue-router'
+  import { GET_USER } from '../gql/queries/GetUser.ts'
+  import { REFRESH_TOKEN } from '../gql/mutations/RefreshToken.ts'
+  import Cookies from 'js-cookie'
 
   const router = useRouter()
+
+  // const accessToken = ref(Cookies.get('accessToken'))
+  const refreshToken = ref(Cookies.get('refreshToken'))
+
+  const { mutate: refreshTokenMutation } = useMutation(REFRESH_TOKEN)
 
   function navigateToHome() {
     router.push({ path: '/' })
@@ -9,6 +17,64 @@
   function navigateToCart() {
     router.push({ path: '/cart' })
   }
+  const cartStore = useCartStore()
+  let user = cartStore.user
+  console.log('🦆 ~ user:', user)
+
+  // Function to refresh token
+  const refreshAccessToken = async () => {
+    try {
+      if (!refreshToken.value) {
+        console.warn('No refresh token available')
+        return
+      }
+
+      const { data } = await refreshTokenMutation({
+        refreshToken: refreshToken.value
+      })
+
+      if (data?.tokenRefresh?.token) {
+        Cookies.set('accessToken', data?.tokenRefresh?.token, {
+          expires: 1,
+          secure: true
+        })
+        // Cookies.set('refreshToken', data.tokenRefresh.refreshToken, {
+        //   expires: 7,
+        //   secure: true
+        // })
+
+        const { result } = useQuery(GET_USER, null, {
+          context: {
+            headers: {
+              Authorization: `Bearer ${data?.tokenRefresh?.token}`
+            }
+          }
+        })
+
+        const userInfo = result.value?.me
+        console.log('🦆 ~ refreshAccessToken ~ userInfo:', userInfo)
+        console.log('🦆 ~ refreshAccessToken ~ result:', result)
+        console.log('🦆 ~ refreshAccessToken ~ result?.me:', result?.me)
+        console.log('🦆 ~ refreshAccessToken ~ result.value:', result.value)
+        console.log(
+          '🦆 ~ refreshAccessToken ~   result?.value?.me',
+          result?.value?.me
+        )
+        user = result?.me || null
+        console.log('🦆 ~ refreshAccessToken ~ user:', user)
+      }
+    } catch (error) {
+      console.error('Failed to refresh token:', error)
+    }
+  }
+
+  onMounted(async () => {
+    console.log('🦆 ~ onMounted ~ user:', user, refreshToken.value)
+    if (refreshToken.value && !user) {
+      await refreshAccessToken()
+    }
+  })
+  const visible = ref(false)
 </script>
 
 <template>
@@ -28,12 +94,14 @@
 
         <p style="color: white; font-size: xx-small">Select Store</p>
       </div>
-      <div class="icons">
+      <div class="icons" @click="visible = true">
         <Icon
           name="material-symbols:person"
           style="color: white; font-size: 15px"
         />
-        <p style="color: white; font-size: xx-small">Sign In</p>
+        <p v-if="user" style="color: white; font-size: xx-small">
+          {{ user.firstName }}
+        </p>
       </div>
       <div class="icons">
         <Icon
@@ -48,6 +116,34 @@
         />
       </div>
     </div>
+    <Drawer
+      v-model:visible="visible"
+      :header="`Hi ${user?.firstName ?? 'User'}`"
+    >
+      <div style="display: flex; flex-direction: column; gap: 1rem">
+        <Button
+          v-if="!user"
+          id="button-sign-in"
+          severity="primary"
+          label="Sign In"
+          @click="router.push({ path: '/login' })"
+        />
+        <Button
+          v-if="!user"
+          id="button-register"
+          severity="secondary"
+          label="Register"
+          @click="router.push({ path: '/register' })"
+        />
+        <Button
+          v-if="user"
+          id="button-sign-out"
+          severity="secondary"
+          label="Register"
+          @click="router.push({ path: '/register' })"
+        />
+      </div>
+    </Drawer>
   </div>
 </template>
 

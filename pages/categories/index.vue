@@ -29,7 +29,6 @@
   watchEffect(() => {
     if (data.value?.categories?.edges) {
       categories.value = data.value.categories.edges
-      console.log('🦆 ~ dataxx:', categories.value)
     }
   })
 </script>

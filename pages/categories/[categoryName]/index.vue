@@ -36,7 +36,6 @@
     { categoryId: categoryId }
   )
   const products = data.value?.products?.edges || []
-  console.log('🦆 ~ products:', products)
 </script>
 
 <template>

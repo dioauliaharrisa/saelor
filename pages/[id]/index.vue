@@ -34,7 +34,6 @@
   const cartStore = useCartStore()
   const handleAddToCart = async () => {
     let checkoutId = cartStore.checkoutId
-    console.log('🦆 ~ handleAddToCart ~ checkoutId:', checkoutId)
 
     if (checkoutId) {
       try {
@@ -43,7 +42,6 @@
           checkoutId,
           variantId: productVariantId
         })
-        console.log('🦆 ~ handleAddToCart ~ data:', data)
       } catch (error) {
         console.error('Mutation error:', error)
       }
@@ -58,10 +56,8 @@
         })
 
         checkoutId = data?.checkoutCreate?.checkout?.id
-        console.log('🦆 ~ handleAddToCart ~ checkoutId:', checkoutId)
 
         if (checkoutId) cartStore.checkoutId = checkoutId
-        console.log('🦆 ~ handleAddToCart ~ cartStore:', cartStore)
       } catch (error) {
         console.error('Mutation error:', error)
       }
