@@ -1,27 +1,44 @@
 <script setup>
+  import { ref, watch } from 'vue'
   import { useRouter } from 'vue-router'
   import { GET_USER } from '../gql/queries/GetUser.ts'
   import { REFRESH_TOKEN } from '../gql/mutations/RefreshToken.ts'
   import Cookies from 'js-cookie'
+  import { useQuery, useMutation } from '@vue/apollo-composable'
 
   const router = useRouter()
-
-  // const accessToken = ref(Cookies.get('accessToken'))
   const refreshToken = ref(Cookies.get('refreshToken'))
+  const accessToken = ref(Cookies.get('accessToken')) // Keep token reference
+  const user = ref(null) // Make user reactive
+  const visible = ref(false)
+
+  const cartStore = useCartStore()
+
+  // Initialize query at top level with proper token handling
+  const { result: userResult, refetch: refetchUser } = useQuery(
+    GET_USER,
+    null,
+    {
+      context: {
+        headers: {
+          Authorization: accessToken.value ? `Bearer ${accessToken.value}` : ''
+        }
+      },
+      skip: !accessToken.value // Skip if no token
+    }
+  )
+
+  // Watch for changes in the query result
+  watch(userResult, (newValue) => {
+    if (newValue?.me) {
+      user.value = newValue.me
+      // Also update in cart store if needed
+      cartStore.user = newValue.me
+    }
+  })
 
   const { mutate: refreshTokenMutation } = useMutation(REFRESH_TOKEN)
 
-  function navigateToHome() {
-    router.push({ path: '/' })
-  }
-  function navigateToCart() {
-    router.push({ path: '/cart' })
-  }
-  const cartStore = useCartStore()
-  let user = cartStore.user
-  console.log('🦆 ~ user:', user)
-
-  // Function to refresh token
   const refreshAccessToken = async () => {
     try {
       if (!refreshToken.value) {
@@ -34,34 +51,21 @@
       })
 
       if (data?.tokenRefresh?.token) {
-        Cookies.set('accessToken', data?.tokenRefresh?.token, {
+        // Update token in cookies and reactive state
+        Cookies.set('accessToken', data.tokenRefresh.token, {
           expires: 1,
           secure: true
         })
-        // Cookies.set('refreshToken', data.tokenRefresh.refreshToken, {
-        //   expires: 7,
-        //   secure: true
-        // })
+        accessToken.value = data.tokenRefresh.token
 
-        const { result } = useQuery(GET_USER, null, {
+        // Refetch user with new token
+        await refetchUser({
           context: {
             headers: {
-              Authorization: `Bearer ${data?.tokenRefresh?.token}`
+              Authorization: `Bearer ${data.tokenRefresh.token}`
             }
           }
         })
-
-        const userInfo = result.value?.me
-        console.log('🦆 ~ refreshAccessToken ~ userInfo:', userInfo)
-        console.log('🦆 ~ refreshAccessToken ~ result:', result)
-        console.log('🦆 ~ refreshAccessToken ~ result?.me:', result?.me)
-        console.log('🦆 ~ refreshAccessToken ~ result.value:', result.value)
-        console.log(
-          '🦆 ~ refreshAccessToken ~   result?.value?.me',
-          result?.value?.me
-        )
-        user = result?.me || null
-        console.log('🦆 ~ refreshAccessToken ~ user:', user)
       }
     } catch (error) {
       console.error('Failed to refresh token:', error)
@@ -69,12 +73,12 @@
   }
 
   onMounted(async () => {
-    console.log('🦆 ~ onMounted ~ user:', user, refreshToken.value)
-    if (refreshToken.value && !user) {
+    if (refreshToken.value && !user.value) {
       await refreshAccessToken()
     }
   })
-  const visible = ref(false)
+
+  // Rest of your component code...
 </script>
 
 <template>
