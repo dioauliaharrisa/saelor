@@ -1,6 +1,5 @@
 <script setup>
   import { LOG_IN } from '../../gql/mutations/LogIn.ts'
-  import { GET_USER } from '../gql/queries/GetUser.ts'
   import { z } from 'zod'
   import { zodResolver } from '@primevue/forms/resolvers/zod'
 

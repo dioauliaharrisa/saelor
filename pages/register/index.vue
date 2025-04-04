@@ -6,6 +6,7 @@
 
   const { mutate: registerAccount } = useMutation(REGISTER_ACCOUNT)
   const router = useRouter()
+  const toast = useToast()
 
   const FormRegister = z.object({
     email: z.string(),
@@ -19,7 +20,14 @@
     firstName: '',
     lastName: ''
   })
-
+  const showToast = (errors) => {
+    toast.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: `${errors[0].message}`,
+      life: 6000
+    })
+  }
   const resolver = zodResolver(FormRegister)
 
   const onFormSubmit = async ({ valid, values }) => {
@@ -32,15 +40,13 @@
           firstName: values.firstName,
           lastName: values.lastName
         })
-
         const errors = data?.accountRegister?.errors || []
-        if (!errors.length) {
-          router.push('/login')
-        } else {
-          console.error('Error registering account:', errors)
+        if (errors.length) {
+          throw errors
         }
+        router.push('/login')
       } catch (error) {
-        console.error('🦆 ~ onFormSubmit ~ error:', error)
+        showToast(error)
       }
     }
   }
@@ -136,6 +142,7 @@
         </Form>
       </div>
     </div>
+    <Toast />
   </div>
 </template>
 

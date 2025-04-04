@@ -11,7 +11,7 @@ export const REGISTER_ACCOUNT = gql`
         email: $email
         password: $password
         channel: $channel
-        firstName: $firstName 
+        firstName: $firstName
         lastName: $lastName
       }
     ) {
@@ -19,6 +19,10 @@ export const REGISTER_ACCOUNT = gql`
         email
         isActive
         isConfirmed
+      }
+      errors {
+        message
+        field
       }
     }
   }
