@@ -52,7 +52,7 @@
           style="color: white; font-size: 15px"
         />
       </div>
-      <div class="icons" @click="navigateToCart">
+      <div class="icons" @click="router.push({ path: '/cart' })">
         <Icon
           name="material-symbols:shopping-cart-rounded"
           style="color: white; font-size: 15px"
@@ -84,6 +84,13 @@
           severity="secondary"
           label="Sign out"
           @click="handleSignOut"
+        />
+        <Button
+          v-if="user"
+          id="button-sign-out"
+          severity="secondary"
+          label="Change Password"
+          @click="router.push({ path: '/change-password' })"
         />
       </div>
     </Drawer>

@@ -34,11 +34,12 @@
   const cartStore = useCartStore()
   const handleAddToCart = async () => {
     let checkoutId = cartStore.checkoutId
+    console.log('🦆 ~ handleAddToCart ~ checkoutId:', checkoutId)
 
     if (checkoutId) {
       try {
         const { mutate } = useMutation(ADD_ITEM_TO_CHECKOUT)
-        const { data } = await mutate({
+        await mutate({
           checkoutId,
           variantId: productVariantId
         })
@@ -50,10 +51,22 @@
     if (!checkoutId) {
       try {
         const { mutate } = useMutation(CREATE_CHECKOUT)
+        console.log(
+          '🦆 ~ handleAddToCart ~ productVariantId:',
+          productVariantId
+        )
         const { data } = await mutate({
-          id: productVariantId,
-          channel: 'default-channel'
+          input: {
+            channel: 'default-channel',
+            lines: [
+              {
+                quantity: 1,
+                variantId: productVariantId
+              }
+            ]
+          }
         })
+        console.log('🦆 ~ handleAddToCart ~ data:', data)
 
         checkoutId = data?.checkoutCreate?.checkout?.id
 

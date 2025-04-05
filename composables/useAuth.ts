@@ -1,9 +1,10 @@
 import Cookies from 'js-cookie'
-import { GET_USER } from '../gql/queries/GetUser.ts'
-import { REFRESH_TOKEN } from '../gql/mutations/RefreshToken.ts'
+import { GET_USER } from '../gql/queries/GetUser'
+import { REFRESH_TOKEN } from '../gql/mutations/RefreshToken'
 import { useRouter } from 'vue-router'
 export const useAuth = () => {
   const router = useRouter()
+  console.log('refreshToken from cookie:', Cookies.get('refreshToken'))
   const refreshToken = ref(Cookies.get('refreshToken'))
   const accessToken = ref(Cookies.get('accessToken'))
   const { mutate: refreshTokenMutation } = useMutation(REFRESH_TOKEN)

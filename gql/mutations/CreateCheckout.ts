@@ -1,27 +1,22 @@
 export const CREATE_CHECKOUT = gql`
-  mutation CreateCheckout(
-    $id: ID!
-    $channel: String!
-    $address: ShippingAddressInput!
-  ) {
-    checkoutCreate(
-      input: {
-        channel: $channel
-        lines: [{ variantId: $id, quantity: 1 }]
-        shippingAddress: $address
-      }
-    ) {
+  mutation CreateCheckout($input: CheckoutCreateInput!) {
+    checkoutCreate(input: $input) {
       checkout {
         id
         token
-        shippingAddress {
-          city
-          country
-          postalCode
+        totalPrice {
+          gross {
+            amount
+            currency
+          }
         }
-        availableShippingMethods {
+        lines {
           id
-          name
+          quantity
+          variant {
+            id
+            name
+          }
         }
       }
       errors {

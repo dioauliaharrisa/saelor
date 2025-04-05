@@ -7,9 +7,10 @@
   const cartStore = useCartStore()
 
   const checkoutId = computed(() => cartStore.checkoutId)
-  const { data } = useAsyncQuery(GET_CHECKOUT, {
+  const { data, error } = useAsyncQuery(GET_CHECKOUT, {
     checkoutId
   })
+  console.log('🦆 ~ checkoutId:', error, checkoutId)
 
   const { mutate: completeCheckout } = useMutation(COMPLETE_CHECKOUT)
   const { mutate: updateEmail } = useMutation(UPDATE_CHECKOUT_EMAIL)
@@ -22,6 +23,7 @@
   watch(
     data,
     (newData) => {
+      console.log('🦆 ~ newData:', newData)
       if (newData?.checkout) {
         products.value = newData.checkout.lines || []
         totalPrice.value = newData.checkout.totalPrice?.gross?.amount || 0
@@ -65,7 +67,7 @@
         return
       }
 
-      const result = await completeCheckout({
+      await completeCheckout({
         checkoutId: checkoutId.value
       })
     } catch (error) {

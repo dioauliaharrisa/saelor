@@ -1,26 +1,31 @@
 <script setup>
-  import { LOG_IN } from '../../gql/mutations/LogIn.ts'
   import { z } from 'zod'
   import { zodResolver } from '@primevue/forms/resolvers/zod'
+  import { CHANGE_PASSWORD } from '../../gql/mutations/ChangePassword.ts'
 
-  const { accessToken, refreshAccessToken, refreshToken } = useAuth()
-  const { mutate: logIn } = useMutation(LOG_IN)
+  const { accessToken, refreshAccessToken } = useAuth()
+
+  const { mutate: changePassword } = useMutation(CHANGE_PASSWORD, null, {
+    context: {
+      headers: {
+        Authorization: `Bearer ${accessToken.value}`
+      }
+    }
+  })
   // const router = useRouter()
 
   const FormLogin = z.object({
-    email: z.string(),
-    password: z.string()
+    oldPassword: z.string(),
+    newPassword: z.string()
   })
   const initialValues = reactive({
-    email: '',
-    password: ''
+    oldPassword: '',
+    newPassword: ''
   })
-  const router = useRouter()
 
   const loading = ref(false)
   const toast = useToast()
   const showToast = (errors) => {
-    console.log('🦆 ~ showToast ~ errors:', errors)
     toast.add({
       severity: 'error',
       summary: 'Error',
@@ -33,25 +38,23 @@
 
   const onFormSubmit = async ({ valid, values }) => {
     if (valid) {
+      await refreshAccessToken()
       loading.value = true
       try {
-        const { data } = await logIn({
-          email: values.email,
-          password: values.password
+        console.log('🦆 ~ onFormSubmit ~ values:', values)
+        const { data } = await changePassword({
+          oldPassword: values.oldPassword,
+          newPassword: values.newPassword
         })
-
-        const errors = data?.tokenCreate?.errors || []
+        console.log('🦆 ~ onFormSubmit ~ data:', data)
+        const errors = data?.errors || []
         if (errors.length) {
           throw errors
         }
-        if (data.tokenCreate?.token && data.tokenCreate?.refreshToken) {
-          refreshToken.value = data.tokenCreate.refreshToken
-          accessToken.value = data.tokenCreate.token
 
-          await refreshAccessToken()
-          router.push('/')
-        }
+        //       router.push('/')
       } catch (error) {
+        console.log('🦆 ~ onFormSubmit ~ error:', error)
         showToast(error)
       } finally {
         loading.value = false
@@ -62,45 +65,59 @@
 
 <template>
   <div class="page">
-    <div class="container-register">
-      <div class="container-header"><p>Login</p></div>
+    <div class="container-change-password">
+      <div class="container-header"><p>Change Password</p></div>
       <div class="container-content">
         <Form
           v-slot="$form"
           :initial-values="initialValues"
           :resolver="resolver"
           @submit="onFormSubmit"
-          class="form-register"
+          class="form-change-password"
         >
           <div class="form-input">
-            <InputText name="email" type="text" placeholder="Email" fluid />
-            <Message
-              v-if="$form.username?.invalid"
-              severity="error"
-              size="small"
-              variant="simple"
-            >
-              {{ $form.username.error.message }}
-            </Message>
-          </div>
-          <div class="form-input">
             <Password
-              name="password"
-              placeholder="Password"
+              name="oldPassword"
+              placeholder="Old Password"
               :feedback="false"
               toggleMask
               fluid
               inputClass="form-control"
             />
             <Message
-              v-if="$form.password?.invalid"
+              v-if="$form.oldPassword?.invalid"
               severity="error"
               size="small"
               variant="simple"
             >
               <ul class="my-0 px-4 flex flex-col gap-1">
                 <li
-                  v-for="(error, index) of $form.password.errors"
+                  v-for="(error, index) of $form.oldPassword.errors"
+                  :key="index"
+                >
+                  {{ error.message }}
+                </li>
+              </ul>
+            </Message>
+          </div>
+          <div class="form-input">
+            <Password
+              name="newPassword"
+              placeholder="New Password"
+              :feedback="false"
+              toggleMask
+              fluid
+              inputClass="form-control"
+            />
+            <Message
+              v-if="$form.newPassword?.invalid"
+              severity="error"
+              size="small"
+              variant="simple"
+            >
+              <ul class="my-0 px-4 flex flex-col gap-1">
+                <li
+                  v-for="(error, index) of $form.newPassword.errors"
                   :key="index"
                 >
                   {{ error.message }}
@@ -126,12 +143,12 @@
   #button-submit {
     background-color: var(--primary-color);
   }
+
   .page {
     max-width: 80vw;
     margin: 0 auto;
-    /* background-color: red; */
   }
-  .form-register {
+  .form-change-password {
     display: flex;
     flex-direction: column;
     align-items: center;

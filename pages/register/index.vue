@@ -1,24 +1,49 @@
 <script setup>
   import { REGISTER_ACCOUNT } from '../../gql/mutations/RegisterAccount.ts'
+  // import { CREATE_ACCOUNT_ADDRESS } from '../../gql/mutations/CreateAccountAddress.ts'
   import { z } from 'zod'
   import { zodResolver } from '@primevue/forms/resolvers/zod'
   // import { useRouter } from 'vue-router'
 
   const { mutate: registerAccount } = useMutation(REGISTER_ACCOUNT)
+  // const { mutate: createAccountAddress } = useMutation(CREATE_ACCOUNT_ADDRESS)
+
   const router = useRouter()
   const toast = useToast()
+  const loading = ref(false)
 
   const FormRegister = z.object({
     email: z.string(),
     password: z.string(),
     firstName: z.string(),
-    lastName: z.string()
+    lastName: z.string(),
+    city: z.string().min(1),
+    postalCode: z.string().min(1),
+    country: z.string().min(1),
+    streetAddress1: z.string().min(1),
+    phone: z.string().min(1)
   })
-  const initialValues = reactive({
-    email: '',
-    password: '',
-    firstName: '',
-    lastName: ''
+  // const initialValues = reactive({
+  //   email: '',
+  //   password: '',
+  //   firstName: '',
+  //   lastName: '',
+  //   city: '',
+  //   postalCode: '',
+  //   country: '',
+  //   streetAddress1: '',
+  //   phone: ''
+  // })
+  const testValues = reactive({
+    email: 'kerasakti@example.com',
+    password: 'password123',
+    firstName: 'Kera',
+    lastName: 'Sakti',
+    city: 'Melbourne',
+    postalCode: '3000',
+    country: 'Australia',
+    streetAddress1: '123 Collins St',
+    phone: '+6281298590750'
   })
   const showToast = (errors) => {
     toast.add({
@@ -32,6 +57,7 @@
 
   const onFormSubmit = async ({ valid, values }) => {
     if (valid) {
+      loading.value = true
       try {
         const { data } = await registerAccount({
           email: values.email,
@@ -40,120 +66,131 @@
           firstName: values.firstName,
           lastName: values.lastName
         })
-        const errors = data?.accountRegister?.errors || []
-        if (errors.length) {
-          throw errors
+        const errorsRegisterAccount = data?.accountRegister?.errors || []
+        console.log(
+          '🦆 ~ onFormSubmit ~ errorsRegisterAccount:',
+          errorsRegisterAccount
+        )
+        if (errorsRegisterAccount.length) {
+          throw errorsRegisterAccount
         }
         router.push('/login')
       } catch (error) {
         showToast(error)
+      } finally {
+        loading.value = false
       }
     }
   }
+  const formFields = [
+    { name: 'email', type: 'text', placeholder: 'Email' },
+    { name: 'password', type: 'password', placeholder: 'Password' },
+    { name: 'firstName', type: 'text', placeholder: 'First Name' },
+    { name: 'lastName', type: 'text', placeholder: 'Last Name' },
+    { name: 'city', type: 'text', placeholder: 'City' },
+    { name: 'postalCode', type: 'text', placeholder: 'Postal Code' },
+    { name: 'country', type: 'text', placeholder: 'Country' },
+    { name: 'streetAddress1', type: 'text', placeholder: 'Street Address' },
+    { name: 'phone', type: 'text', placeholder: 'Phone Number' }
+  ]
 </script>
 
 <template>
   <div class="page">
     <div class="container-register">
       <div class="container-header"><p>Create Account</p></div>
-      <div class="container-content">
-        <Form
-          v-slot="$form"
-          :initialValues
-          :resolver
-          @submit="onFormSubmit"
-          class="form-register"
+      <Form
+        v-slot="$form"
+        :initial-values="testValues"
+        :resolver="resolver"
+        class="container-content"
+        @submit="onFormSubmit"
+      >
+        <div
+          v-for="(field, index) in formFields"
+          :key="index"
+          class="form-input"
         >
-          <div class="form-input">
-            <InputText name="email" type="text" placeholder="Email" fluid />
-            <Message
-              v-if="$form.username?.invalid"
-              severity="error"
-              size="small"
-              variant="simple"
-            >
-              {{ $form.username.error.message }}
-            </Message>
-          </div>
-          <div class="form-input">
-            <Password
-              name="password"
-              placeholder="Password"
-              :feedback="false"
-              toggleMask
-              fluid
-              inputClass="form-control"
-            />
-            <Message
-              v-if="$form.password?.invalid"
-              severity="error"
-              size="small"
-              variant="simple"
-            >
-              <ul class="my-0 px-4 flex flex-col gap-1">
-                <li
-                  v-for="(error, index) of $form.password.errors"
-                  :key="index"
-                >
-                  {{ error.message }}
-                </li>
-              </ul>
-            </Message>
-          </div>
-          <div class="form-input">
-            <InputText
-              name="firstName"
-              type="text"
-              placeholder="First Name"
-              fluid
-            />
-            <Message
-              v-if="$form.username?.invalid"
-              severity="error"
-              size="small"
-              variant="simple"
-            >
-              {{ $form.username.error.message }}
-            </Message>
-          </div>
-          <div class="form-input">
-            <InputText
-              name="lastName"
-              type="text"
-              placeholder="Last Name"
-              fluid
-            />
-            <Message
-              v-if="$form.username?.invalid"
-              severity="error"
-              size="small"
-              variant="simple"
-            >
-              {{ $form.username.error.message }}
-            </Message>
-          </div>
-          <Button
-            id="button-submit"
-            type="submit"
-            severity="secondary"
-            label="Submit"
-            :loading="loading"
+          <InputText
+            v-if="field.type !== 'password'"
+            :name="field.name"
+            :type="field.type"
+            :placeholder="field.placeholder"
+            fluid
           />
-        </Form>
-      </div>
+          <Password
+            v-else
+            :name="field.name"
+            :placeholder="field.placeholder"
+            :feedback="false"
+            toggle-mask
+            fluid
+            input-class="form-control"
+          />
+          <Message
+            v-if="$form[field.name]?.invalid"
+            severity="error"
+            size="small"
+            variant="simple"
+          >
+            <ul
+              v-if="Array.isArray($form[field.name]?.errors)"
+              class="my-0 px-4 flex flex-col gap-1"
+            >
+              <li
+                v-for="(error, index) of $form[field.name].errors"
+                :key="index"
+              >
+                {{ error.message }}
+              </li>
+            </ul>
+            <span v-else>{{ $form[field.name].error.message }}</span>
+          </Message>
+        </div>
+        <!--
+        country {
+          code
+          country
+        }
+         -->
+        <Button
+          id="button-submit"
+          type="submit"
+          severity="secondary"
+          label="Submit"
+          :loading="loading"
+        />
+      </Form>
     </div>
     <Toast />
   </div>
 </template>
 
 <style scoped>
+  .container-register {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    margin: 1rem;
+  }
   #button-submit {
     background-color: var(--primary-color);
   }
   .page {
-    width: 80vw;
+    width: 100%;
+    max-width: 80vw;
     margin: 0 auto;
     /* background-color: red; */
+  }
+  .container-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 2rem;
+    column-gap: 2rem;
   }
   .form-register {
     display: flex;
