@@ -1,16 +1,17 @@
 <script setup>
   import { REGISTER_ACCOUNT } from '../../gql/mutations/RegisterAccount.ts'
-  // import { CREATE_ACCOUNT_ADDRESS } from '../../gql/mutations/CreateAccountAddress.ts'
+  import { CREATE_ACCOUNT_ADDRESS } from '../../gql/mutations/CreateAccountAddress.ts'
   import { z } from 'zod'
   import { zodResolver } from '@primevue/forms/resolvers/zod'
   // import { useRouter } from 'vue-router'
 
   const { mutate: registerAccount } = useMutation(REGISTER_ACCOUNT)
-  // const { mutate: createAccountAddress } = useMutation(CREATE_ACCOUNT_ADDRESS)
+  const { mutate: createAccountAddress } = useMutation(CREATE_ACCOUNT_ADDRESS)
 
   const router = useRouter()
   const toast = useToast()
   const loading = ref(false)
+  const { accessToken, refreshAccessToken } = useAuth()
 
   const FormRegister = z.object({
     email: z.string(),
@@ -20,31 +21,34 @@
     city: z.string().min(1),
     postalCode: z.string().min(1),
     country: z.string().min(1),
+    countryArea: z.string().min(1),
     streetAddress1: z.string().min(1),
     phone: z.string().min(1)
   })
-  // const initialValues = reactive({
-  //   email: '',
-  //   password: '',
-  //   firstName: '',
-  //   lastName: '',
-  //   city: '',
-  //   postalCode: '',
-  //   country: '',
-  //   streetAddress1: '',
-  //   phone: ''
-  // })
-  const testValues = reactive({
-    email: 'kerasakti@example.com',
-    password: 'password123',
-    firstName: 'Kera',
-    lastName: 'Sakti',
-    city: 'Melbourne',
-    postalCode: '3000',
-    country: 'Australia',
-    streetAddress1: '123 Collins St',
-    phone: '+6281298590750'
+  const initialValues = reactive({
+    email: '',
+    password: '',
+    firstName: '',
+    lastName: '',
+    city: '',
+    postalCode: '',
+    country: 'AU',
+    countryArea: '',
+    streetAddress1: '',
+    phone: ''
   })
+  // const initialValues = reactive({
+  //   email: 'kerasakti@example.com',
+  //   password: 'password123',
+  //   firstName: 'Kera',
+  //   lastName: 'Sakti',
+  //   city: 'Melbourne',
+  //   postalCode: '30000',
+  //   country: 'AU',
+  //   countryArea: 'Tasmania',
+  //   streetAddress1: '123 Collins St',
+  //   phone: '+6281298590750'
+  // })
   const showToast = (errors) => {
     toast.add({
       severity: 'error',
@@ -57,6 +61,7 @@
 
   const onFormSubmit = async ({ valid, values }) => {
     if (valid) {
+      await refreshAccessToken()
       loading.value = true
       try {
         const { data } = await registerAccount({
@@ -74,6 +79,34 @@
         if (errorsRegisterAccount.length) {
           throw errorsRegisterAccount
         }
+        const { data: accountAddress } = await createAccountAddress(
+          {
+            input: {
+              firstName: values.firstName,
+              lastName: values.lastName,
+              city: values.city,
+              postalCode: values.postalCode,
+              country: values.country,
+              countryArea: values.countryArea,
+              streetAddress1: values.streetAddress1,
+              phone: values.phone
+            },
+            type: 'BILLING'
+          },
+          {
+            context: {
+              headers: {
+                Authorization: `Bearer ${accessToken.value}`
+              }
+            }
+          }
+        )
+
+        const errorsAccountAddressCreate =
+          accountAddress?.accountAddressCreate?.errors || []
+        if (errorsAccountAddressCreate.length) {
+          throw errorsAccountAddressCreate
+        }
         router.push('/login')
       } catch (error) {
         showToast(error)
@@ -90,6 +123,7 @@
     { name: 'city', type: 'text', placeholder: 'City' },
     { name: 'postalCode', type: 'text', placeholder: 'Postal Code' },
     { name: 'country', type: 'text', placeholder: 'Country' },
+    { name: 'countryArea', type: 'text', placeholder: 'Country Area' },
     { name: 'streetAddress1', type: 'text', placeholder: 'Street Address' },
     { name: 'phone', type: 'text', placeholder: 'Phone Number' }
   ]
@@ -101,7 +135,7 @@
       <div class="container-header"><p>Create Account</p></div>
       <Form
         v-slot="$form"
-        :initial-values="testValues"
+        :initial-values="initialValues"
         :resolver="resolver"
         class="container-content"
         @submit="onFormSubmit"

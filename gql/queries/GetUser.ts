@@ -4,6 +4,15 @@ export const GET_USER = gql`
       id
       firstName
       lastName
+      addresses {
+        countryArea
+        city
+        cityArea
+        companyName
+        phone
+        postalCode
+        streetAddress1
+      }
     }
   }
 `

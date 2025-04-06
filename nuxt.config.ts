@@ -12,21 +12,30 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@nuxt/image',
     '@nuxtjs/apollo',
+    // '@nuxtjs/ngrok',
     '@primevue/nuxt-module',
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt'
   ],
   vite: {
-    assetsInclude: ['**/*.svg']
+    assetsInclude: ['**/*.svg'],
+    server: {
+      allowedHosts: ['.ngrok-free.app', '.serveo.net']
+    }
   },
+  runtimeConfig: {
+    public: {
+      ngrokUrl: process.env.NGROK_URL
+    }
+  },
+  // ngrok: {
+  //   authtoken: process.env.NGROK_AUTHTOKEN,
+  //   port: 3000
+  // },
   apollo: {
     clients: {
       default: {
-        httpEndpoint: 'https://store-7zyuop8t.saleor.cloud/graphql/',
-        // httpLinkOptions: {
-        //   credentials: 'include' // ✅ This is the correct way
-        // },
-        // tokenName: 'accessToken'
+        httpEndpoint: 'https://store-7zyuop8t.saleor.cloud/graphql/'
       }
     }
   },

@@ -3,6 +3,9 @@
   import { zodResolver } from '@primevue/forms/resolvers/zod'
   import { REQUEST_PASSWORD_RESET } from '../../gql/mutations/RequestPasswordReset.ts'
   import useShowNotification from '../../composables/useShowNotification.ts'
+  // const {
+  //   public: { ngrokUrl }
+  // } = useRuntimeConfig()
   const { showFieldErrors, showSuccessToast } = useShowNotification()
 
   const { mutate: resetPassword } = useMutation(REQUEST_PASSWORD_RESET)
@@ -26,7 +29,10 @@
       // await refreshAccessToken()
       try {
         console.log('🦆 ~ onFormSubmit ~ values:', values)
-        const { data } = await resetPassword()
+        const { data } = await resetPassword({
+          email: 'daharrisa@gmail.com',
+          redirectUrl: `https://a62129e9c42950e042140e945dc856ab.serveo.net/` // ngrokUrl + '/reset-password'
+        })
         // {
         //   oldPassword: values.oldPassword,
         //   newPassword: values.newPassword

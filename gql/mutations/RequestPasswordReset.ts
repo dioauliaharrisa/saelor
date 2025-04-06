@@ -1,9 +1,6 @@
 export const REQUEST_PASSWORD_RESET = gql`
-  mutation {
-    requestPasswordReset(
-      email: "daharrisa@gmail.com"
-      redirectUrl: "http://localhost:3001/change-password/"
-    ) {
+  mutation RequestPasswordReset($email: String!, $redirectUrl: String!) {
+    requestPasswordReset(email: $email, redirectUrl: $redirectUrl) {
       errors {
         field
         code

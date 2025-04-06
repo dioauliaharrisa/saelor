@@ -21,6 +21,7 @@ export const useAuth = () => {
       }))
     }
   )
+  console.log('🦆 ~ useAuth ~ userResult:', userResult, 66, accessToken.value)
 
   onMounted(() => {
     if (import.meta.client) {
@@ -50,7 +51,6 @@ export const useAuth = () => {
       const { data } = await refreshTokenMutation({
         refreshToken: storedRefreshToken
       })
-      console.log('🦆 ~ refreshAccessToken ~ data:', data)
 
       if (data?.tokenRefresh?.token) {
         // Update token in cookies and reactive state
@@ -62,9 +62,7 @@ export const useAuth = () => {
 
         // Refetch user with new token
         const fetchedUser = await refetchUser()
-        console.log('🦆 ~ refreshAccessToken ~ fetchedUser:', fetchedUser)
         console.log('🦆 ~ refreshAccessToken ~ userResult:', userResult)
-        // console.log('🦆 ~ refreshAccessToken ~ error:', error)
 
         cartStore.user = fetchedUser.me
       }
