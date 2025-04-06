@@ -2,6 +2,7 @@
   import { LOG_IN } from '../../gql/mutations/LogIn.ts'
   import { z } from 'zod'
   import { zodResolver } from '@primevue/forms/resolvers/zod'
+  import Cookies from 'js-cookie'
 
   const { accessToken, refreshAccessToken, refreshToken } = useAuth()
   const { mutate: logIn } = useMutation(LOG_IN)
@@ -39,15 +40,23 @@
           email: values.email,
           password: values.password
         })
+        console.log('🦆 ~ onFormSubmit ~ data:', data)
 
         const errors = data?.tokenCreate?.errors || []
         if (errors.length) {
           throw errors
         }
-        if (data.tokenCreate?.token && data.tokenCreate?.refreshToken) {
-          refreshToken.value = data.tokenCreate.refreshToken
-          accessToken.value = data.tokenCreate.token
 
+        const fetchedToken = data?.tokenCreate?.token
+        const fetchedRefreshToken = data?.tokenCreate?.refreshToken
+        if (fetchedToken && fetchedRefreshToken) {
+          refreshToken.value = fetchedRefreshToken
+          accessToken.value = fetchedRefreshToken
+          localStorage.setItem('refreshToken', fetchedRefreshToken)
+          Cookies.set('accessToken', fetchedToken, {
+            expires: 1,
+            secure: true
+          })
           await refreshAccessToken()
           router.push('/')
         }

@@ -4,23 +4,30 @@ import { REFRESH_TOKEN } from '../gql/mutations/RefreshToken'
 import { useRouter } from 'vue-router'
 export const useAuth = () => {
   const router = useRouter()
-  console.log('refreshToken from cookie:', Cookies.get('refreshToken'))
-  const refreshToken = ref(Cookies.get('refreshToken'))
-  const accessToken = ref(Cookies.get('accessToken'))
+
+  const refreshToken = ref('')
+  const accessToken = ref(null)
   const { mutate: refreshTokenMutation } = useMutation(REFRESH_TOKEN)
   const cartStore = useCartStore()
-  const { result: userResult, refetch: refetchUser } = useQuery(
+  const { load: refetchUser, result: userResult } = useLazyQuery(
     GET_USER,
     null,
     {
-      context: {
+      fetchPolicy: 'network-only',
+      context: computed(() => ({
         headers: {
           Authorization: accessToken.value ? `Bearer ${accessToken.value}` : ''
         }
-      },
-      skip: !accessToken.value // Skip if no token
+      }))
     }
   )
+
+  onMounted(() => {
+    if (import.meta.client) {
+      refreshToken.value = localStorage.getItem('refreshToken')
+      accessToken.value = Cookies.get('accessToken') || null
+    }
+  })
 
   // Handle sign-out
   const handleSignOut = () => {
@@ -34,13 +41,14 @@ export const useAuth = () => {
 
   const refreshAccessToken = async () => {
     try {
-      if (!refreshToken.value) {
-        console.warn('No refresh token available')
+      const storedRefreshToken = localStorage.getItem('refreshToken')
+      if (!storedRefreshToken) {
+        console.warn('No refresh token')
         return
       }
 
       const { data } = await refreshTokenMutation({
-        refreshToken: refreshToken.value
+        refreshToken: storedRefreshToken
       })
       console.log('🦆 ~ refreshAccessToken ~ data:', data)
 
@@ -53,12 +61,12 @@ export const useAuth = () => {
         accessToken.value = data.tokenRefresh.token
 
         // Refetch user with new token
-        const { data: fetchedUser, error } = await refetchUser()
-
-        console.log('🦆 ~ refreshAccessToken ~ error:', error)
+        const fetchedUser = await refetchUser()
         console.log('🦆 ~ refreshAccessToken ~ fetchedUser:', fetchedUser)
+        console.log('🦆 ~ refreshAccessToken ~ userResult:', userResult)
+        // console.log('🦆 ~ refreshAccessToken ~ error:', error)
+
         cartStore.user = fetchedUser.me
-        console.log('🦆 ~ refreshAccessToken ~ cartStore:', cartStore)
       }
     } catch (error) {
       console.error('Failed to refresh token:', error)

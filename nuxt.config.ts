@@ -22,7 +22,11 @@ export default defineNuxtConfig({
   apollo: {
     clients: {
       default: {
-        httpEndpoint: 'https://store-7zyuop8t.saleor.cloud/graphql/'
+        httpEndpoint: 'https://store-7zyuop8t.saleor.cloud/graphql/',
+        // httpLinkOptions: {
+        //   credentials: 'include' // ✅ This is the correct way
+        // },
+        // tokenName: 'accessToken'
       }
     }
   },

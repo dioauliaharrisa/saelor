@@ -2,17 +2,14 @@
   import { z } from 'zod'
   import { zodResolver } from '@primevue/forms/resolvers/zod'
   import { CHANGE_PASSWORD } from '../../gql/mutations/ChangePassword.ts'
+  import useShowNotification from '../../composables/useShowNotification.ts'
+  const { showFieldErrors, showSuccessToast } = useShowNotification()
 
   const { accessToken, refreshAccessToken } = useAuth()
 
-  const { mutate: changePassword } = useMutation(CHANGE_PASSWORD, null, {
-    context: {
-      headers: {
-        Authorization: `Bearer ${accessToken.value}`
-      }
-    }
-  })
-  // const router = useRouter()
+  const { mutate: changePassword } = useMutation(CHANGE_PASSWORD)
+
+  const router = useRouter()
 
   const FormLogin = z.object({
     oldPassword: z.string(),
@@ -24,38 +21,38 @@
   })
 
   const loading = ref(false)
-  const toast = useToast()
-  const showToast = (errors) => {
-    toast.add({
-      severity: 'error',
-      summary: 'Error',
-      detail: `${errors[0].message}`,
-      life: 6000
-    })
-  }
 
   const resolver = zodResolver(FormLogin)
 
   const onFormSubmit = async ({ valid, values }) => {
+    loading.value = true
     if (valid) {
       await refreshAccessToken()
-      loading.value = true
       try {
         console.log('🦆 ~ onFormSubmit ~ values:', values)
-        const { data } = await changePassword({
-          oldPassword: values.oldPassword,
-          newPassword: values.newPassword
-        })
+        const { data } = await changePassword(
+          {
+            oldPassword: values.oldPassword,
+            newPassword: values.newPassword
+          },
+          {
+            context: {
+              headers: {
+                Authorization: `Bearer ${accessToken.value}`
+              }
+            }
+          }
+        )
         console.log('🦆 ~ onFormSubmit ~ data:', data)
-        const errors = data?.errors || []
+        const errors = data?.passwordChange?.errors || []
         if (errors.length) {
           throw errors
         }
 
-        //       router.push('/')
+        showSuccessToast('Password changed successfully')
+        router.push('/')
       } catch (error) {
-        console.log('🦆 ~ onFormSubmit ~ error:', error)
-        showToast(error)
+        showFieldErrors(Array.isArray(error) ? error : [error])
       } finally {
         loading.value = false
       }
