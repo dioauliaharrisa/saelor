@@ -6,7 +6,6 @@
 
   const { accessToken, refreshAccessToken, refreshToken } = useAuth()
   const { mutate: logIn } = useMutation(LOG_IN)
-  // const router = useRouter()
 
   const FormLogin = z.object({
     email: z.string(),
@@ -117,6 +116,9 @@
               </ul>
             </Message>
           </div>
+          <p id="link-forgot-password" @click="router.push('/reset-password')">
+            Forgot password?
+          </p>
           <Button
             id="button-submit"
             type="submit"
@@ -132,6 +134,16 @@
 </template>
 
 <style scoped>
+  #link-forgot-password {
+    font-size: xx-small;
+    padding: 0;
+    margin: 0;
+    align-self: flex-end;
+  }
+  #link-forgot-password:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
   #button-submit {
     background-color: var(--primary-color);
   }
