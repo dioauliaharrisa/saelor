@@ -1,11 +1,41 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import Aura from '@primeuix/themes/aura'
+import Material from '@primeuix/themes/material'
+import { definePreset } from '@primeuix/themes'
+const MyPreset = definePreset(Material, {
+  semantic: {
+    colorScheme: {
+      primary: {
+        50: '{sky.50}',
+        100: '{sky.100}',
+        200: '{sky.200}',
+        300: '{sky.300}',
+        400: '{sky.400}',
+        500: '{sky.500}',
+        600: '{sky.600}',
+        700: '{sky.700}',
+        800: '{sky.800}',
+        900: '{sky.900}',
+        950: '{sky.950}'
+      },
+      light: {
+        formField: {
+          hoverBorderColor: '{primary.color}'
+        }
+      },
+      dark: {
+        formField: {
+          hoverBorderColor: '{primary.color}'
+        }
+      }
+    }
+  }
+})
 
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   alias: { '@': './' },
-  css: ['@/assets/css/main.css'],
+
   modules: [
     '@nuxt/eslint',
     '@nuxt/fonts',
@@ -42,10 +72,11 @@ export default defineNuxtConfig({
   primevue: {
     options: {
       theme: {
-        preset: Aura
+        preset: MyPreset
       }
     }
   },
+  css: ['@/assets/css/main.css'],
   eslint: {
     config: {
       settings: {

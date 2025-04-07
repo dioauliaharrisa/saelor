@@ -35,6 +35,7 @@ export const useAuth = () => {
   }) => {
     console.log('🦆 ~ login ~ email, password:', email, password)
     const { data } = await mutationLogin({ email, password })
+    console.log('🦆 ~ useAuth ~ data:', data)
 
     const errors = data?.tokenCreate?.errors || []
     if (errors.length) {

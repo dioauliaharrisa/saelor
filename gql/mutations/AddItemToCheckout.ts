@@ -18,6 +18,11 @@ export const ADD_ITEM_TO_CHECKOUT = gql`
             amount
           }
         }
+        shippingMethods {
+          name
+          description
+          id
+        }
       }
     }
   }

@@ -18,6 +18,12 @@ export const CREATE_CHECKOUT = gql`
             name
           }
         }
+        shippingMethods {
+          active
+          id
+          message
+          name
+        }
       }
       errors {
         field

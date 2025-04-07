@@ -51,10 +51,6 @@
     if (!checkoutId) {
       try {
         const { mutate } = useMutation(CREATE_CHECKOUT)
-        console.log(
-          '🦆 ~ handleAddToCart ~ productVariantId:',
-          productVariantId
-        )
         const { data } = await mutate({
           input: {
             channel: 'default-channel',
@@ -166,7 +162,6 @@
         </div>
       </div>
     </Dialog>
-    <Toast />
   </div>
 </template>
 
@@ -259,10 +254,10 @@
   }
 
   .container_product_image img {
-    width: 100%; /* Make it fill the container */
+    width: 100%;
     height: 100%; /* Ensure it scales correctly */
     /* max-height: 300px; Adjust as needed */
-    object-fit: cover; /* Prevents distortion */
+    object-fit: cover;
   }
 
   .container_product_name {

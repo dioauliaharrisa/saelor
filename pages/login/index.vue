@@ -21,7 +21,7 @@
     if (valid) {
       loading.value = true
       try {
-        await login({
+        const token = await login({
           email: values.email,
           password: values.password
         })
@@ -96,7 +96,6 @@
         </Form>
       </div>
     </div>
-    <Toast />
   </div>
 </template>
 

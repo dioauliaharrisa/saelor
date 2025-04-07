@@ -2,3 +2,14 @@
   --primary-color: #004273;
   --secondary-color: #f0f4f7;
 }
+
+/* .page {
+  width: 100%;
+  max-width: 40vw;
+  margin: 0 auto;
+} */
+
+.text-heading {
+  font-size: 1.5rem;
+  font-weight: bold;
+}

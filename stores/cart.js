@@ -10,6 +10,11 @@ export const useCartStore = defineStore('cartStore', {
   actions: {
     resetUser() {
       this.user = null
+    },
+    resetCart() {
+      this.cartItems = []
+      this.totalPrice = 0
+      this.checkoutId = null
     }
   },
   persist: true
