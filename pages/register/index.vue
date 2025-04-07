@@ -3,7 +3,7 @@
   import { CREATE_ACCOUNT_ADDRESS } from '../../gql/mutations/CreateAccountAddress.ts'
   import { z } from 'zod'
   import { zodResolver } from '@primevue/forms/resolvers/zod'
-  import { ACCOUNT_SET_DEFAULT_ADDRESS } from '../../gql/mutations/AccountSetDefaultAddress.Ts'
+  import { ACCOUNT_SET_DEFAULT_ADDRESS } from '../../gql/mutations/AccountSetDefaultAddress.ts'
   import { useRouter } from 'vue-router'
 
   const { mutate: registerAccount } = useMutation(REGISTER_ACCOUNT)
