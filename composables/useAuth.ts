@@ -115,7 +115,6 @@ export const useAuth = () => {
   // Watch for changes in the query result
   watch(userResult, (newValue) => {
     if (newValue?.me) {
-      // Also update in cart store if needed
       cartStore.user = newValue.me
     }
   })
