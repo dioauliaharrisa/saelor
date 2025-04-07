@@ -210,12 +210,6 @@
             <span v-else>{{ $form[field.name].error.message }}</span>
           </Message>
         </div>
-        <!--
-        country {
-          code
-          country
-        }
-         -->
         <Button
           id="button-submit"
           type="submit"
@@ -242,10 +236,13 @@
   }
   #button-submit {
     background-color: var(--primary-color);
+    color: white;
+    grid-column: span 2;
+    justify-self: center;
   }
   .page {
     width: 100%;
-    max-width: 80vw;
+    max-width: 40vw;
     margin: 0 auto;
     /* background-color: red; */
   }

@@ -98,6 +98,13 @@
 </template>
 
 <style scoped>
+  #button-sign-in {
+    background-color: var(--primary-color);
+    color: white;
+    grid-column: span 2;
+    justify-self: center;
+    border: none;
+  }
   .icons {
     display: flex;
     align-items: center;
@@ -112,7 +119,7 @@
     align-items: center;
 
     width: 100%;
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
     padding: 0.5rem 6rem;
     gap: 1rem;
   }

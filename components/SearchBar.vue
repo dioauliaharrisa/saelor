@@ -3,7 +3,7 @@
     <InputGroup class="small-input-group">
       <InputGroupAddon id="search-bar-right-add-on">
         Select Equipment
-        <img>
+        <img />
       </InputGroupAddon>
       <InputText placeholder="Search for part number or name" />
       <InputGroupAddon id="search_bar_right_add_on">
@@ -38,6 +38,6 @@
   }
 
   #search_bar_right_add_on {
-    background-color: yellow;
+    background-color: var(--secondary-color);
   }
 </style>
