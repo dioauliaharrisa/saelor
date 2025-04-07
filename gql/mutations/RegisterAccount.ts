@@ -16,6 +16,7 @@ export const REGISTER_ACCOUNT = gql`
       }
     ) {
       user {
+        id
         email
         isActive
         isConfirmed

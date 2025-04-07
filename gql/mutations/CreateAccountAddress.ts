@@ -1,5 +1,5 @@
 export const CREATE_ACCOUNT_ADDRESS = gql`
-  mutation account($input: AddressInput!, $type: AddressTypeEnum) {
+  mutation AccountAddressCreate($input: AddressInput!, $type: AddressTypeEnum) {
     accountAddressCreate(type: $type, input: $input) {
       address {
         id

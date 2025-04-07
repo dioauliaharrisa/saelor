@@ -3,16 +3,19 @@
   import { CREATE_ACCOUNT_ADDRESS } from '../../gql/mutations/CreateAccountAddress.ts'
   import { z } from 'zod'
   import { zodResolver } from '@primevue/forms/resolvers/zod'
-  // import { useRouter } from 'vue-router'
+  import { ACCOUNT_SET_DEFAULT_ADDRESS } from '../../gql/mutations/AccountSetDefaultAddress.Ts'
+  import { useRouter } from 'vue-router'
 
   const { mutate: registerAccount } = useMutation(REGISTER_ACCOUNT)
   const { mutate: createAccountAddress } = useMutation(CREATE_ACCOUNT_ADDRESS)
+  const { mutate: setAccountDefaultAddress } = useMutation(
+    ACCOUNT_SET_DEFAULT_ADDRESS
+  )
 
   const router = useRouter()
-  const toast = useToast()
   const loading = ref(false)
-  const { accessToken, refreshAccessToken } = useAuth()
-
+  const { login } = useAuth()
+  const { showFieldErrors, showSuccessToast } = useShowNotification()
   const FormRegister = z.object({
     email: z.string(),
     password: z.string(),
@@ -43,25 +46,17 @@
   //   firstName: 'Kera',
   //   lastName: 'Sakti',
   //   city: 'Melbourne',
-  //   postalCode: '30000',
+  //   postalCode: '7320',
   //   country: 'AU',
   //   countryArea: 'Tasmania',
   //   streetAddress1: '123 Collins St',
   //   phone: '+6281298590750'
   // })
-  const showToast = (errors) => {
-    toast.add({
-      severity: 'error',
-      summary: 'Error',
-      detail: `${errors[0].message}`,
-      life: 6000
-    })
-  }
+
   const resolver = zodResolver(FormRegister)
 
   const onFormSubmit = async ({ valid, values }) => {
     if (valid) {
-      await refreshAccessToken()
       loading.value = true
       try {
         const { data } = await registerAccount({
@@ -71,6 +66,7 @@
           firstName: values.firstName,
           lastName: values.lastName
         })
+        console.log('🦆 ~ onFormSubmit ~ data:', data)
         const errorsRegisterAccount = data?.accountRegister?.errors || []
         console.log(
           '🦆 ~ onFormSubmit ~ errorsRegisterAccount:',
@@ -79,8 +75,13 @@
         if (errorsRegisterAccount.length) {
           throw errorsRegisterAccount
         }
+        const token = await login({
+          email: values.email,
+          password: values.password
+        })
         const { data: accountAddress } = await createAccountAddress(
           {
+            // userId: data?.accountRegister?.user?.id,
             input: {
               firstName: values.firstName,
               lastName: values.lastName,
@@ -90,13 +91,12 @@
               countryArea: values.countryArea,
               streetAddress1: values.streetAddress1,
               phone: values.phone
-            },
-            type: 'BILLING'
+            }
           },
           {
             context: {
               headers: {
-                Authorization: `Bearer ${accessToken.value}`
+                Authorization: `Bearer ${token}`
               }
             }
           }
@@ -107,9 +107,38 @@
         if (errorsAccountAddressCreate.length) {
           throw errorsAccountAddressCreate
         }
-        router.push('/login')
+        const accountAddressId =
+          accountAddress?.accountAddressCreate?.address?.id
+
+        const { data: accountdefaultAddress } = await setAccountDefaultAddress(
+          {
+            // userId: data?.accountRegister?.user?.id,
+            id: accountAddressId,
+            type: 'SHIPPING'
+          },
+          {
+            context: {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            }
+          }
+        )
+        console.log(
+          '🦆 ~ onFormSubmit ~ accountdefaultAddress:',
+          accountdefaultAddress
+        )
+
+        const errorsSetDefaultAddress =
+          accountdefaultAddress.accountSetDefaultAddress.errors || []
+
+        if (errorsSetDefaultAddress.length) {
+          throw errorsAccountAddressCreate
+        }
+        showSuccessToast('Account created successfully')
+        router.push('/')
       } catch (error) {
-        showToast(error)
+        showFieldErrors(Array.isArray(error) ? error : [error])
       } finally {
         loading.value = false
       }

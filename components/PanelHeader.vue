@@ -112,7 +112,7 @@
     align-items: center;
 
     width: 100%;
-    background-color: black;
+    background-color: var(--secondary-color);
     padding: 0.5rem 6rem;
     gap: 1rem;
   }

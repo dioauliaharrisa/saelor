@@ -1,11 +1,8 @@
 <script setup>
-  import { LOG_IN } from '../../gql/mutations/LogIn.ts'
   import { z } from 'zod'
   import { zodResolver } from '@primevue/forms/resolvers/zod'
-  import Cookies from 'js-cookie'
 
-  const { accessToken, refreshAccessToken, refreshToken } = useAuth()
-  const { mutate: logIn } = useMutation(LOG_IN)
+  const { login } = useAuth()
 
   const FormLogin = z.object({
     email: z.string(),
@@ -16,51 +13,21 @@
     password: ''
   })
   const router = useRouter()
-
   const loading = ref(false)
-  const toast = useToast()
-  const showToast = (errors) => {
-    console.log('🦆 ~ showToast ~ errors:', errors)
-    toast.add({
-      severity: 'error',
-      summary: 'Error',
-      detail: `${errors[0].message}`,
-      life: 6000
-    })
-  }
 
   const resolver = zodResolver(FormLogin)
-
+  const { showFieldErrors } = useShowNotification()
   const onFormSubmit = async ({ valid, values }) => {
     if (valid) {
       loading.value = true
       try {
-        const { data } = await logIn({
+        await login({
           email: values.email,
           password: values.password
         })
-        console.log('🦆 ~ onFormSubmit ~ data:', data)
-
-        const errors = data?.tokenCreate?.errors || []
-        if (errors.length) {
-          throw errors
-        }
-
-        const fetchedToken = data?.tokenCreate?.token
-        const fetchedRefreshToken = data?.tokenCreate?.refreshToken
-        if (fetchedToken && fetchedRefreshToken) {
-          refreshToken.value = fetchedRefreshToken
-          accessToken.value = fetchedRefreshToken
-          localStorage.setItem('refreshToken', fetchedRefreshToken)
-          Cookies.set('accessToken', fetchedToken, {
-            expires: 1,
-            secure: true
-          })
-          await refreshAccessToken()
-          router.push('/')
-        }
+        router.push('/')
       } catch (error) {
-        showToast(error)
+        showFieldErrors(Array.isArray(error) ? error : [error])
       } finally {
         loading.value = false
       }
