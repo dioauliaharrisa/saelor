@@ -1,48 +1,49 @@
 <script setup>
-import { useCartStore } from "../../stores/cart.js";
-import { GET_CHECKOUT } from "../../gql/queries/GetCheckout";
+  import { useCartStore } from '../../stores/cart.js'
+  import { GET_CHECKOUT } from '../../gql/queries/GetCheckout'
 
-const cartStore = useCartStore();
+  const cartStore = useCartStore()
 
-const router = useRouter();
+  const router = useRouter()
 
-const checkoutId = computed(() => cartStore.checkoutId);
-const { data, error } = useAsyncQuery(GET_CHECKOUT, {
-  checkoutId,
-});
+  const checkoutId = computed(() => cartStore.checkoutId)
+  const { data } = useAsyncQuery(GET_CHECKOUT, {
+    checkoutId
+  })
 
-const products = ref([]);
-const totalPrice = ref(0);
-const isDialogOpen = ref(false);
-const email = ref("daharrisa@gmail.com");
+  const products = ref([])
+  const totalPrice = ref(0)
+  const isDialogOpen = ref(false)
+  const email = ref('daharrisa@gmail.com')
 
-watch(
-  data,
-  (newData) => {
-    console.log("🦆 ~ newData:", newData);
-    if (newData?.checkout) {
-      products.value = newData.checkout.lines || [];
-      totalPrice.value = newData.checkout.totalPrice?.gross?.amount || 0;
-    }
-  },
-  { immediate: true, deep: true }
-);
+  watch(
+    data,
+    (newData) => {
+      console.log('🦆 ~ newData:', newData)
+      if (newData?.checkout) {
+        products.value = newData.checkout.lines || []
+        totalPrice.value = newData.checkout.totalPrice?.gross?.amount || 0
+      }
+    },
+    { immediate: true, deep: true }
+  )
 
-const handleCheckoutViaPurchaseOrder = async () => {
-  generatePurchaseOrderPdf();
-  return;
+  const handleCheckoutViaPurchaseOrder = async () => {
+    // generatePurchaseOrderPdf();
+    cartStore.resetCart()
+    return
 
-  // if (!checkoutId.value) {
-  //   console.error('No checkout ID found')
-  //   return
-  // }
+    // if (!checkoutId.value) {
+    //   console.error('No checkout ID found')
+    //   return
+    // }
 
-  // try {
-  //   isDialogOpen.value = true
-  // } catch (error) {
-  //   console.error('Error during checkout:', error)
-  // }
-};
+    // try {
+    //   isDialogOpen.value = true
+    // } catch (error) {
+    //   console.error('Error during checkout:', error)
+    // }
+  }
 </script>
 
 <template>
@@ -65,7 +66,10 @@ const handleCheckoutViaPurchaseOrder = async () => {
                 name="material-symbols:android-emergency-location-service"
                 style="color: black; font-size: 15px; cursor: pointer"
               />
-              {{ slotProps.data.variant.pricing?.price?.gross?.amount.value || "1" }}
+              {{
+                slotProps.data.variant.pricing?.price?.gross?.amount.value ||
+                '1'
+              }}
             </template>
           </Column>
           <Column header="Image">
@@ -91,7 +95,9 @@ const handleCheckoutViaPurchaseOrder = async () => {
           </Column>
           <Column header="Total Price">
             <template #body="slotProps">
-              ${{ slotProps.data.variant.pricing?.price?.gross?.amount || "0.00" }}
+              ${{
+                slotProps.data.variant.pricing?.price?.gross?.amount || '0.00'
+              }}
             </template>
           </Column>
         </DataTable>
@@ -103,42 +109,46 @@ const handleCheckoutViaPurchaseOrder = async () => {
           label="Proceed to checkout via Purchase Order"
           @click="handleCheckoutViaPurchaseOrder()"
         />
-        <Button id="button-checkout" label="Checkout" @click="router.push('/checkout')" />
+        <Button
+          id="button-checkout"
+          label="Checkout"
+          @click="router.push('/checkout')"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-#container-checkout-total-price {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-end;
-  padding: 2rem 0;
-}
-.container_title {
-  width: 100%;
-}
-hr {
-  background-color: yellow;
-  width: 100%;
-  height: 0.2rem;
-  border-radius: 5px;
-  border: none;
-}
-.page {
-  width: 100vw;
-  padding: 0 8rem;
-  overflow-x: hidden;
-}
-.title {
-  font-weight: 700;
-  font-size: x-large;
-  margin-bottom: 0;
-}
-.text-indicator-cart-items {
-  display: flex;
-  gap: 1rem;
-}
+  #container-checkout-total-price {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding: 2rem 0;
+  }
+  .container_title {
+    width: 100%;
+  }
+  hr {
+    background-color: yellow;
+    width: 100%;
+    height: 0.2rem;
+    border-radius: 5px;
+    border: none;
+  }
+  .page {
+    width: 100vw;
+    padding: 0 8rem;
+    overflow-x: hidden;
+  }
+  .title {
+    font-weight: 700;
+    font-size: x-large;
+    margin-bottom: 0;
+  }
+  .text-indicator-cart-items {
+    display: flex;
+    gap: 1rem;
+  }
 </style>

@@ -4,6 +4,9 @@
   import { COMPLETE_CHECKOUT } from '../../gql/mutations/CompleteCheckout'
   import { UPDATE_CHECKOUT_EMAIL } from '../../gql/mutations/UpdateCheckoutEmail'
   import { CHECKOUT_UPDATE_SHIPPING_ADDRESS } from '../../gql/mutations/CheckoutUpdateShippingAddress'
+  import { CHECKOUT_UPDATE_BILLING_ADDRESS } from '../../gql/mutations/CheckoutUpdateBillingAddress'
+  import { CHECKOUT_UPDATE_DELIVERY_METHOD } from '../../gql/mutations/CheckoutUpdateDeliveryMethod'
+
   import { GET_SHIPPING_METHODS } from '../../gql/queries/CheckoutGetShippingMethods'
 
   const FormCheckout = z.object({
@@ -14,14 +17,15 @@
     city: z.string().min(1, 'City is required'),
     postalCode: z.string().min(1, 'Postal code is required'),
     countryArea: z.string().optional(),
-    country: z.string()
+    country: z.string(),
+    shippingMethod: z.string().optional()
   })
 
   const email = ref('daharrisa@gmail.com')
 
   const cartStore = useCartStore()
   const user = cartStore.user || {}
-  const userFirstAddress = user.addresses[0] || {}
+  const userFirstAddress = user?.addresses?.[0] || {}
   const checkoutId = computed(() => cartStore.checkoutId)
   console.log('🦆 ~ user:', user)
 
@@ -29,6 +33,12 @@
   const { mutate: updateEmail } = useMutation(UPDATE_CHECKOUT_EMAIL)
   const { mutate: updateShippingAddress } = useMutation(
     CHECKOUT_UPDATE_SHIPPING_ADDRESS
+  )
+  const { mutate: updateBillingAddress } = useMutation(
+    CHECKOUT_UPDATE_BILLING_ADDRESS
+  )
+  const { mutate: updateDeliveryMethod } = useMutation(
+    CHECKOUT_UPDATE_DELIVERY_METHOD
   )
   const { data: resultShippingMethods } = useAsyncQuery(
     GET_SHIPPING_METHODS,
@@ -41,7 +51,7 @@
 
   const shippingMethods =
     resultShippingMethods?.value?.checkout?.shippingMethods || []
-  console.log('🦆 ~ resultShippingMethods:', resultShippingMethods)
+  console.log('🦆 ~ shippingMethods:', shippingMethods)
 
   const initialValues = reactive({
     email: '',
@@ -51,7 +61,8 @@
     city: userFirstAddress.city || '',
     postalCode: userFirstAddress.postalCode || '',
     countryArea: userFirstAddress.countryArea || '',
-    country: 'AU'
+    country: 'AU',
+    shippingMethod: ''
   })
   // const router = useRouter()
   const loading = ref(false)
@@ -98,6 +109,45 @@
       if (errorsCheckoutUpdateShippingAddress.length) {
         throw errorsCheckoutUpdateShippingAddress
       }
+
+      const resultCheckoutUpdateBillingAddress = await updateBillingAddress({
+        id: checkoutId.value,
+        billingAddress: {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          streetAddress1: values.streetAddress1,
+          city: values.city,
+          postalCode: values.postalCode,
+          countryArea: values.countryArea,
+          country: values.country
+        }
+      })
+
+      const errorsCheckoutUpdateBillingAddress =
+        resultCheckoutUpdateBillingAddress?.data?.checkoutBillingAddressUpdate
+          ?.errors
+      if (errorsCheckoutUpdateBillingAddress.length) {
+        throw errorsCheckoutUpdateBillingAddress
+      }
+
+      const { data: resultUpdateDeliveryMethod } = await updateDeliveryMethod({
+        id: checkoutId.value,
+        deliveryMethodId: values.shippingMethod
+      })
+      console.log(
+        '🦆 ~ onFormSubmit ~ resultUpdateDeliveryMethod:',
+        resultUpdateDeliveryMethod
+      )
+
+      const errorsCheckoutUpdateDeliveryMethod =
+        resultUpdateDeliveryMethod?.checkoutDeliveryMethodUpdate?.errors
+      if (errorsCheckoutUpdateDeliveryMethod.length) {
+        throw errorsCheckoutUpdateDeliveryMethod
+      }
+      console.log(
+        '🦆 ~ onFormSubmit ~ errorsCheckoutUpdateDeliveryMethod:',
+        errorsCheckoutUpdateDeliveryMethod
+      )
 
       await completeCheckout({
         checkoutId: checkoutId.value
@@ -192,16 +242,15 @@
         </div>
       </div>
       <Select
-        v-model="selectedCity"
-        :options="shippingMethods"
+        name="shippingMethod"
         option-label="name"
-        placeholder="Select available shipping method"
-        class="w-full md:w-56"
+        option-value="id"
+        :options="shippingMethods"
+        placeholder="Select a shipping method"
       />
       <div>
         <Button
           id="button-submit"
-          type="submit"
           severity="secondary"
           label="Choose delivery method"
           :loading="loading"

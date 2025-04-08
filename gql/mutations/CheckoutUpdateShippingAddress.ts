@@ -1,9 +1,9 @@
 export const CHECKOUT_UPDATE_SHIPPING_ADDRESS = gql`
-  mutation CheckoutShippingAddressUpdate($id: ID!, $shippingAddress: AddressInput!) {
-    checkoutShippingAddressUpdate(
-      id: $id
-      shippingAddress: $shippingAddress
-    ) {
+  mutation CheckoutShippingAddressUpdate(
+    $id: ID!
+    $shippingAddress: AddressInput!
+  ) {
+    checkoutShippingAddressUpdate(id: $id, shippingAddress: $shippingAddress) {
       checkout {
         shippingAddress {
           firstName

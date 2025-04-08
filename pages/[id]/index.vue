@@ -34,7 +34,6 @@
   const cartStore = useCartStore()
   const handleAddToCart = async () => {
     let checkoutId = cartStore.checkoutId
-    console.log('🦆 ~ handleAddToCart ~ checkoutId:', checkoutId)
 
     if (checkoutId) {
       try {
@@ -59,7 +58,13 @@
                 quantity: 1,
                 variantId: productVariantId
               }
-            ]
+            ],
+            validationRules: {
+              billingAddress: {
+                checkRequiredFields: false,
+                checkFieldsFormat: false
+              }
+            }
           }
         })
         console.log('🦆 ~ handleAddToCart ~ data:', data)
