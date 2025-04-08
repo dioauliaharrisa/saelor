@@ -29,14 +29,14 @@
       <SearchBar />
     </div>
     <div class="header-right-part">
-      <div class="icons">
+      <!-- <div class="icons">
         <Icon
           name="material-symbols:android-emergency-location-service"
           style="color: white; font-size: 15px"
         />
 
         <p style="color: white; font-size: xx-small">Select Store</p>
-      </div>
+      </div> -->
       <div class="icons" @click="visible = true">
         <Icon
           name="material-symbols:person"

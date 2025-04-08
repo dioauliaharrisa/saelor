@@ -5,10 +5,10 @@
   definePageMeta({
     layout: 'default'
   })
+  const { mutate: addItemToCheckout } = useMutation(ADD_ITEM_TO_CHECKOUT)
+  const { mutate } = useMutation(CREATE_CHECKOUT)
   const route = useRoute()
   const id = route.params.id
-
-  const toast = useToast()
 
   const variables = {
     id,
@@ -23,33 +23,42 @@
 
   const visible = ref(false)
 
-  const showToast = () => {
-    toast.add({
-      severity: 'success',
-      summary: 'Info',
-      detail: `${product?.name} has been added to your cart`,
-      life: 3000
-    })
-  }
+  // const showToast = () => {
+  //   toast.add({
+  //     severity: 'success',
+  //     summary: 'Info',
+  //     detail: `${product?.name} has been added to your cart`,
+  //     life: 3000
+  //   })
+  // }
+  const { showFieldErrors } = useShowNotification()
   const cartStore = useCartStore()
   const handleAddToCart = async () => {
     let checkoutId = cartStore.checkoutId
+    console.log('🦆 ~ handleAddToCart ~ checkoutId:', checkoutId)
 
     if (checkoutId) {
       try {
-        const { mutate } = useMutation(ADD_ITEM_TO_CHECKOUT)
-        await mutate({
+        const {
+          data: {
+            checkoutLinesAdd: {
+              // checkout,
+              errors
+            }
+          }
+        } = await addItemToCheckout({
           checkoutId,
           variantId: productVariantId
         })
+
+        if (errors.length) throw errors
       } catch (error) {
-        console.error('Mutation error:', error)
+        showFieldErrors(Array.isArray(error) ? error : [error])
       }
     }
 
     if (!checkoutId) {
       try {
-        const { mutate } = useMutation(CREATE_CHECKOUT)
         const { data } = await mutate({
           input: {
             channel: 'default-channel',
@@ -67,17 +76,14 @@
             }
           }
         })
-        console.log('🦆 ~ handleAddToCart ~ data:', data)
 
         checkoutId = data?.checkoutCreate?.checkout?.id
 
         if (checkoutId) cartStore.checkoutId = checkoutId
       } catch (error) {
-        console.error('Mutation error:', error)
+        showFieldErrors(Array.isArray(error) ? error : [error])
       }
     }
-
-    showToast()
   }
 </script>
 

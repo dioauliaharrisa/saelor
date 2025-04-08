@@ -44,6 +44,17 @@
 
 <template>
   <div class="page">
+    <Card>
+      <template #title>Placeholder</template>
+      <template #content>
+        <p class="m-0">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore
+          sed consequuntur error repudiandae numquam deserunt quisquam repellat
+          libero asperiores earum nam nobis, culpa ratione quam perferendis
+          esse, cupiditate neque quas!
+        </p>
+      </template>
+    </Card>
     <div class="container-search-box">
       <div class="container-search-box-title">
         <h1>Product Catalogue</h1>

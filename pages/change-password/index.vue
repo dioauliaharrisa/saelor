@@ -29,7 +29,6 @@
     if (valid) {
       await refreshAccessToken()
       try {
-        console.log('🦆 ~ onFormSubmit ~ values:', values)
         const { data } = await changePassword(
           {
             oldPassword: values.oldPassword,
@@ -43,7 +42,6 @@
             }
           }
         )
-        console.log('🦆 ~ onFormSubmit ~ data:', data)
         const errors = data?.passwordChange?.errors || []
         if (errors.length) {
           throw errors

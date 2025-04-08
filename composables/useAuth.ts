@@ -22,7 +22,7 @@ export const useAuth = () => {
       }))
     }
   )
-  console.log('🦆 ~ useAuth ~ userResult:', userResult, 66, accessToken.value)
+  console.log('🦆 ~ useAuth ~ userResult:', userResult)
 
   const { mutate: mutationLogin } = useMutation(LOG_IN)
 
@@ -33,9 +33,7 @@ export const useAuth = () => {
     email: string
     password: string
   }) => {
-    console.log('🦆 ~ login ~ email, password:', email, password)
     const { data } = await mutationLogin({ email, password })
-    console.log('🦆 ~ useAuth ~ data:', data)
 
     const errors = data?.tokenCreate?.errors || []
     if (errors.length) {
@@ -73,6 +71,7 @@ export const useAuth = () => {
     accessToken.value = ''
     refreshToken.value = ''
     cartStore.resetUser()
+    cartStore.resetCart()
     // router.push('/login')
   }
 
@@ -93,17 +92,14 @@ export const useAuth = () => {
         handleSignOut()
         throw errorsAccountAddressCreate(data.tokenRefresh.errors)
       }
-      console.log('🦆 ~ refreshAccessToken ~ data:', data)
 
       if (data?.tokenRefresh?.token) {
         const token = data.tokenRefresh.token
-        console.log('🦆 ~ refreshAccessToken ~ token:', token)
         localStorage.setItem('accessToken', token)
         accessToken.value = token
 
         // Refetch user with new token
         const fetchedUser = await refetchUser()
-        console.log('🦆 ~ refreshAccessToken ~ userResult:', userResult)
 
         cartStore.user = fetchedUser.me
         return token

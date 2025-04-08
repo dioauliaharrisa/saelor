@@ -66,12 +66,9 @@
           firstName: values.firstName,
           lastName: values.lastName
         })
-        console.log('🦆 ~ onFormSubmit ~ data:', data)
+
         const errorsRegisterAccount = data?.accountRegister?.errors || []
-        console.log(
-          '🦆 ~ onFormSubmit ~ errorsRegisterAccount:',
-          errorsRegisterAccount
-        )
+
         if (errorsRegisterAccount.length) {
           throw errorsRegisterAccount
         }
@@ -123,10 +120,6 @@
               }
             }
           }
-        )
-        console.log(
-          '🦆 ~ onFormSubmit ~ accountdefaultAddress:',
-          accountdefaultAddress
         )
 
         const errorsSetDefaultAddress =

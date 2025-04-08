@@ -21,13 +21,10 @@
     shippingMethod: z.string().optional()
   })
 
-  const email = ref('daharrisa@gmail.com')
-
   const cartStore = useCartStore()
   const user = cartStore.user || {}
   const userFirstAddress = user?.addresses?.[0] || {}
   const checkoutId = computed(() => cartStore.checkoutId)
-  console.log('🦆 ~ user:', user)
 
   const { mutate: completeCheckout } = useMutation(COMPLETE_CHECKOUT)
   const { mutate: updateEmail } = useMutation(UPDATE_CHECKOUT_EMAIL)
@@ -47,14 +44,13 @@
     },
     { skip: !checkoutId.value }
   )
-  console.log('🦆 ~ data:', checkoutId, resultShippingMethods)
 
   const shippingMethods =
     resultShippingMethods?.value?.checkout?.shippingMethods || []
-  console.log('🦆 ~ shippingMethods:', shippingMethods)
+  // console.log('🦆 ~ shippingMethods:', shippingMethods)
 
   const initialValues = reactive({
-    email: '',
+    email: user.email || '',
     firstName: user.firstName || '',
     lastName: user.lastName || '',
     streetAddress1: userFirstAddress?.streetAddress1 || '',
@@ -81,7 +77,7 @@
       }
       const emailResult = await updateEmail({
         checkoutId: checkoutId.value,
-        email: email.value
+        email: values.email
       })
 
       const errorsCheckoutEmailUpdate =
@@ -134,26 +130,25 @@
         id: checkoutId.value,
         deliveryMethodId: values.shippingMethod
       })
-      console.log(
-        '🦆 ~ onFormSubmit ~ resultUpdateDeliveryMethod:',
-        resultUpdateDeliveryMethod
-      )
 
       const errorsCheckoutUpdateDeliveryMethod =
         resultUpdateDeliveryMethod?.checkoutDeliveryMethodUpdate?.errors
       if (errorsCheckoutUpdateDeliveryMethod.length) {
         throw errorsCheckoutUpdateDeliveryMethod
       }
-      console.log(
-        '🦆 ~ onFormSubmit ~ errorsCheckoutUpdateDeliveryMethod:',
-        errorsCheckoutUpdateDeliveryMethod
-      )
 
-      await completeCheckout({
+      const resultCompleteCheckout = await completeCheckout({
         checkoutId: checkoutId.value
       })
+
+      const errorsCompleteCheckout =
+        resultCompleteCheckout?.completeCheckout?.errors
+      if (errorsCompleteCheckout.length) {
+        throw errorsCompleteCheckout
+      }
+
+      cartStore.resetCart()
     } catch (error) {
-      console.log('🦆 ~ onFormSubmit ~ error:', error)
       showFieldErrors(Array.isArray(error) ? error : [error])
     } finally {
       loading.value = false

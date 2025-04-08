@@ -14,6 +14,29 @@ export const GET_USER = gql`
         postalCode
         streetAddress1
       }
+      orders(first: 3) {
+        edges {
+          node {
+            id
+            number
+            lines {
+              productName
+              quantity
+              thumbnail(format: WEBP) {
+                url
+              }
+            }
+            status
+            statusDisplay
+            total {
+              net {
+                amount
+                currency
+              }
+            }
+          }
+        }
+      }
     }
   }
 `

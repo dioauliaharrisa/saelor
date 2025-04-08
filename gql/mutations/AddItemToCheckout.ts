@@ -24,6 +24,13 @@ export const ADD_ITEM_TO_CHECKOUT = gql`
           id
         }
       }
+      errors {
+        code
+        field
+        lines
+        message
+        variants
+      }
     }
   }
 `

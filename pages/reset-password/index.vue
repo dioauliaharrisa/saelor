@@ -28,7 +28,6 @@
     if (valid) {
       // await refreshAccessToken()
       try {
-        console.log('🦆 ~ onFormSubmit ~ values:', values)
         const { data } = await resetPassword({
           email: 'daharrisa@gmail.com',
           redirectUrl: `https://a62129e9c42950e042140e945dc856ab.serveo.net/` // ngrokUrl + '/reset-password'
@@ -44,7 +43,7 @@
         //     }
         //   }
         // }
-        console.log('🦆 ~ onFormSubmit ~ data:', data)
+
         const errors = data?.requestPasswordReset?.errors || []
         if (errors.length) {
           throw errors

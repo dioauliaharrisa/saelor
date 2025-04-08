@@ -14,12 +14,10 @@
   const products = ref([])
   const totalPrice = ref(0)
   const isDialogOpen = ref(false)
-  const email = ref('daharrisa@gmail.com')
 
   watch(
     data,
     (newData) => {
-      console.log('🦆 ~ newData:', newData)
       if (newData?.checkout) {
         products.value = newData.checkout.lines || []
         totalPrice.value = newData.checkout.totalPrice?.gross?.amount || 0
