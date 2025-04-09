@@ -1,6 +1,6 @@
 // import Cookies from 'js-cookie'
 import { GET_USER } from '../gql/queries/GetUser'
-import { LOG_IN } from '../gql/mutations/LogIn.ts'
+import { LOG_IN } from '../gql/mutations/LogIn'
 import { REFRESH_TOKEN } from '../gql/mutations/RefreshToken'
 import { useRouter } from 'vue-router'
 export const useAuth = () => {
@@ -22,7 +22,6 @@ export const useAuth = () => {
       }))
     }
   )
-  console.log('🦆 ~ useAuth ~ userResult:', userResult)
 
   const { mutate: mutationLogin } = useMutation(LOG_IN)
 

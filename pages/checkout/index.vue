@@ -47,7 +47,6 @@
 
   const shippingMethods =
     resultShippingMethods?.value?.checkout?.shippingMethods || []
-  // console.log('🦆 ~ shippingMethods:', shippingMethods)
 
   const initialValues = reactive({
     email: user.email || '',

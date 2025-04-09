@@ -1,8 +1,7 @@
-<script setup>
+<script setup lang="ts">
   const cartStore = useCartStore()
   const user = cartStore.user || {}
   const orders = computed(() => cartStore.user?.orders?.edges || [])
-  console.log('🦆 ~ orders:', orders)
   const router = useRouter()
   const fieldsOverview = [
     {
@@ -95,7 +94,10 @@
             <h5>{{ field.title }}</h5>
           </template>
           <template #content>
-            <p v-for="(subtitle, index) in field.subtitles" :key="index">
+            <p
+              v-for="(subtitle, subtitleIndex) in field.subtitles"
+              :key="subtitleIndex"
+            >
               {{ subtitle.title }}
             </p>
           </template>

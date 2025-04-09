@@ -1,57 +1,33 @@
 <script setup>
   import { useRouter } from 'vue-router'
+  import { GET_COLLECTIONS } from '../gql/queries/GetCollections'
+  import { GET_PRODUCTS } from '../gql/queries/GetProducts'
+  const { data } = useAsyncQuery(GET_COLLECTIONS)
+  const { data: resProducts } = useAsyncQuery(GET_PRODUCTS, { limit: 5 })
+
+  const products = resProducts?.value?.products?.edges || []
+
+  const collections = data?.value?.collections.edges || []
 
   const router = useRouter()
-  const query = gql`
-    query GetProducts {
-      products(channel: "default-channel", first: 10) {
-        edges {
-          node {
-            id
-            name
-            thumbnail {
-              url
-            }
-            description
-            pricing {
-              priceRange {
-                start {
-                  gross {
-                    amount
-                  }
-                }
-                stop {
-                  gross {
-                    amount
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  `
-  const variables = { limit: 5 }
-  const {
-    data: {
-      value: {
-        products: { edges }
-      }
-    }
-  } = await useAsyncQuery(query, variables)
+  console.log(
+    '🦆 ~ JSON.parse(product.node.description):',
+    JSON.parse(products[0]?.node?.description)
+  )
 </script>
 
 <template>
   <div class="page">
     <Card>
       <template #title>Placeholder</template>
-      <template #content>
-        <p class="m-0">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore
-          sed consequuntur error repudiandae numquam deserunt quisquam repellat
-          libero asperiores earum nam nobis, culpa ratione quam perferendis
-          esse, cupiditate neque quas!
+      <template v-if="collections.length" #content>
+        <p
+          v-for="collection in collections"
+          :key="collection.id"
+          class="collection"
+        >
+          <!-- <img :src="collection?.thumbnail?.url" :alt="collection.title" /> -->
+          {{ collection?.node?.name }}
         </p>
       </template>
     </Card>
@@ -74,9 +50,9 @@
         />
       </div>
     </div>
-    <div v-if="edges && edges.length" class="grid">
+    <div v-if="products && products.length" class="grid">
       <div
-        v-for="product in edges"
+        v-for="product in products"
         :key="product.id"
         class="product"
         @click="router.push({ path: `/${product?.node?.id}` })"
@@ -99,6 +75,10 @@
 </template>
 
 <style scoped>
+  .collection:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
   .container-search-box-title {
     background-color: maroon;
     text-wrap: nowrap;
