@@ -1,4 +1,3 @@
-// import Cookies from 'js-cookie'
 import { GET_USER } from '../gql/queries/GetUser'
 import { LOG_IN } from '../gql/mutations/LogIn'
 import { REFRESH_TOKEN } from '../gql/mutations/RefreshToken'
