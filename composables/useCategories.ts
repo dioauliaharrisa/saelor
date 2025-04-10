@@ -14,11 +14,15 @@ export const useCategories = () => {
     }
   )
   console.log('🦆 ~ useCategories ~ dataCategory:', dataCategory)
-  console.log('🦆 ~ useCategories ~ selectedCategory:', selectedCategory)
 
   watchEffect(() => {
-    if (selectedCategory.value) {
-      console.log(selectedCategory.value)
+    if (selectedCategory.value)
+      console.log(
+        '🦆 ~ watchEffect ~ selectedCategory.value:',
+        selectedCategory.value
+      )
+    if (dataCategory.value) {
+      console.log('🦆 ~ watchEffect ~ dataCategory.value:', dataCategory.value)
     }
     if (error.value) {
       throw createError({
