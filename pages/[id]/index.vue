@@ -19,8 +19,8 @@
   const product = data?.value?.product || null
 
   const productVariantId = data?.value?.product?.variants[0]?.id || null
-  const home = ref({ label: 'Home', to: '/' })
-  const items = ref([{ label: 'Shop', to: '/shop' }, { label: 'Categories' }])
+  // const home = ref({ label: 'Home', to: '/' })
+  // const items = ref([{ label: 'Shop', to: '/shop' }, { label: 'Categories' }])
 
   const visible = ref(false)
 
@@ -92,17 +92,9 @@
 
 <template>
   <div class="page">
-    <Breadcrumb :home="home" :model="items" />
+    <!-- <Breadcrumb :home="home" :model="items" /> -->
     <div class="container_product_display">
       <div class="container_product_image">
-        <!-- <img :src="product?.media?.[0]?.url" :alt="product.title" />
-        <div style="display: flex; gap: 1rem; width: 100%">
-          <img
-            v-for="media in product?.media"
-            :src="media?.url"
-            :alt="product.title"
-          />
-        </div> -->
         <Galleria
           :value="product?.media"
           :responsive-options="responsiveOptions"
@@ -149,6 +141,14 @@
         <p id="product-warranty-information" @click="visible = true">
           Warranty Information
         </p>
+        <InputNumber v-model="value" showButtons :min="0" :max="99">
+          <template #incrementIcon>
+            <span class="pi pi-plus" />
+          </template>
+          <template #decrementIcon>
+            <span class="pi pi-minus" />
+          </template>
+        </InputNumber>
         <Button
           id="button-add-to-cart"
           label="Add to cart"

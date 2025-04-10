@@ -1,5 +1,5 @@
 <script setup>
-  const categories = useCategories()
+  const { categories, selectedCategory } = useCategories()
   const collections = useCollections()
 </script>
 
@@ -15,7 +15,7 @@
         >
           <div class="accordion_title">
             <div class="accordion-hover-indicator"></div>
-            <p>
+            <p @click="selectedCategory = category?.node?.id">
               {{ category?.node?.name }}
             </p>
             <Icon
