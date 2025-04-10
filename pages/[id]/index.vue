@@ -57,7 +57,7 @@
             channel: 'default-channel',
             lines: [
               {
-                quantity: 1,
+                quantity: quantity.value,
                 variantId: productVariantId
               }
             ],
@@ -88,6 +88,8 @@
       numVisible: 1
     }
   ])
+
+  const quantity = ref(0)
 </script>
 
 <template>
@@ -99,19 +101,29 @@
           :value="product?.media"
           :responsive-options="responsiveOptions"
           :num-visible="5"
-          container-style="max-width: 640px"
         >
+          <!-- container-style="max-width: 640px" -->
           <template #item="slotProps">
-            <img
-              :src="slotProps.item.url"
-              :alt="slotProps.title"
+            <div
               style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 width: 100%;
-                width: 300px;
-                height: auto;
-                object-fit: contain;
+                height: 300px;
               "
-            />
+            >
+              <img
+                :src="slotProps.item.url"
+                :alt="slotProps.title"
+                style="
+                  width: 100%;
+                  width: 300px;
+                  height: auto;
+                  object-fit: contain;
+                "
+              />
+            </div>
           </template>
           <template #thumbnail="slotProps">
             <img
@@ -120,8 +132,9 @@
               style="
                 width: 100%;
                 width: 100px;
-                height: 100px;
+                height: 50px;
                 object-fit: contain;
+                border: solid 1px #ddd;
               "
             />
           </template>
@@ -130,8 +143,10 @@
       <div class="container_product_name">
         <p class="title">{{ product?.name }}</p>
         <p>{{ product?.variants?.[0]?.sku }}</p>
-        <p>{{ product?.pricing?.priceRange?.start?.currency }}</p>
-        <p>{{ product?.pricing?.priceRange?.start?.gross?.amount }}</p>
+        <div style="display: flex; gap: 1rem">
+          <p>{{ product?.pricing?.priceRange?.start?.currency }}</p>
+          <p>{{ product?.pricing?.priceRange?.start?.gross?.amount }}</p>
+        </div>
         <hr />
         <RichTextRenderer
           v-if="product?.description"
@@ -141,19 +156,28 @@
         <p id="product-warranty-information" @click="visible = true">
           Warranty Information
         </p>
-        <InputNumber v-model="value" showButtons :min="0" :max="99">
-          <template #incrementIcon>
-            <span class="pi pi-plus" />
-          </template>
-          <template #decrementIcon>
-            <span class="pi pi-minus" />
-          </template>
-        </InputNumber>
-        <Button
-          id="button-add-to-cart"
-          label="Add to cart"
-          @click="handleAddToCart()"
-        />
+        <div id="container-ctas">
+          <InputNumber
+            v-model="quantity"
+            show-buttons
+            button-layout="horizontal"
+            :min="0"
+            :max="99"
+            style="flex: 1; height: 3rem"
+          >
+            <template #incrementIcon>
+              <span class="pi pi-plus" />
+            </template>
+            <template #decrementIcon>
+              <span class="pi pi-minus" />
+            </template>
+          </InputNumber>
+          <Button
+            id="button-add-to-cart"
+            label="Add to cart"
+            @click="handleAddToCart()"
+          />
+        </div>
       </div>
     </div>
     <div class="container-product-informations">
@@ -177,10 +201,16 @@
 </template>
 
 <style scoped>
-  .container_product_name > button {
-    background-color: gray;
-    border: none;
+  #container-ctas {
+    display: flex;
+    padding: 1rem 0;
+    gap: 1rem;
   }
+  #button-add-to-cart {
+    height: 3rem;
+    flex: 1;
+  }
+
   .p-dialog-header {
     padding: 0;
     width: 100%;
@@ -206,7 +236,7 @@
   .page {
     width: 80vw;
     margin: 0 auto;
-    /* background-color: red; */
+    padding: 2rem 0;
   }
   .container_product_display {
     display: flex;
@@ -214,7 +244,8 @@
   }
 
   .container_product_image {
-    flex: 1;
+    flex: 2;
+    /* background-color: red; */
   }
 
   .container_product_image img {
@@ -227,7 +258,7 @@
   .container_product_name {
     display: flex;
     flex: 1;
-    /* background-color: pink; */
+    padding: 2rem;
     flex-direction: column;
   }
 </style>
