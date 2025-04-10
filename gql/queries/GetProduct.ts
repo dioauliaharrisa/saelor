@@ -19,6 +19,7 @@ export const GET_PRODUCT = gql`
         id
         name
         sku
+        quantityAvailable
       }
       category {
         description

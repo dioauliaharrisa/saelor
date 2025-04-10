@@ -102,7 +102,6 @@
           :responsive-options="responsiveOptions"
           :num-visible="5"
         >
-          <!-- container-style="max-width: 640px" -->
           <template #item="slotProps">
             <div
               style="
@@ -147,7 +146,8 @@
           <p>{{ product?.pricing?.priceRange?.start?.currency }}</p>
           <p>{{ product?.pricing?.priceRange?.start?.gross?.amount }}</p>
         </div>
-        <hr />
+        <p>Stocks: {{ product?.variants?.[0]?.quantityAvailable }}</p>
+        <Divider />
         <RichTextRenderer
           v-if="product?.description"
           :content="product.description"
