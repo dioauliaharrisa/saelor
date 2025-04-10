@@ -1,9 +1,7 @@
 <script setup>
+  import { useProducts } from '../composables/useProducts'
   import { useRouter } from 'vue-router'
-  import { GET_PRODUCTS } from '../gql/queries/GetProducts'
-  const { data: resProducts } = useAsyncQuery(GET_PRODUCTS, { limit: 5 })
-
-  const products = resProducts?.value?.products?.edges || []
+  const products = useProducts()
 
   const router = useRouter()
 </script>
@@ -12,34 +10,28 @@
   <div class="page">
     <div class="page-layout">
       <AccordionsCategories />
-      <div v-if="products && products.length" class="grid">
-        <div
+      <div v-if="!error && products.length" class="grid">
+        <CardProduct
           v-for="product in products"
           :key="product.id"
-          class="product"
-          @click="router.push({ path: `/${product?.node?.id}` })"
-        >
-          <img :src="product?.node?.thumbnail?.url" :alt="product.title" />
-          <p class="price">
-            ${{ product?.node.pricing.priceRange.start.gross.amount }}
-          </p>
-          <p class="title">{{ product?.node?.name }}</p>
-          <RichTextRenderer
-            v-if="product?.node?.description"
-            :content="JSON.parse(product.node.description)"
-            :font-size="'.75rem'"
-          />
-        </div>
+          :product="product"
+        />
       </div>
-
-      <p v-else class="error">No products available.</p>
+      <div v-if="!error && !products.length" class="grid">
+        <Card v-for="n in 16" :key="n" class="product">
+          <template #content>
+            <Skeleton width="138px" height="100px"></Skeleton>
+          </template>
+        </Card>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
   .page-layout {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 3fr; /* 25% and 75% */
     gap: 2rem;
   }
   .accordion {
@@ -49,8 +41,9 @@
   .grid {
     display: grid;
     grid-column: 2 / 3; /* Starts at column 2 */
-    grid-template-columns: repeat(6, 1fr); /* 6 columns */
+    grid-template-columns: repeat(4, 1fr); /* 6 columns */
     gap: 16px;
+    padding: 1rem 0;
   }
   .collection:hover {
     cursor: pointer;
@@ -92,68 +85,26 @@
     width: 100vw;
     padding: 0 8rem;
   }
-
   .container {
     padding: 20px;
   }
-
   .header {
     display: flex;
     flex-direction: row;
   }
-
   h1 {
     color: white;
   }
 
-  .price {
-    font-size: small;
-    font-weight: 700;
-    text-decoration: none;
-  }
-
-  .product > .title {
-    font-size: small;
-    font-weight: 700;
-  }
-
-  .product > .category {
-    text-transform: capitalize;
-    font-size: small;
-    font-weight: 400;
-  }
-
-  /* Medium screens: 4 columns */
   @media (max-width: 1024px) {
     .grid {
       grid-template-columns: repeat(4, 1fr);
     }
   }
-
-  /* Small screens: 2 columns */
   @media (max-width: 600px) {
     .grid {
       grid-template-columns: repeat(2, 1fr);
     }
-  }
-
-  .product {
-    border: 1px solid #ddd;
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 8px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-  }
-
-  .product img {
-    width: 100%;
-    height: 100px; /* Adjust image height */
-    object-fit: contain;
-  }
-
-  .error {
-    color: red;
-    text-align: center;
   }
 </style>
 

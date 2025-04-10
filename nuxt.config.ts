@@ -35,7 +35,11 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   alias: { '@': './' },
-
+  app: {
+    head: {
+      link: [{ rel: 'icon', type: 'image/svg+xml', href: '/Logo_Jayben.svg' }]
+    }
+  },
   modules: [
     '@nuxt/eslint',
     '@nuxt/fonts',

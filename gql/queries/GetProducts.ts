@@ -5,9 +5,6 @@ export const GET_PRODUCTS = gql`
         node {
           id
           name
-          thumbnail {
-            url
-          }
           description
           pricing {
             priceRange {
@@ -23,7 +20,14 @@ export const GET_PRODUCTS = gql`
               }
             }
           }
+          media {
+            url(format: WEBP)
+          }
         }
+      }
+      pageInfo {
+        startCursor
+        endCursor
       }
     }
   }

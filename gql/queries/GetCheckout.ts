@@ -17,12 +17,28 @@ export const GET_CHECKOUT = gql`
           }
           media {
             url
+            productId
           }
           product {
             description
             media {
               url
             }
+            category {
+              name
+            }
+          }
+        }
+        totalPrice {
+          currency
+          gross {
+            amount
+          }
+        }
+        unitPrice {
+          currency
+          gross {
+            amount
           }
         }
       }
@@ -31,6 +47,7 @@ export const GET_CHECKOUT = gql`
           amount
         }
       }
+      created
     }
   }
 `

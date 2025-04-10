@@ -4,7 +4,7 @@
 </script>
 
 <template>
-  <Accordion value="0">
+  <Accordion :value="['0']" multiple>
     <AccordionPanel value="0">
       <AccordionHeader>Category</AccordionHeader>
       <AccordionContent>

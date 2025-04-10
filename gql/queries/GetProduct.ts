@@ -10,21 +10,15 @@ export const GET_PRODUCT = gql`
             gross {
               amount
             }
-          }
-          stop {
-            gross {
-              amount
-            }
+            currency
           }
         }
       }
       name
-      images {
-        url(format: ORIGINAL, size: 600)
-      }
       variants {
         id
         name
+        sku
       }
       category {
         description
@@ -46,6 +40,10 @@ export const GET_PRODUCT = gql`
           name
           unit
         }
+      }
+      media {
+        id
+        url(format: ORIGINAL)
       }
     }
   }
