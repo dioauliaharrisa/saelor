@@ -3,7 +3,7 @@ export const GET_CATEGORY = gql`
     category(id: $id) {
       name
       id
-      children {
+      children(first: 10) {
         edges {
           node {
             name

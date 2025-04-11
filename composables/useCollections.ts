@@ -2,7 +2,6 @@ import { GET_COLLECTIONS } from '../gql/queries/GetCollections'
 
 export const useCollections = () => {
   const { data, error } = useAsyncQuery(GET_COLLECTIONS)
-  console.log('🦆 ~ useCollections ~ data:', data)
   const collections = computed(() => data.value?.collections?.edges || [])
 
   watchEffect(() => {

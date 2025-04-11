@@ -1,53 +1,76 @@
-<script setup>
-  const { categories, selectedCategory } = useCategories()
+<script setup lang="ts">
+  // const { categories, selectedCategory, categoryHeader } = useCategories()
+  const categories = useCategories()
+  console.log('🦆 ~ categories:', categories)
+
   const collections = useCollections()
+  const handleClick = (category) => {
+    if (!category?.node?.children?.totalCount) return
+    categories.selectedCategory.value = category?.node?.id
+  }
+  const handleBack = () => {
+    console.log('🦆 ~ handleBack ~ handleBack:', handleBack)
+    categories.selectedCategory.value = null
+  }
 </script>
 
 <template>
-  <Accordion :value="['0']" multiple>
-    <AccordionPanel value="0">
-      <AccordionHeader>Category</AccordionHeader>
-      <AccordionContent>
-        <div
-          v-for="category in categories"
-          :key="category.id"
-          class="accordion_category"
-        >
-          <div class="accordion_title">
-            <div class="accordion-hover-indicator"></div>
-            <p @click="selectedCategory = category?.node?.id">
-              {{ category?.node?.name }}
-            </p>
-            <Icon
-              name="material-symbols:chevron-right-rounded"
-              style="color: black; font-size: 25px"
-            />
+  <div>
+    <p @click="handleBack">Back</p>
+    <Accordion :value="['0']" multiple>
+      <AccordionPanel value="0">
+        <AccordionHeader>
+          <Icon
+            v-if="categories.selectedCategory !== null"
+            name="material-symbols:chevron-right-rounded"
+            style="color: black; font-size: 25px"
+          />
+          <h3>
+            {{ categories.categoryHeader.value || 'Category' }}
+          </h3>
+        </AccordionHeader>
+        <AccordionContent>
+          <div
+            v-for="category in categories.categories.value"
+            :key="category.id"
+            class="accordion_category"
+          >
+            <div class="accordion_title">
+              <div class="accordion-hover-indicator"></div>
+              <p @click="handleClick(category)">
+                {{ category?.node?.name }}
+              </p>
+              <Icon
+                name="material-symbols:chevron-right-rounded"
+                style="color: black; font-size: 25px"
+              />
+            </div>
           </div>
-        </div>
-      </AccordionContent>
-    </AccordionPanel>
-    <AccordionPanel value="1">
-      <AccordionHeader>Collections</AccordionHeader>
-      <AccordionContent>
-        <div
-          v-for="collection in collections"
-          :key="collection.id"
-          class="accordion_category"
-        >
-          <div class="accordion_title">
-            <div class="accordion-hover-indicator"></div>
-            <p>
-              {{ collection?.node?.name }}
-            </p>
-            <Icon
-              name="material-symbols:chevron-right-rounded"
-              style="color: black; font-size: 25px"
-            />
+        </AccordionContent>
+      </AccordionPanel>
+      <AccordionPanel value="1">
+        <AccordionHeader>Collections</AccordionHeader>
+        <AccordionContent>
+          <div
+            v-for="collection in collections"
+            :key="collection.id"
+            class="accordion_category"
+          >
+            <div class="accordion_title">
+              <div class="accordion-hover-indicator"></div>
+              <p>
+                {{ collection?.node?.name }}
+              </p>
+              <Icon
+                name="material-symbols:chevron-right-rounded"
+                style="color: black; font-size: 25px"
+              />
+            </div>
           </div>
-        </div>
-      </AccordionContent>
-    </AccordionPanel>
-  </Accordion>
+        </AccordionContent>
+      </AccordionPanel>
+    </Accordion>
+  </div>
 </template>
 
 <style scoped>
