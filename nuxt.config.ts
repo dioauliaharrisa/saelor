@@ -49,7 +49,8 @@ export default defineNuxtConfig({
     // '@nuxtjs/ngrok',
     '@primevue/nuxt-module',
     '@pinia/nuxt',
-    '@pinia-plugin-persistedstate/nuxt'
+    '@pinia-plugin-persistedstate/nuxt',
+    '@nuxtjs/tailwindcss'
   ],
   vite: {
     assetsInclude: ['**/*.svg'],

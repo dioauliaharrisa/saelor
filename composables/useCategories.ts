@@ -37,7 +37,7 @@ export const useCategories = () => {
 
     //if back button is clicked, set it back to the main category
     if (!selectedCategory.value) {
-      categories.value = data.value.categories.edges
+      categories.value = data.value?.categories?.edges
       categoryHeader.value = null
     }
 
