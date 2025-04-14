@@ -6,7 +6,6 @@
   const isRouteEnd = (index: number) => {
     return index !== splittedRoute.length - 1 ? true : false
   }
-  console.log(splittedRoute.pop())
 </script>
 
 <template>

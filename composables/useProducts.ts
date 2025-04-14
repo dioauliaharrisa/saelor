@@ -5,16 +5,7 @@ export const useProducts = () => {
   const categoryId = ref<string>('')
   const collectionId = ref<string>('')
 
-  const qVariables = computed(() => {
-    const base: any = { first: 20 }
-    if (categoryId.value) {
-      base.filter = { categories: [categoryId.value] }
-    }
-    if (collectionId.value) {
-      base.filter = { collections: [collectionId.value] }
-    }
-    return base
-  })
+  const qVariables = ref({ first: 20 })
 
   const {
     result: dataProducts,
@@ -22,10 +13,26 @@ export const useProducts = () => {
     refetch
   } = useQuery(GET_PRODUCTS, qVariables)
 
+  watch(collectionId, async (newValue, oldValue) => {
+    if (newValue !== oldValue) {
+      const filter: any = {}
+      filter.collections = [collectionId.value]
+      qVariables.value = {
+        first: 20,
+        ...(Object.keys(filter).length ? { filter } : {})
+      }
+      const result = await refetch()
+      if (result?.data?.products?.edges) {
+        products.value = result.data.products.edges
+      }
+    }
+  })
+
   watchEffect(() => {
-    console.log('🦆 ~ useProducts ~ dataProducts:', dataProducts, error)
+    const filter: any = {}
+    if (categoryId.value) filter.categories = [categoryId.value]
+
     if (dataProducts?.value?.products?.edges) {
-      console.log('🦆 ~ watchEffect ~ dataProducts:', dataProducts)
       products.value = dataProducts.value.products.edges
     }
     if (error.value) {
@@ -37,5 +44,5 @@ export const useProducts = () => {
     }
   })
 
-  return { data: products, categoryId, collectionId }
+  return { data: products, categoryId, collectionId, refetch }
 }

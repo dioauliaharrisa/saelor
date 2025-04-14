@@ -6,11 +6,10 @@
   const data = products.data
 
   onMounted(() => {
-    products.categoryId = ''
-    products.collectionId = collectionId
+    products.categoryId.value = ''
+    products.collectionId.value = collectionId
+    products.refetch()
   })
-
-  console.log('🦆 ~ products:', products)
 </script>
 <template>
   <div class="page">

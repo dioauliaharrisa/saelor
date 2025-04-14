@@ -5,7 +5,8 @@ export const useCartStore = defineStore('cartStore', {
     checkoutId: null,
     cartItems: [],
     totalPrice: 0,
-    user: null
+    user: null,
+    breadcrumb: ''
   }),
   actions: {
     resetUser() {
@@ -15,6 +16,9 @@ export const useCartStore = defineStore('cartStore', {
       this.cartItems = []
       this.totalPrice = 0
       this.checkoutId = null
+    },
+    resetBreadcrumb() {
+      this.breadcrumb = ''
     }
   },
   persist: true
