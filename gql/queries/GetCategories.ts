@@ -1,6 +1,6 @@
 export const GET_CATEGORIES = gql`
   query GetCategories {
-    categories(first: 50, level: 0) {
+    categories(first: 20, level: 0) {
       edges {
         node {
           description
@@ -8,9 +8,22 @@ export const GET_CATEGORIES = gql`
           name
           children(first: 10) {
             totalCount
+            edges {
+              node {
+                name
+                id
+                children(first: 10) {
+                  edges {
+                    node {
+                      id
+                      name
+                    }
+                  }
+                }
+              }
+            }
           }
         }
-        cursor
       }
     }
   }

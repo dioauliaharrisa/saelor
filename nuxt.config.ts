@@ -46,12 +46,12 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@nuxt/image',
     '@nuxtjs/apollo',
-    // '@nuxtjs/ngrok',
     '@primevue/nuxt-module',
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
-    '@nuxtjs/tailwindcss'
+    'reka-ui/nuxt'
   ],
+
   vite: {
     assetsInclude: ['**/*.svg'],
     server: {
@@ -63,10 +63,6 @@ export default defineNuxtConfig({
       ngrokUrl: process.env.NGROK_URL
     }
   },
-  // ngrok: {
-  //   authtoken: process.env.NGROK_AUTHTOKEN,
-  //   port: 3000
-  // },
   apollo: {
     clients: {
       default: {

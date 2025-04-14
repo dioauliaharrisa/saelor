@@ -19,8 +19,6 @@
   const product = data?.value?.product || null
 
   const productVariantId = data?.value?.product?.variants[0]?.id || null
-  // const home = ref({ label: 'Home', to: '/' })
-  // const items = ref([{ label: 'Shop', to: '/shop' }, { label: 'Categories' }])
 
   const visible = ref(false)
 

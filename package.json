@@ -16,6 +16,7 @@
   "dependencies": {
     "@apollo/client": "^3.13.5",
     "@editorjs/editorjs": "^2.30.8",
+    "@internationalized/number": "^3.6.1",
     "@nuxt/eslint": "^1.2.0",
     "@nuxt/fonts": "^0.11.0",
     "@nuxt/icon": "^1.11.0",
@@ -36,6 +37,7 @@
     "nuxt": "^3.16.1",
     "pinia-plugin-persistedstate": "^4.2.0",
     "primevue": "^4.3.2",
+    "reka-ui": "^2.2.0",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0",
     "zod": "^3.24.2"

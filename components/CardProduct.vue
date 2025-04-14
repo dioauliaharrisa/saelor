@@ -3,6 +3,7 @@
   defineProps({
     product: Object
   })
+  console.log('🦆 ~ product:', product)
 </script>
 
 <template>

@@ -2,7 +2,7 @@
   import { useProducts } from '../composables/useProducts'
   import { useRouter } from 'vue-router'
   const products = useProducts()
-
+  const data = products.data
   const router = useRouter()
 </script>
 
@@ -10,14 +10,14 @@
   <div class="page">
     <div class="page-layout">
       <AccordionsCategories />
-      <div v-if="!error && products.length" class="grid">
+      <div v-if="!error && data.length" class="grid">
         <CardProduct
-          v-for="product in products"
+          v-for="product in data"
           :key="product.id"
           :product="product"
         />
       </div>
-      <div v-if="!error && !products.length" class="grid">
+      <div v-if="!error && !data.length" class="grid">
         <Card v-for="n in 16" :key="n" class="product">
           <template #content>
             <Skeleton width="138px" height="100px"></Skeleton>

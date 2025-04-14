@@ -8,7 +8,7 @@ export const useCollections = () => {
     if (error.value) {
       throw createError({
         statusCode: 500,
-        statusMessage: 'Failed to fetch categories',
+        statusMessage: 'Failed to fetch cOLLECTIONS',
         cause: error.value
       })
     }

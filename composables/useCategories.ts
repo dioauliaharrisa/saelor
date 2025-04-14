@@ -8,6 +8,7 @@ export const useCategories = () => {
   const selectedCategory = ref<string | null>(null)
   console.log('🦆 ~ useCategories ~ selectedCategory:', selectedCategory)
   const { data, error } = useAsyncQuery(GET_CATEGORIES)
+  console.log('🦆 ~ useCategories ~ data, error:', data, error)
 
   const categoryVariables = computed(() => ({
     id: selectedCategory.value
@@ -19,7 +20,6 @@ export const useCategories = () => {
     error: errorCategory,
     refetch
   } = useQuery(GET_CATEGORY, categoryVariables, {
-    // Only fetch when we have an ID
     enabled: computed(() => !!selectedCategory.value)
   })
 
@@ -42,10 +42,20 @@ export const useCategories = () => {
     }
 
     if (error.value) {
+      console.error('GET_CATEGORIES error:', error.value)
       throw createError({
-        statusCode: 300,
+        statusCode: 500,
         statusMessage: 'Failed to fetch categories',
         cause: error.value
+      })
+    }
+
+    if (errorCategory.value) {
+      console.error('GET_CATEGORY error:', errorCategory.value)
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'Failed to fetch selected category',
+        cause: errorCategory.value
       })
     }
   })

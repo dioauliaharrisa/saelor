@@ -1,6 +1,6 @@
-export const GET_PRODUCTS = gql`
-  query GetProducts($first: Int, $filter: ProductFilterInput) {
-    products(channel: "default-channel", first: $first, filter: $filter) {
+export const GET_PRODUCTS_BY_CATEGORY_ID = gql`
+  query GetProductsByCategoryId {
+    products(channel: "default-channel", first: 20) {
       edges {
         node {
           id
