@@ -1,17 +1,18 @@
 <script setup>
   import { useProducts } from '../composables/useProducts'
-  import { useRouter } from 'vue-router'
   const products = useProducts()
   const data = products.data
-  const router = useRouter()
 </script>
 
 <template>
   <div class="page">
     <div class="page-layout">
-      <AccordionsCategories />
+      <div>
+        <AccordionsCategories />
+        <AccordionsCollections />
+      </div>
       <div v-if="!error && data.length" class="grid">
-        <CardProduct
+        <NewCardProduct
           v-for="product in data"
           :key="product.id"
           :product="product"

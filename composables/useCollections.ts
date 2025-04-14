@@ -1,10 +1,13 @@
 import { GET_COLLECTIONS } from '../gql/queries/GetCollections'
 
 export const useCollections = () => {
+  const collections = ref<Array<any>>([])
+
   const { data, error } = useAsyncQuery(GET_COLLECTIONS)
-  const collections = computed(() => data.value?.collections?.edges || [])
 
   watchEffect(() => {
+    collections.value = data.value?.collections?.edges || []
+
     if (error.value) {
       throw createError({
         statusCode: 500,
@@ -14,5 +17,5 @@ export const useCollections = () => {
     }
   })
 
-  return collections
+  return { data: collections }
 }

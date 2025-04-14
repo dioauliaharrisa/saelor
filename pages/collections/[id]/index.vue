@@ -1,22 +1,22 @@
 <script setup>
-  // const error = null
-  // const products = []
   const route = useRoute()
-  const categoryId = route.params.id
+  const collectionId = route.params.id
 
   const products = useProducts()
-  console.log('🦆 ~ products:', products)
-  const data = products.data.value
+  const data = products.data
 
   onMounted(() => {
-    products.categoryId = categoryId
+    products.categoryId = ''
+    products.collectionId = collectionId
   })
+
+  console.log('🦆 ~ products:', products)
 </script>
 <template>
   <div class="page">
     <BreadcrumbBreadcrumb />
     <div class="grid">
-      <div v-for="n in data" :key="n.id" class="product">
+      <div v-for="n in data" :key="n.node.id" class="product">
         <NewCardProduct :product="n" />
       </div>
     </div>
@@ -28,8 +28,8 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1rem;
-    max-width: calc(6 * 300px + 5 * 1rem); /* 6 items + 5 gaps */
-    margin: 0 auto; /* center the grid */
+    max-width: calc(6 * 300px + 5 * 1rem);
+    margin: 0 auto;
   }
 
   .page {

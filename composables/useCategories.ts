@@ -6,9 +6,8 @@ export const useCategories = () => {
   const categoryHeader = ref<string>('')
 
   const selectedCategory = ref<string | null>(null)
-  console.log('🦆 ~ useCategories ~ selectedCategory:', selectedCategory)
+
   const { data, error } = useAsyncQuery(GET_CATEGORIES)
-  console.log('🦆 ~ useCategories ~ data, error:', data, error)
 
   const categoryVariables = computed(() => ({
     id: selectedCategory.value
@@ -25,10 +24,6 @@ export const useCategories = () => {
 
   watchEffect(() => {
     if (dataCategory.value) {
-      console.log(
-        '🦆 ~ watchEffect ~ dataCategory:',
-        dataCategory.value.category.children.edges
-      )
       categoryHeader.value = dataCategory.value.category.name
       categories.value = dataCategory.value.category.children.edges
     } else if (data.value?.categories?.edges) {
@@ -60,5 +55,5 @@ export const useCategories = () => {
     }
   })
 
-  return { categories, selectedCategory, categoryHeader }
+  return { categories, selectedCategory, categoryHeader, refetch }
 }

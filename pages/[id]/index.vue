@@ -1,10 +1,12 @@
 <script setup>
+  import AccordionsCollections from '../../components/AccordionsCollections.vue'
   import { GET_PRODUCT } from '../../gql/queries/GetProduct.ts'
   import { CREATE_CHECKOUT } from '../../gql/mutations/CreateCheckout.ts'
   import { ADD_ITEM_TO_CHECKOUT } from '../../gql/mutations/AddItemToCheckout.ts'
   definePageMeta({
     layout: 'default'
   })
+
   const { mutate: addItemToCheckout } = useMutation(ADD_ITEM_TO_CHECKOUT)
   const { mutate } = useMutation(CREATE_CHECKOUT)
 
@@ -92,8 +94,9 @@
 
 <template>
   <div class="page">
-    <!-- <Breadcrumb :home="home" :model="items" /> -->
     <div class="container_product_display">
+      <AccordionsCategories />
+      <AccordionsCollections />
       <div class="container_product_image">
         <Galleria
           :value="product?.media"
@@ -178,6 +181,7 @@
         </div>
       </div>
     </div>
+
     <div class="container-product-informations">
       <div class="container-product-informations-title">
         <p class="title">Product Information</p>
@@ -194,6 +198,7 @@
         </div>
       </div>
     </div>
+
     <DialogWarrantyInformation v-model:visible="visible" />
   </div>
 </template>
@@ -238,6 +243,7 @@
   }
   .container_product_display {
     display: flex;
+    gap: 1rem;
     width: 100%;
   }
 

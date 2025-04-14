@@ -3,27 +3,32 @@
   defineProps({
     product: Object
   })
+  const router = useRouter()
   const quantity = ref(1)
 </script>
 
 <template>
-  <div class="container">
+  <div v-if="!product.node">666</div>
+  <div v-else class="container">
     <img
-      v-if="product.node.media[0]?.url"
-      :src="product.node.media[0]?.url"
+      v-if="product?.node.media?.[0]?.url"
+      :src="product?.node.media?.[0]?.url"
       :alt="product?.title"
+      @click="router.push(`/${product?.node.id}`)"
     />
     <img v-else :src="noImage" :alt="product?.title" />
     <div class="product-text">
-      <h4 class="title">{{ product?.node?.name }}</h4>
+      <h4 class="title" @click="router.push(`/${product?.node.id}`)">
+        {{ product?.node?.name }}
+      </h4>
       <RichTextRenderer
         v-if="product?.node?.description"
-        :content="JSON.parse(product.node.description)"
+        :content="JSON.parse(product?.node?.description)"
         :font-size="'.75rem'"
       />
       <div class="bottom-part">
         <p class="price">
-          ${{ product?.node.pricing.priceRange.start.gross.amount }}
+          ${{ product?.node?.pricing?.priceRange?.start?.gross?.amount }}
         </p>
         <div
           style="flex: 1; display: flex; flex-direction: column; gap: 0.5rem"

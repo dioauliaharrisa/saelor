@@ -3,10 +3,15 @@ import { GET_PRODUCTS } from '../gql/queries/GetProducts'
 export const useProducts = () => {
   const products = ref([])
   const categoryId = ref<string>('')
+  const collectionId = ref<string>('')
+
   const qVariables = computed(() => {
     const base: any = { first: 20 }
     if (categoryId.value) {
       base.filter = { categories: [categoryId.value] }
+    }
+    if (collectionId.value) {
+      base.filter = { collections: [collectionId.value] }
     }
     return base
   })
@@ -32,5 +37,5 @@ export const useProducts = () => {
     }
   })
 
-  return { data: products, categoryId }
+  return { data: products, categoryId, collectionId }
 }

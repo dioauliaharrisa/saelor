@@ -4,10 +4,11 @@ export const GET_COLLECTIONS = gql`
       edges {
         cursor
         node {
+          id
+          name
           backgroundImage {
             url
           }
-          name
         }
       }
     }
