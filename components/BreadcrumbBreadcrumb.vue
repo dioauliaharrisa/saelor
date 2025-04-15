@@ -3,6 +3,10 @@
   const router = useRouter()
 
   const splittedRoute = route.path.split('/')
+
+  const useStore = useCartStore()
+  const breadcrumb = useStore.breadcrumb
+
   const isRouteEnd = (index: number) => {
     return index !== splittedRoute.length - 1 ? true : false
   }
@@ -16,7 +20,12 @@
         <p class="separator">/</p>
       </div>
       <div style="display: flex; align-items: center" v-else>
-        <p class="route">{{ eachRoute }}</p>
+        <div>
+          <p class="route" v-if="eachRoute === 'collections'">
+            {{ eachRoute }}
+          </p>
+          <p v-else class="route">{{ breadcrumb }}</p>
+        </div>
         <p v-if="isRouteEnd(index)" class="separator">/</p>
       </div>
     </div>

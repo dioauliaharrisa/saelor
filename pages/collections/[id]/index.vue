@@ -3,20 +3,27 @@
   const collectionId = route.params.id
 
   const products = useProducts()
-  const data = products.data
+  const data = computed(
+    () => products?.dataByCollectionIds?.value?.products?.edges || []
+  )
 
   onMounted(() => {
-    products.categoryId.value = ''
     products.collectionId.value = collectionId
-    products.refetch()
+    // products.refetch({ first: 20, collections: collectionId })
   })
 </script>
 <template>
   <div class="page">
     <BreadcrumbBreadcrumb />
-    <div class="grid">
-      <div v-for="n in data" :key="n.node.id" class="product">
-        <NewCardProduct :product="n" />
+    <div style="display: flex; gap: 1rem">
+      <div>
+        <AccordionsCategories />
+        <AccordionsCollections />
+      </div>
+      <div class="grid">
+        <div v-for="n in data" :key="n.node?.id" class="product">
+          <NewCardProduct :product="n" />
+        </div>
       </div>
     </div>
   </div>

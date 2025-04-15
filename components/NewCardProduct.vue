@@ -5,6 +5,8 @@
   })
   const router = useRouter()
   const quantity = ref(1)
+
+  const { handleAddToCart } = useCart()
 </script>
 
 <template>
@@ -55,7 +57,15 @@
               </template>
             </InputNumber>
           </div>
-          <button class="button-add-to-cart" @click="handleClick">
+          <button
+            class="button-add-to-cart"
+            @click="
+              handleAddToCart({
+                productVariantId: product.node.variants?.[0]?.id,
+                quantity
+              })
+            "
+          >
             Add to cart
           </button>
         </div>

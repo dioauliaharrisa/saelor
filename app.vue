@@ -2,7 +2,10 @@
   <div>
     <NuxtRouteAnnouncer />
     <NuxtLayout>
-      <NuxtPage />
+      <!-- tackling layout mismatch bug -->
+      <div>
+        <NuxtPage />
+      </div>
       <Toast />
     </NuxtLayout>
   </div>

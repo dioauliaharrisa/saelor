@@ -1,31 +1,29 @@
 <script setup>
+  import imageNoItems from '/x.png'
   import { useCartStore } from '../../stores/cart.js'
-  import { GET_CHECKOUT } from '../../gql/queries/GetCheckout'
+
+  const { handleDeleteCheckoutItem, checkoutItems } = useCart()
 
   const cartStore = useCartStore()
 
+  const data = computed(() => checkoutItems.value?.lines || [])
+  const totalPrice = computed(() => checkoutItems.value?.totalPrice || null)
+  console.log('🦆 ~ data:', data)
+
   const router = useRouter()
 
-  const checkoutId = computed(() => cartStore.checkoutId)
-  const { data } = useAsyncQuery(GET_CHECKOUT, {
-    checkoutId
-  })
-
-  const products = ref([])
-  console.log('🦆 ~ products:', products)
-  const totalPrice = ref(0)
   const isDialogOpen = ref(false)
 
-  watch(
-    data,
-    (newData) => {
-      if (newData?.checkout) {
-        products.value = newData.checkout.lines || []
-        totalPrice.value = newData.checkout.totalPrice?.gross?.amount || 0
-      }
-    },
-    { immediate: true, deep: true }
-  )
+  // watch(
+  //   data,
+  //   (newData) => {
+  //     if (newData?.checkout) {
+  //       products.value = newData.checkout.lines || []
+  //       totalPrice.value = newData.checkout.totalPrice?.gross?.amount || 0
+  //     }
+  //   },
+  //   { immediate: true, deep: true }
+  // )
 
   const handleCheckoutViaPurchaseOrder = async () => {
     cartStore.resetCart()
@@ -43,20 +41,24 @@
     <div class="container_content">
       <div class="text-indicator-cart-items">
         <p class="title">Items in cart</p>
-        <p class="title">{{ products?.length }} items</p>
+        <p class="title">{{ data?.length }} items</p>
       </div>
-      <div v-if="products.length > 0">
-        <Card
-          v-for="(product, index) in products"
-          :key="index"
-          class="cart-item"
-        >
+      <div v-if="data?.length === 0" class="container_no_items_cart">
+        <img :src="imageNoItems" :alt="'No items'" />
+      </div>
+      <div class="container" v-else>
+        <Card v-for="(product, index) in data" :key="index" class="cart-item">
           <template #content>
-            <!-- <pre>{{ product }}</pre> -->
             <h6>Item is {{}}</h6>
             <Divider />
             <div class="card-content">
-              <div class="part-1">
+              <div class="part_1">
+                <Icon
+                  name="material-symbols:delete"
+                  style="font-size: 35px"
+                  @click="handleDeleteCheckoutItem([product.id])"
+                />
+
                 <img
                   :src="
                     product.variant.media?.[0]?.url ||
@@ -99,51 +101,9 @@
             </div>
           </template>
         </Card>
-        <!-- <DataTable :value="products">
-          <Column field="code" header="Quantity">
-            <template #body="slotProps">
-              <Icon
-                name="material-symbols:android-emergency-location-service"
-                style="color: black; font-size: 15px; cursor: pointer"
-              />
-              {{
-                slotProps.data.variant.pricing?.price?.gross?.amount.value ||
-                '1'
-              }}
-            </template>
-          </Column>
-          <Column header="Image">
-            <template #body="slotProps">
-              <img
-                :src="
-                  slotProps.data.variant.media?.[0]?.url ||
-                  slotProps.data.variant.product.media?.[0]?.url
-                "
-                alt="Product Image"
-                style="width: 50px; height: 50px; object-fit: cover"
-              />
-            </template>
-          </Column>
-          <Column header="Product Description">
-            <template #body="slotProps">
-              <RichTextRenderer
-                v-if="slotProps.data.variant.product.description"
-                :content="slotProps.data.variant.product.description"
-                :font-size="'.75rem'"
-              />
-            </template>
-          </Column>
-          <Column header="Total Price">
-            <template #body="slotProps">
-              ${{
-                slotProps.data.variant.pricing?.price?.gross?.amount || '0.00'
-              }}
-            </template>
-          </Column>
-        </DataTable> -->
       </div>
       <div id="container-checkout-total-price">
-        <p class="title">Total Price: $ {{ totalPrice }}</p>
+        <p class="title">Total Price: $ {{ totalPrice?.gross.amount }}</p>
         <Button
           id="button-proceed-to-checkout"
           label="Proceed to checkout via Purchase Order"
@@ -170,9 +130,10 @@
   .card-content {
     display: flex;
   }
-  .part-1 {
+  .part_1 {
     flex: 1;
-    /* background-color: #f0f0f0; */
+    display: flex;
+    align-items: center;
   }
 
   .part-2 {
@@ -190,6 +151,10 @@
   }
   .p-card-content {
     background-color: red;
+  }
+  .container-content {
+    display: flex;
+    align-items: center;
   }
   #container-checkout-total-price {
     display: flex;
@@ -221,5 +186,9 @@
   .text-indicator-cart-items {
     display: flex;
     gap: 1rem;
+  }
+  .container_no_items_cart {
+    display: flex;
+    justify-content: center;
   }
 </style>

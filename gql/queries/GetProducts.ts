@@ -6,6 +6,9 @@ export const GET_PRODUCTS = gql`
           id
           name
           description
+          variants {
+            id
+          }
           pricing {
             priceRange {
               start {

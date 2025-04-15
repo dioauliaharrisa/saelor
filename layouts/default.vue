@@ -19,6 +19,7 @@
     min-height: 60px;
     box-sizing: border-box;
   }
+
   .floating-button {
     position: fixed; /* Ensures the button stays in the same position on the screen */
     bottom: 20px; /* Distance from the bottom of the screen */

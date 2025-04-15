@@ -1,7 +1,13 @@
-<script setup>
+<script setup lang="ts">
   import { useProducts } from '../composables/useProducts'
+
+  const pagination = usePaginations()
   const products = useProducts()
   const data = products.data
+
+  const onPageChange = (e: any) => {
+    pagination.updateFromPaginator(e)
+  }
 </script>
 
 <template>
@@ -11,19 +17,36 @@
         <AccordionsCategories />
         <AccordionsCollections />
       </div>
-      <div v-if="!error && data.length" class="grid">
-        <NewCardProduct
-          v-for="product in data"
-          :key="product.id"
-          :product="product"
-        />
-      </div>
-      <div v-if="!error && !data.length" class="grid">
-        <Card v-for="n in 16" :key="n" class="product">
-          <template #content>
-            <Skeleton width="138px" height="100px"></Skeleton>
+      <div>
+        <div v-if="!error && data.length" class="grid">
+          <NewCardProduct
+            v-for="product in data"
+            :key="product.id"
+            :product="product"
+          />
+        </div>
+        <Paginator
+          :rows="pagination.perPage"
+          :total-records="120"
+          :rows-per-page-options="[8, 16, 32]"
+          @page="onPageChange"
+        >
+          <template #start="slotProps">
+            Page: {{ slotProps.state.page }} First:
+            {{ slotProps.state.first }} Rows: {{ slotProps.state.rows }}
           </template>
-        </Card>
+          <template #end />
+        </Paginator>
+      </div>
+
+      <div v-if="!error && !data.length" class="grid">
+        <div>
+          <Card v-for="n in 16" :key="n" class="product">
+            <template #content>
+              <Skeleton width="138px" height="100px"></Skeleton>
+            </template>
+          </Card>
+        </div>
       </div>
     </div>
   </div>

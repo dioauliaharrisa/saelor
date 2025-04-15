@@ -3,7 +3,13 @@
   const collections = useCollections()
 
   const data = collections.data
-  console.log('🦆 ~ data:', data)
+
+  const useStore = useCartStore()
+
+  const handleClick = (collection) => {
+    useStore.breadcrumb = collection.node.name
+    router.push(`/collections/${collection.node.id}`)
+  }
 </script>
 
 <template>
@@ -15,7 +21,7 @@
         v-for="collection in data"
         :key="collection.node.id"
         class="accordion_content"
-        @click="router.push(`/collections/${collection.node.id}`)"
+        @click="handleClick(collection)"
       >
         <p style="font-size: small">{{ collection?.node?.name }}</p>
       </AccordionContent>
@@ -38,7 +44,7 @@
     display: flex;
     align-items: center;
     height: 3rem;
-    /* justify-content: center; */
+    cursor: pointer;
   }
   :deep(.p-accordioncontent-content) {
     padding: 0 1rem;

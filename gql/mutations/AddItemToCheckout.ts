@@ -1,8 +1,12 @@
 export const ADD_ITEM_TO_CHECKOUT = gql`
-  mutation AddItemToCheckout($checkoutId: ID!, $variantId: ID!) {
+  mutation AddItemToCheckout(
+    $checkoutId: ID!
+    $variantId: ID!
+    $quantity: Int!
+  ) {
     checkoutLinesAdd(
       id: $checkoutId
-      lines: [{ quantity: 1, variantId: $variantId }]
+      lines: [{ quantity: $quantity, variantId: $variantId }]
     ) {
       checkout {
         lines {
