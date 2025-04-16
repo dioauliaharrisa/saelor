@@ -13,17 +13,6 @@
 
   const isDialogOpen = ref(false)
 
-  // watch(
-  //   data,
-  //   (newData) => {
-  //     if (newData?.checkout) {
-  //       products.value = newData.checkout.lines || []
-  //       totalPrice.value = newData.checkout.totalPrice?.gross?.amount || 0
-  //     }
-  //   },
-  //   { immediate: true, deep: true }
-  // )
-
   const handleCheckoutViaPurchaseOrder = async () => {
     cartStore.resetCart()
     return

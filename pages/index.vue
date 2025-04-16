@@ -62,7 +62,7 @@
     border: solid 1px var(--primary-color);
     border-radius: 8px;
     box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
     color: #ffffff;
     font-size: 16px;
     font-weight: 700;

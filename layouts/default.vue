@@ -2,9 +2,9 @@
 
 <template>
   <div class="container">
-    <PanelHeader></PanelHeader>
+    <PanelHeader />
     <slot />
-    <PanelFooter></PanelFooter>
+    <PanelFooter />
     <button class="floating-button" @click="handleClick">+</button>
   </div>
 </template>
@@ -17,7 +17,7 @@
     align-items: center;
     justify-content: space-between;
     min-height: 60px;
-    box-sizing: border-box;
+    width: 100vw;
   }
 
   .floating-button {

@@ -22,7 +22,7 @@
       </div>
       <div class="grid">
         <div v-for="n in data" :key="n.node?.id" class="product">
-          <NewCardProduct :product="n" />
+          <CardProduct :product="n" />
         </div>
       </div>
     </div>

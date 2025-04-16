@@ -3,6 +3,7 @@
   const collections = useCollections()
 
   const data = collections.data
+  console.log('🦆 ~ data:', data)
 
   const useStore = useCartStore()
 
@@ -40,7 +41,7 @@
 
   .accordion_content {
     padding: 0;
-    border: solid 1px lightgray;
+    border-bottom: 1px solid lightgray;
     display: flex;
     align-items: center;
     height: 3rem;
