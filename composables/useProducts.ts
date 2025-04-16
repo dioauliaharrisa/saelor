@@ -7,16 +7,33 @@ export const useProducts = (pagination) => {
   const categoryId = ref<string>('')
   const collectionId = ref<string>('')
 
-  const variables = computed(() => ({
-    first: pagination.perPage.value
-    // after: pagination.cursor.value
-  }))
+  const variables = computed(() => {
+    const result = pagination.isForward.value
+      ? {
+          first: pagination.perPage.value,
+          after: pagination.cursor.value
+        }
+      : {
+          last: pagination.perPage.value,
+          before: pagination.cursor.value
+        }
+
+    console.log('Variables computed:', {
+      isForward: pagination.isForward.value,
+      cursor: pagination.cursor.value,
+      result
+    })
+
+    return result
+  })
 
   const {
     result: dataProducts,
     error,
     refetch
-  } = useQuery(GET_PRODUCTS, variables)
+  } = useQuery(GET_PRODUCTS, variables, {
+    fetchPolicy: 'network-only' // Try adding this to force refetch
+  })
 
   const {
     result: dataProductsByCollectionIds,
@@ -33,7 +50,8 @@ export const useProducts = (pagination) => {
   )
 
   watchEffect(() => {
-    // console.log('🦆 ~ variables ~ variables:', variables.value)
+    console.log('Current variables:', variables.value)
+    console.log('Query result variables:', dataProducts.value)
     if (dataProductsByCollectionIds?.value?.products?.edges) {
       productsByCollectionIds.value =
         dataProductsByCollectionIds.value.products.edges
@@ -41,11 +59,15 @@ export const useProducts = (pagination) => {
     if (dataProducts?.value?.products?.edges) {
       const edges = dataProducts.value.products.edges
       products.value = edges
-      // Set new cursor (endCursor of current page)
-      // const pageInfo = dataProducts.value.products.pageInfo
-      // const endCursor = pageInfo.endCursor
-      // pagination.setCursor(endCursor) // Update cursor
-      // pagination.hasNextPage.value = pageInfo.hasNextPage
+
+      const pageInfo = dataProducts.value.products.pageInfo
+      console.log('🦆 ~ watchEffect ~ pageInfo:', pageInfo)
+      const totalCount = dataProducts.value.products?.totalCount
+      pagination.cursorNextPage.value = pageInfo.endCursor
+      pagination.cursorPrevPage.value = pageInfo.startCursor
+      pagination.hasNextPage.value = pageInfo.hasNextPage
+      pagination.hasPreviousPage.value = pageInfo.hasPreviousPage
+      pagination.totalCount.value = totalCount
     }
     if (error.value) {
       console.log('🦆 ~ watchEffect ~ error:', error)

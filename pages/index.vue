@@ -27,7 +27,7 @@
         </div>
         <Paginator
           :rows="pagination.perPage"
-          :total-records="120"
+          :total-records="pagination.totalCount.value"
           :rows-per-page-options="[8, 16, 32]"
           @page="onPageChange"
           template="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink RowsPerPageDropdown"

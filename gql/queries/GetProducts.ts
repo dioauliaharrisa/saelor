@@ -39,6 +39,7 @@ export const GET_PRODUCTS = gql`
         hasNextPage
         hasPreviousPage
       }
+      totalCount
     }
   }
 `
