@@ -2,7 +2,7 @@
   import { useProducts } from '../composables/useProducts'
 
   const pagination = usePaginations()
-  const products = useProducts()
+  const products = useProducts(pagination)
   const data = products.data
 
   const onPageChange = (e: any) => {
@@ -17,8 +17,8 @@
         <AccordionsCategories />
         <AccordionsCollections />
       </div>
-      <div>
-        <div v-if="!error && data.length" class="grid">
+      <div v-if="data.length">
+        <div class="grid">
           <NewCardProduct
             v-for="product in data"
             :key="product.id"
@@ -30,16 +30,12 @@
           :total-records="120"
           :rows-per-page-options="[8, 16, 32]"
           @page="onPageChange"
-        >
-          <template #start="slotProps">
-            Page: {{ slotProps.state.page }} First:
-            {{ slotProps.state.first }} Rows: {{ slotProps.state.rows }}
-          </template>
-          <template #end />
-        </Paginator>
+          template="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink RowsPerPageDropdown"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
+        />
       </div>
 
-      <div v-if="!error && !data.length" class="grid">
+      <div v-if="!data.length" class="grid">
         <div>
           <Card v-for="n in 16" :key="n" class="product">
             <template #content>

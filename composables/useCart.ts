@@ -120,7 +120,6 @@ export default function useCheckout() {
   watch(
     () => checkoutId.value,
     async (newId) => {
-      console.log('🦆 ~ newId:', newId)
       if (newId) {
         await refetch()
       }

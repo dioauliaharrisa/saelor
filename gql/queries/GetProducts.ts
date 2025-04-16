@@ -1,6 +1,11 @@
 export const GET_PRODUCTS = gql`
-  query GetProducts($first: Int, $filter: ProductFilterInput) {
-    products(channel: "default-channel", first: $first, filter: $filter) {
+  query GetProducts($first: Int, $after: String, $filter: ProductFilterInput) {
+    products(
+      channel: "default-channel"
+      first: $first
+      after: $after
+      filter: $filter
+    ) {
       edges {
         node {
           id
@@ -31,6 +36,8 @@ export const GET_PRODUCTS = gql`
       pageInfo {
         startCursor
         endCursor
+        hasNextPage
+        hasPreviousPage
       }
     }
   }

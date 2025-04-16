@@ -1,32 +1,39 @@
-export function usePaginations(
-  initialPage: number = 1,
-  initialPerPage: number = 8
-) {
-  const page = ref<number>(initialPage)
-  const perPage = ref<number>(initialPerPage)
+export const usePaginations = () => {
+  const perPage = ref<number>(8)
   const totalItems = ref<number>(0)
 
-  const totalPages = computed<number>(() =>
-    Math.ceil(totalItems.value / perPage.value)
-  )
+  const cursors = ref<string[]>([]) // History of cursors
+  const cursor = ref<string | null>(null)
+  const hasNextPage = ref<boolean>(false)
+  const hasPreviousPage = computed(() => cursors.value.length > 1)
 
-  const goToPage = (newPage: number): void => {
-    if (newPage >= 1 && newPage <= totalPages.value) {
-      page.value = newPage
+  // Set the current cursor and store the history
+  const setCursor = (value: string | null): void => {
+    if (value && value !== cursor.value) {
+      cursors.value.push(value)
+      cursor.value = value
     }
   }
 
-  const updateFromPaginator = (event: { page: number; rows: number }) => {
-    page.value = event.page + 1 // PrimeVue page is 0-based
-    perPage.value = event.rows
+  // Go to the next page using the new cursor
+  const nextPage = (newCursor: string | null): void => {
+    if (hasNextPage.value && newCursor) {
+      // setCursor(newCursor) // Update the cursor for the next page
+    }
   }
 
-  const nextPage = (): void => {
-    if (page.value < totalPages.value) page.value++
-  }
-
+  // Go to the previous page by removing the last cursor and updating the current one
   const prevPage = (): void => {
-    if (page.value > 1) page.value--
+    if (hasPreviousPage.value) {
+      // cursors.value.pop() // Remove the current cursor
+      // cursor.value = cursors.value[cursors.value.length - 1] || null
+    }
+  }
+
+  // Reset pagination (clear cursor history)
+  const resetPagination = (): void => {
+    cursors.value = []
+    cursor.value = null
   }
 
   const setTotalItems = (count: number): void => {
@@ -34,14 +41,15 @@ export function usePaginations(
   }
 
   return {
-    page,
     perPage,
     totalItems,
-    totalPages,
-    goToPage,
+    setTotalItems,
+    cursor,
+    setCursor,
+    hasNextPage,
+    hasPreviousPage,
     nextPage,
     prevPage,
-    setTotalItems,
-    updateFromPaginator
+    resetPagination
   }
 }
