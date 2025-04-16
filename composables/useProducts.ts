@@ -1,39 +1,50 @@
 import { GET_PRODUCTS } from '../gql/queries/GetProducts'
 import { GET_PRODUCTS_BY_COLLECTION_IDS } from '../gql/queries/GetProductsByCollectionIds'
 
-export const useProducts = (pagination) => {
+export const useProducts = () => {
   const products = ref([])
   const productsByCollectionIds = ref([])
   const categoryId = ref<string>('')
   const collectionId = ref<string>('')
 
-  const variables = computed(() => {
-    const result = pagination.isForward.value
-      ? {
-          first: pagination.perPage.value,
-          after: pagination.cursor.value
-        }
-      : {
-          last: pagination.perPage.value,
-          before: pagination.cursor.value
-        }
-
-    console.log('Variables computed:', {
-      isForward: pagination.isForward.value,
-      cursor: pagination.cursor.value,
-      result
-    })
-
-    return result
-  })
-
   const {
     result: dataProducts,
     error,
-    refetch
-  } = useQuery(GET_PRODUCTS, variables, {
-    fetchPolicy: 'network-only' // Try adding this to force refetch
-  })
+    refetch,
+    fetchMore
+  } = useQuery(
+    GET_PRODUCTS,
+    { first: 8 },
+    {
+      fetchPolicy: 'network-only' // Try adding this to force refetch
+    }
+  )
+
+  const fetchMoreProducts = async () => {
+    const pageInfo = dataProducts.value?.products?.pageInfo
+    if (pageInfo?.hasNextPage) {
+      await fetchMore({
+        variables: {
+          after: pageInfo.endCursor,
+          first: 8
+        },
+        updateQuery: (previousResult, { fetchMoreResult }) => {
+          if (!fetchMoreResult) return previousResult
+
+          return {
+            products: {
+              ...fetchMoreResult.products,
+              edges: [
+                ...previousResult.products.edges,
+                ...fetchMoreResult.products.edges
+              ],
+              pageInfo: fetchMoreResult.products.pageInfo
+            }
+          }
+        }
+      })
+    }
+  }
 
   const {
     result: dataProductsByCollectionIds,
@@ -50,7 +61,6 @@ export const useProducts = (pagination) => {
   )
 
   watchEffect(() => {
-    console.log('Current variables:', variables.value)
     console.log('Query result variables:', dataProducts.value)
     if (dataProductsByCollectionIds?.value?.products?.edges) {
       productsByCollectionIds.value =
@@ -62,12 +72,12 @@ export const useProducts = (pagination) => {
 
       const pageInfo = dataProducts.value.products.pageInfo
       console.log('🦆 ~ watchEffect ~ pageInfo:', pageInfo)
-      const totalCount = dataProducts.value.products?.totalCount
-      pagination.cursorNextPage.value = pageInfo.endCursor
-      pagination.cursorPrevPage.value = pageInfo.startCursor
-      pagination.hasNextPage.value = pageInfo.hasNextPage
-      pagination.hasPreviousPage.value = pageInfo.hasPreviousPage
-      pagination.totalCount.value = totalCount
+      // const totalCount = dataProducts.value.products?.totalCount
+      // pagination.cursorNextPage.value = pageInfo.endCursor
+      // pagination.cursorPrevPage.value = pageInfo.startCursor
+      // pagination.hasNextPage.value = pageInfo.hasNextPage
+      // pagination.hasPreviousPage.value = pageInfo.hasPreviousPage
+      // pagination.totalCount.value = totalCount
     }
     if (error.value) {
       console.log('🦆 ~ watchEffect ~ error:', error)
@@ -89,7 +99,7 @@ export const useProducts = (pagination) => {
     data: products,
     categoryId,
     collectionId,
-    refetch,
+    fetchMore: fetchMoreProducts,
     resetFilters,
     dataByCollectionIds: dataProductsByCollectionIds
   }

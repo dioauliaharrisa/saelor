@@ -1,13 +1,8 @@
 <script setup lang="ts">
   import { useProducts } from '../composables/useProducts'
 
-  const pagination = usePaginations()
-  const products = useProducts(pagination)
+  const products = useProducts()
   const data = products.data
-
-  const onPageChange = (e: any) => {
-    pagination.updateFromPaginator(e)
-  }
 </script>
 
 <template>
@@ -25,24 +20,15 @@
             :product="product"
           />
         </div>
-        <Paginator
-          :rows="pagination.perPage"
-          :total-records="pagination.totalCount.value"
-          :rows-per-page-options="[8, 16, 32]"
-          @page="onPageChange"
-          template="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink RowsPerPageDropdown"
-          currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
-        />
+        <button @click="products.fetchMore()">LOAD MORE</button>
       </div>
 
       <div v-if="!data.length" class="grid">
-        <div>
-          <Card v-for="n in 16" :key="n" class="product">
-            <template #content>
-              <Skeleton width="138px" height="100px"></Skeleton>
-            </template>
-          </Card>
-        </div>
+        <Card v-for="n in 16" :key="n" class="product">
+          <template #content>
+            <Skeleton width="138px" height="100px"></Skeleton>
+          </template>
+        </Card>
       </div>
     </div>
   </div>
