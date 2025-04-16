@@ -11,6 +11,7 @@ export default function useCheckout() {
   const checkoutItems = ref([])
 
   const checkoutId = computed(() => cartStore.checkoutId?.toString())
+  console.log('🦆 ~ useCheckout ~ checkoutId:', checkoutId)
 
   const { mutate: addItemToCheckout } = useMutation(ADD_ITEM_TO_CHECKOUT)
   const { mutate: createCheckout } = useMutation(CREATE_CHECKOUT)
@@ -18,16 +19,23 @@ export default function useCheckout() {
 
   const { result, error, refetch } = useQuery(
     GET_CHECKOUT,
-    () => ({
-      checkoutId: checkoutId.value
-    }),
-    // {
-    //   enabled: computed() => !!checkoutId.value
-    // }
+    () => {
+      return { checkoutId: checkoutId.value }
+    },
     {
-      enabled: () => !!checkoutId.value
+      fetchPolicy: 'network-only',
+      enabled: !!checkoutId.value
     }
   )
+
+  // watch(checkoutId, (newVal) => {
+  //   console.log('CheckoutId changed:', newVal)
+  //   if (!!checkoutId.value) {
+  //     isEnabledGetCheckout.value = true
+  //   } else {
+  //     isEnabledGetCheckout.value = false
+  //   }
+  // })
 
   const handleAddToCart = async ({
     productVariantId,
@@ -95,7 +103,9 @@ export default function useCheckout() {
       } catch (error) {
         showFieldErrors(Array.isArray(error) ? error : [error])
       } finally {
-        await refetch()
+        if (cartStore.checkoutId) {
+          await refetch()
+        }
       }
     }
   }
@@ -109,7 +119,6 @@ export default function useCheckout() {
       const errors = data.checkoutLinesDelete.errors
       if (errors.length) throw errors
       showSuccessToast(`Item successfully deleted in the cart`)
-      await refetch({ fetchPolicy: 'network-only' })
       const refetchResult = await refetch({ fetchPolicy: 'network-only' })
       checkoutItems.value = refetchResult?.data.checkout.lines
     } catch (error) {
@@ -117,15 +126,15 @@ export default function useCheckout() {
     }
   }
 
-  watch(
-    () => checkoutId.value,
-    async (newId) => {
-      if (newId) {
-        await refetch()
-      }
-    },
-    { immediate: true }
-  )
+  // watch(
+  //   () => checkoutId.value,
+  //   async (newId) => {
+  //     if (newId) {
+  //       await refetch()
+  //     }
+  //   },
+  //   { immediate: true }
+  // )
 
   watchEffect(() => {
     if (result.value?.checkout.lines) {
