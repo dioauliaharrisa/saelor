@@ -5,10 +5,11 @@
   const categoryId = route.params.id
 
   const products = useProducts()
-  const data = products.data.value
+  const data = products.data
 
   onMounted(() => {
-    products.categoryId = categoryId
+    // products.categoryId = categoryId
+    products.refetchProducts({ first: 8, filter: { categories: [categoryId] } })
   })
 </script>
 <template>
@@ -16,7 +17,7 @@
     <BreadcrumbBreadcrumb />
     <div class="grid">
       <div v-for="n in data" :key="n.id" class="product">
-        <NewCardProduct :product="n" />
+        <CardProduct :product="n" />
       </div>
     </div>
   </div>

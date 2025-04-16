@@ -2,10 +2,14 @@
   defineProps({
     category: Object
   })
+  const router = useRouter()
 </script>
 
 <template>
-  <div class="container">
+  <div
+    class="container"
+    @click="router.push(`/category/${category.node.id}`)"
+  >
     <img :src="category?.node?.backgroundImage?.url" />
     <p>{{ category?.node?.name }}</p>
   </div>
@@ -45,6 +49,6 @@
     font-weight: 600;
     align-self: flex-end;
     text-align: end;
-    padding: .5rem;
+    padding: 0.5rem;
   }
 </style>

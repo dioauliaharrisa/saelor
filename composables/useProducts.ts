@@ -10,6 +10,7 @@ export const useProducts = () => {
   const {
     result: dataProducts,
     error,
+    refetch,
     fetchMore
   } = useQuery(
     GET_PRODUCTS,
@@ -91,6 +92,7 @@ export const useProducts = () => {
     collectionId,
     fetchMore: fetchMoreProducts,
     resetFilters,
-    dataByCollectionIds: dataProductsByCollectionIds
+    dataByCollectionIds: dataProductsByCollectionIds,
+    refetchProducts: refetch
   }
 }
