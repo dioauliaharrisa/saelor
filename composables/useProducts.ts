@@ -10,7 +10,6 @@ export const useProducts = () => {
   const {
     result: dataProducts,
     error,
-    refetch,
     fetchMore
   } = useQuery(
     GET_PRODUCTS,
@@ -72,12 +71,6 @@ export const useProducts = () => {
 
       const pageInfo = dataProducts.value.products.pageInfo
       console.log('🦆 ~ watchEffect ~ pageInfo:', pageInfo)
-      // const totalCount = dataProducts.value.products?.totalCount
-      // pagination.cursorNextPage.value = pageInfo.endCursor
-      // pagination.cursorPrevPage.value = pageInfo.startCursor
-      // pagination.hasNextPage.value = pageInfo.hasNextPage
-      // pagination.hasPreviousPage.value = pageInfo.hasPreviousPage
-      // pagination.totalCount.value = totalCount
     }
     if (error.value) {
       console.log('🦆 ~ watchEffect ~ error:', error)

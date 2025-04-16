@@ -14,13 +14,15 @@
       </div>
       <div v-if="data.length">
         <div class="grid">
-          <NewCardProduct
+          <CardProduct
             v-for="product in data"
             :key="product.id"
             :product="product"
           />
         </div>
-        <button @click="products.fetchMore()">LOAD MORE</button>
+        <button class="button_new" @click="products.fetchMore()">
+          LOAD MORE
+        </button>
       </div>
 
       <div v-if="!data.length" class="grid">
@@ -35,6 +37,28 @@
 </template>
 
 <style scoped>
+  .button_new {
+    background-color: var(--primary-color);
+    border: solid 1px var(--primary-color);
+    border-radius: 8px;
+    box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 19px 24px;
+    cursor: pointer;
+    transition: 400ms;
+  }
+  .button_new:hover {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    border: solid 1px var(--primary-color);
+  }
+
   .page-layout {
     display: grid;
     grid-template-columns: 1fr 3fr; /* 25% and 75% */
