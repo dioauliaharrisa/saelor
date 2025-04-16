@@ -5,7 +5,6 @@
   const categoryId = route.params.id
 
   const products = useProducts()
-  console.log('🦆 ~ products:', products)
   const data = products.data.value
 
   onMounted(() => {

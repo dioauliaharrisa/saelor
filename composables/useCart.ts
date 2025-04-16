@@ -133,7 +133,6 @@ export default function useCheckout() {
     }
 
     if (error.value) {
-      console.log('🦆 ~ watchEffect ~ error:', error)
       showFieldErrors(Array.isArray(error) ? error : [error])
     }
   })

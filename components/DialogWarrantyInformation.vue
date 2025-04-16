@@ -14,12 +14,10 @@
   const pages = computed(() => data?.value?.pages?.edges || [])
   const warranty = computed(() =>
     pages.value.find((page) => {
-      console.log('🦆 ~ pages.value.find ~ page:', page)
       return page?.node?.title === 'Warranty' || null
     })
   )
-  console.log('🦆 ~ warranty:', warranty, warranty?.value?.node?.content)
-  console.log('🧩 parsed content:', JSON.parse(warranty?.value?.node?.content))
+
   const parsedContent = computed(() => {
     try {
       const raw = warranty?.value?.node?.content

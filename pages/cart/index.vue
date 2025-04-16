@@ -8,7 +8,6 @@
 
   const data = computed(() => checkoutItems.value?.lines || [])
   const totalPrice = computed(() => checkoutItems.value?.totalPrice || null)
-  console.log('🦆 ~ data:', data)
 
   const router = useRouter()
 

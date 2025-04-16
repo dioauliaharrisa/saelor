@@ -8,14 +8,12 @@
   } from 'reka-ui'
   // const { categories, selectedCategory, categoryHeader } = useCategories()
   const categories = useCategories()
-  console.log('🦆 ~ categories:', categories)
-  const collections = useCollections()
+  // const collections = useCollections()
   // const handleClick = (category) => {
   //   if (!category?.node?.children?.totalCount) return
   //   categories.selectedCategory.value = category?.node?.id
   // }
   const handleBack = () => {
-    console.log('🦆 ~ handleBack ~ handleBack:', handleBack)
     categories.selectedCategory.value = null
   }
 
@@ -32,7 +30,7 @@
       defaultValue=""
     >
       <AccordionItem
-        v-for="category in categories.categories.value"
+        v-for="category in categories.data.value"
         :key="category.value"
         class="AccordionItem"
         :value="category?.node?.id"

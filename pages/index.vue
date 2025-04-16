@@ -2,6 +2,8 @@
   import { useProducts } from '../composables/useProducts'
 
   const products = useProducts()
+  const categories = useCategories()
+  const dataCategories = categories.data
   const data = products.data
 </script>
 
@@ -12,17 +14,27 @@
         <AccordionsCategories />
         <AccordionsCollections />
       </div>
-      <div v-if="data.length">
-        <div class="grid">
-          <CardProduct
-            v-for="product in data"
-            :key="product.id"
-            :product="product"
+      <div>
+        <h2>Browse equipment by industry application</h2>
+        <div class="grid_cards_collection">
+          <CardCategories
+            v-for="category in dataCategories"
+            :key="category.node.id"
+            :category="category"
           />
         </div>
-        <button class="button_new" @click="products.fetchMore()">
-          LOAD MORE
-        </button>
+        <div v-if="data.length">
+          <div class="grid">
+            <CardProduct
+              v-for="product in data"
+              :key="product.id"
+              :product="product"
+            />
+          </div>
+          <button class="button_new" @click="products.fetchMore()">
+            LOAD MORE
+          </button>
+        </div>
       </div>
 
       <div v-if="!data.length" class="grid">
@@ -37,6 +49,14 @@
 </template>
 
 <style scoped>
+  h2 {
+    padding: 1rem 0;
+  }
+  .grid_cards_collection {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
   .button_new {
     background-color: var(--primary-color);
     border: solid 1px var(--primary-color);
@@ -58,7 +78,6 @@
     color: var(--primary-color);
     border: solid 1px var(--primary-color);
   }
-
   .page-layout {
     display: grid;
     grid-template-columns: 1fr 3fr; /* 25% and 75% */
@@ -114,9 +133,6 @@
   .page {
     width: 100vw;
     padding: 0 8rem;
-  }
-  .container {
-    padding: 20px;
   }
   .header {
     display: flex;

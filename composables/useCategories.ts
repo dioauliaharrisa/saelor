@@ -55,5 +55,5 @@ export const useCategories = () => {
     }
   })
 
-  return { categories, selectedCategory, categoryHeader, refetch }
+  return { data: categories, selectedCategory, categoryHeader, refetch }
 }

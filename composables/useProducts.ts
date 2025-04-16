@@ -60,7 +60,6 @@ export const useProducts = () => {
   )
 
   watchEffect(() => {
-    console.log('Query result variables:', dataProducts.value)
     if (dataProductsByCollectionIds?.value?.products?.edges) {
       productsByCollectionIds.value =
         dataProductsByCollectionIds.value.products.edges
@@ -70,10 +69,8 @@ export const useProducts = () => {
       products.value = edges
 
       const pageInfo = dataProducts.value.products.pageInfo
-      console.log('🦆 ~ watchEffect ~ pageInfo:', pageInfo)
     }
     if (error.value) {
-      console.log('🦆 ~ watchEffect ~ error:', error)
       throw createError({
         statusCode: 500,
         statusMessage: 'Failed to fetch products',
