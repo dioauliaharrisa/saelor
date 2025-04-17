@@ -3,7 +3,7 @@
   const collectionId = route.params.id
 
   const products = useProducts()
-  const data = products.data
+  const dataProducts = products.data
 
   onMounted(() => {
     products.refetchProducts({
@@ -21,8 +21,12 @@
         <AccordionsCollections />
       </div>
       <div class="grid_cards">
-        <div v-for="n in data" :key="n.node?.id" class="product">
-          <CardProduct :product="n" />
+        <div
+          v-for="product in dataProducts"
+          :key="product.node?.id"
+          class="product"
+        >
+          <CardProduct :product="product" />
         </div>
       </div>
     </div>
