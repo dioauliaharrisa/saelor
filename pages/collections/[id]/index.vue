@@ -3,13 +3,13 @@
   const collectionId = route.params.id
 
   const products = useProducts()
-  const data = computed(
-    () => products?.dataByCollectionIds?.value?.products?.edges || []
-  )
+  const data = products.data
 
   onMounted(() => {
-    products.collectionId.value = collectionId
-    // products.refetch({ first: 20, collections: collectionId })
+    products.refetchProducts({
+      first: 8,
+      filter: { collections: [collectionId] }
+    })
   })
 </script>
 <template>
