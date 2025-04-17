@@ -15,9 +15,9 @@ export const useCategories = () => {
 
   const {
     result: dataCategory,
-    loading,
+    loading: loadingCategories,
     error: errorCategory,
-    refetch
+    refetch: refetchCategories
   } = useQuery(GET_CATEGORY, categoryVariables, {
     enabled: computed(() => !!selectedCategory.value)
   })
@@ -55,5 +55,11 @@ export const useCategories = () => {
     }
   })
 
-  return { data: categories, selectedCategory, categoryHeader, refetch }
+  return {
+    data: categories,
+    selectedCategory,
+    categoryHeader,
+    refetchCategories,
+    loadingCategories
+  }
 }

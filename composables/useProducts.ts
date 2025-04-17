@@ -13,7 +13,7 @@ export const useProducts = () => {
     refetch,
     fetchMore,
     loading
-  } = useQuery(GET_PRODUCTS, { first: 8 })
+  } = useQuery(GET_PRODUCTS, { first: 8, immediate: false })
 
   const fetchMoreProducts = async () => {
     const pageInfo = dataProducts.value?.products?.pageInfo

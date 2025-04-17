@@ -2,9 +2,18 @@
   import { useProducts } from '../composables/useProducts'
 
   const products = useProducts()
+  const loading = products.loading
+  const loadingCategories = products.loadingCategories
+
   const categories = useCategories()
   const dataCategories = categories.data
   const data = products.data
+  onMounted(async () => {
+    await products.refetchProducts({
+      first: 8,
+      immediate: false
+    })
+  })
 </script>
 
 <template>
@@ -21,29 +30,31 @@
             v-for="category in dataCategories"
             :key="category.node.id"
             :category="category"
+            :loading="loading"
+          />
+          <!-- :loading="loadingCategories" -->
+        </div>
+
+        <div class="grid">
+          <CardProduct
+            v-for="product in data"
+            :key="product.id"
+            :product="product"
+            :loading="loading"
           />
         </div>
-        <div v-if="data.length">
-          <div class="grid">
-            <CardProduct
-              v-for="product in data"
-              :key="product.id"
-              :product="product"
-            />
-          </div>
-          <button class="button_new" @click="products.fetchMore()">
-            LOAD MORE
-          </button>
-        </div>
+        <button class="button_new" @click="products.fetchMore()">
+          LOAD MORE
+        </button>
       </div>
 
-      <div v-if="!data.length" class="grid">
+      <!-- <div v-if="!data.length" class="grid">
         <Card v-for="n in 16" :key="n" class="product">
           <template #content>
             <Skeleton width="138px" height="100px"></Skeleton>
           </template>
         </Card>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

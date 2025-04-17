@@ -7,7 +7,7 @@
   const products = useProducts()
   const data = products.data
   const loading = products.loading
-  console.log('🦆 ~ loading:', loading.value)
+ 
 
   onMounted(async () => {
     await products.refetchProducts({
@@ -25,9 +25,12 @@
         <AccordionsCollections />
       </div>
       <div class="grid">
-        <div v-for="n in data" :key="n.id" class="product">
-          <CardProduct :product="n" :loading="loading" />
-        </div>
+        <CardProduct
+          v-for="n in data"
+          :key="n.id"
+          :product="n"
+          :loading="loading"
+        />
       </div>
     </div>
   </div>

@@ -1,12 +1,17 @@
 <script setup>
   defineProps({
-    category: Object
+    category: Object,
+    loading: Boolean
   })
   const router = useRouter()
 </script>
 
 <template>
+  <div v-if="loading" class="container">
+    <SkeletonCardCategory />
+  </div>
   <div
+    v-else
     class="container"
     @click="router.push(`/category/${category.node.id}`)"
   >
