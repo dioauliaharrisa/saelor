@@ -6,10 +6,14 @@
 
   const products = useProducts()
   const data = products.data
+  const loading = products.loading
+  console.log('🦆 ~ loading:', loading.value)
 
-  onMounted(() => {
-    // products.categoryId = categoryId
-    products.refetchProducts({ first: 8, filter: { categories: [categoryId] } })
+  onMounted(async () => {
+    await products.refetchProducts({
+      first: 8,
+      filter: { categories: [categoryId] }
+    })
   })
 </script>
 <template>

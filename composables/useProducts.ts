@@ -11,13 +11,14 @@ export const useProducts = () => {
     result: dataProducts,
     error,
     refetch,
-    fetchMore
+    fetchMore,
+    loading
   } = useQuery(
     GET_PRODUCTS,
-    { first: 8 },
-    {
-      fetchPolicy: 'network-only' // Try adding this to force refetch
-    }
+    { first: 8 }
+    // {
+    //   fetchPolicy: 'network-only'
+    // }
   )
 
   const fetchMoreProducts = async () => {
@@ -93,6 +94,7 @@ export const useProducts = () => {
     fetchMore: fetchMoreProducts,
     resetFilters,
     dataByCollectionIds: dataProductsByCollectionIds,
-    refetchProducts: refetch
+    refetchProducts: refetch,
+    loading: computed(() => loading.value)
   }
 }
