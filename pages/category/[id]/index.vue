@@ -15,9 +15,15 @@
 <template>
   <div class="page">
     <BreadcrumbBreadcrumb />
-    <div class="grid">
-      <div v-for="n in data" :key="n.id" class="product">
-        <CardProduct :product="n" />
+    <div style="display: flex; gap: 1rem">
+      <div>
+        <AccordionsCategories />
+        <AccordionsCollections />
+      </div>
+      <div class="grid">
+        <div v-for="n in data" :key="n.id" class="product">
+          <CardProduct :product="n" />
+        </div>
       </div>
     </div>
   </div>
