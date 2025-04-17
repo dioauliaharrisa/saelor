@@ -1,7 +1,8 @@
 <script setup>
   import noImage from '/no-image.png'
   defineProps({
-    product: Object
+    product: Object,
+    loading: Boolean
   })
   const router = useRouter()
   const quantity = ref(1)
@@ -10,7 +11,9 @@
 </script>
 
 <template>
-  <div v-if="!product.node">666</div>
+  <div v-if="loading" class="container">
+    <SkeletonCardProduct />
+  </div>
   <div v-else class="container">
     <img
       v-if="product?.node.media?.[0]?.url"
