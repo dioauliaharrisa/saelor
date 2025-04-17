@@ -20,7 +20,7 @@
         <AccordionsCategories />
         <AccordionsCollections />
       </div>
-      <div class="grid">
+      <div class="grid_cards">
         <div v-for="n in data" :key="n.node?.id" class="product">
           <CardProduct :product="n" />
         </div>
@@ -30,14 +30,6 @@
 </template>
 
 <style scoped>
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1rem;
-    max-width: calc(6 * 300px + 5 * 1rem);
-    margin: 0 auto;
-  }
-
   .page {
     width: 100vw;
     padding: 0 8rem;

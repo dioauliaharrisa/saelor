@@ -1,10 +1,10 @@
 <script setup lang="ts">
   const router = useRouter()
   const collections = useCollections()
+  const categories = useCategories()
 
   const data = collections.data
-  console.log('🦆 ~ data:', data)
-
+  const dataCategories = categories.data
   const useStore = useCartStore()
 
   const handleClick = (collection) => {
@@ -14,19 +14,15 @@
 </script>
 
 <template>
-  <!-- <pre>{{ collections }}</pre> -->
-  <Accordion value="0" class="accordion">
-    <AccordionPanel value="0">
-      <AccordionHeader>Collections</AccordionHeader>
-      <AccordionContent
-        v-for="collection in data"
-        :key="collection.node.id"
-        class="accordion_content"
-        @click="handleClick(collection)"
-      >
-        <p style="font-size: small">{{ collection?.node?.name }}</p>
-      </AccordionContent>
-    </AccordionPanel>
+  <Accordion multiple>
+    <AccordionTab header="Outer Tab 1">
+      <Accordion multiple>
+        <AccordionTab header="Inner Tab 1">Content of Inner Tab 1</AccordionTab>
+        <AccordionTab header="Inner Tab 2">Content of Inner Tab 2</AccordionTab>
+      </Accordion>
+    </AccordionTab>
+
+    <AccordionTab header="Outer Tab 2">Content of Outer Tab 2</AccordionTab>
   </Accordion>
 </template>
 
@@ -40,14 +36,25 @@
   }
 
   .accordion_content {
-    padding: 0;
+    padding-left: 1rem; /* Add padding to indent child items */
     border-bottom: 1px solid lightgray;
     display: flex;
     align-items: center;
     height: 3rem;
     cursor: pointer;
   }
+
   :deep(.p-accordioncontent-content) {
-    padding: 0 1rem;
+    padding: 0;
+  }
+
+  /* Style nested accordions */
+  :deep(.p-accordion .p-accordion) {
+    margin-left: 1rem;
+    border-left: 2px solid #e0e0e0;
+    padding-left: 0.5rem;
+  }
+  :deep(.p-accordion-header) {
+    padding: 0.5rem 1rem;
   }
 </style>

@@ -21,3 +21,11 @@ p {
   margin: 0;
   padding: 0;
 }
+
+.grid_cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  max-width: calc(6 * 300px + 5 * 1rem);
+  margin: 0 auto;
+}

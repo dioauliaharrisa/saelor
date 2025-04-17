@@ -35,7 +35,7 @@
           <!-- :loading="loadingCategories" -->
         </div>
 
-        <div class="grid">
+        <div class="grid_cards">
           <CardProduct
             v-for="product in data"
             :key="product.id"
@@ -47,14 +47,6 @@
           LOAD MORE
         </button>
       </div>
-
-      <!-- <div v-if="!data.length" class="grid">
-        <Card v-for="n in 16" :key="n" class="product">
-          <template #content>
-            <Skeleton width="138px" height="100px"></Skeleton>
-          </template>
-        </Card>
-      </div> -->
     </div>
   </div>
 </template>
@@ -97,13 +89,6 @@
   .accordion {
     grid-column: 1 / 2;
     grid-row: 1 / span 2; /* Takes 2 rows vertically */
-  }
-  .grid {
-    display: grid;
-    grid-column: 2 / 3; /* Starts at column 2 */
-    grid-template-columns: repeat(4, 1fr); /* 6 columns */
-    gap: 16px;
-    padding: 1rem 0;
   }
   .collection:hover {
     cursor: pointer;

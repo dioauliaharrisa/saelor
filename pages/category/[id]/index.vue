@@ -7,7 +7,6 @@
   const products = useProducts()
   const data = products.data
   const loading = products.loading
- 
 
   onMounted(async () => {
     await products.refetchProducts({
@@ -24,7 +23,7 @@
         <AccordionsCategories />
         <AccordionsCollections />
       </div>
-      <div class="grid">
+      <div class="grid_cards">
         <CardProduct
           v-for="n in data"
           :key="n.id"
@@ -37,14 +36,6 @@
 </template>
 
 <style scoped>
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1rem;
-    max-width: calc(6 * 300px + 5 * 1rem); /* 6 items + 5 gaps */
-    margin: 0 auto; /* center the grid */
-  }
-
   .page {
     width: 100vw;
     padding: 0 8rem;
