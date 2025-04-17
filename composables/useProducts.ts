@@ -13,13 +13,7 @@ export const useProducts = () => {
     refetch,
     fetchMore,
     loading
-  } = useQuery(
-    GET_PRODUCTS,
-    { first: 8 }
-    // {
-    //   fetchPolicy: 'network-only'
-    // }
-  )
+  } = useQuery(GET_PRODUCTS, { first: 8 })
 
   const fetchMoreProducts = async () => {
     const pageInfo = dataProducts.value?.products?.pageInfo
