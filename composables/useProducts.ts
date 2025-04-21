@@ -1,4 +1,5 @@
 import { GET_PRODUCTS } from '../gql/queries/GetProducts'
+import { GET_ATTRIBUTES } from '../gql/queries/GetAttributes'
 import { GET_PRODUCTS_BY_COLLECTION_IDS } from '../gql/queries/GetProductsByCollectionIds'
 import { GET_PRODUCT_TYPES } from '../gql/queries/GetProductTypes'
 
@@ -7,6 +8,7 @@ export const useProducts = () => {
 
   const store = useCartStore()
 
+  // This is used to prevent the infinite scroll from loading more products
   const isFullyLoaded = useState('isFullyLoaded', () => false)
 
   // soon to be deprecated
@@ -41,6 +43,12 @@ export const useProducts = () => {
     error: errorGetProductTypes,
     refetch: refetchProductTypes
   } = useQuery(GET_PRODUCT_TYPES)
+
+  const {
+    result: attributes,
+    error: errorGetAttributes,
+    refetch: refetchAttributes
+  } = useQuery(GET_ATTRIBUTES)
 
   const fetchMoreProducts = async () => {
     const pageInfo = dataProducts?.value?.products?.pageInfo
@@ -93,7 +101,6 @@ export const useProducts = () => {
   } = useQuery(
     GET_PRODUCTS_BY_COLLECTION_IDS,
     () => ({
-      // first: 24,
       filter: { collections: [collectionId.value] }
     }),
     {
@@ -103,7 +110,6 @@ export const useProducts = () => {
 
   watchEffect(async () => {
     const pageInfo = dataProducts?.value?.products?.pageInfo
-    console.log('🦆 ~ watchEffect ~ pageInfo:', pageInfo)
     isFullyLoaded.value = pageInfo?.hasNextPage === false
 
     if (dataProductsByCollectionIds?.value?.products?.edges) {
@@ -149,6 +155,7 @@ export const useProducts = () => {
     filters,
     productTypes,
     refetchProductTypes,
-    isFullyLoaded
+    isFullyLoaded,
+    attributes
   }
 }
