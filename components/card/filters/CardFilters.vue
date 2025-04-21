@@ -8,6 +8,8 @@
 
   const products = useProducts()
   const productTypes = computed(() => products.productTypes)
+  const attributes = computed(() => products.attributes)
+  console.log('🦆 ~ attributes:', attributes)
   const filters = products.filters
 
   onMounted(async () => {
@@ -21,7 +23,6 @@
   </div>
   <div v-else class="container">
     <p>Types</p>
-
     <div
       v-for="productType of productTypes.value"
       :key="productType.node.id"
@@ -35,6 +36,54 @@
       />
       <label :for="productType.node.id">{{ productType.node.name }}</label>
     </div>
+
+    <Accordion :value="[0]" multiple>
+      <AccordionPanel value="0">
+        <AccordionHeader>Attributes</AccordionHeader>
+        <AccordionContent>
+          <Accordion
+            v-for="attribute in attributes.value.attributes.edges"
+            :key="attribute.node.id"
+            :value="[0]"
+            multiple
+          >
+            <AccordionPanel value="0">
+              <AccordionHeader>{{ attribute.node.name }}</AccordionHeader>
+              <AccordionContent>
+                <!-- <pre>{{ attribute.node }}</pre> -->
+                <div
+                  v-for="choice of attribute.node.choices.edges"
+                  :key="choice.node.id"
+                  style="display: flex; padding: 1rem 0; gap: 0.5rem"
+                >
+                  <Checkbox
+                    :value="choice.node.id"
+                    :inputId="choice.node.id"
+                    :checked="
+                      filters.attributes.some(
+                        (attr) =>
+                          attr.slug === attribute.node.slug &&
+                          attr.values.includes(choice.node.slug)
+                      )
+                    "
+                    @change="
+                      products.toggleAttributeFilter(
+                        attribute.node.slug,
+                        choice.node.slug
+                      )
+                    "
+                  />
+                  <label :for="choice.node.id">
+                    {{ choice.node.name }}
+                  </label>
+                </div>
+              </AccordionContent>
+            </AccordionPanel>
+          </Accordion>
+        </AccordionContent>
+      </AccordionPanel>
+    </Accordion>
+
     <button
       class="button_new"
       @click="
@@ -57,7 +106,7 @@
     border: 1px solid #ddd;
     border-radius: 8px;
 
-    height: 300px;
+    /* height: 300px; */
     max-width: 300px;
 
     padding: 1rem;

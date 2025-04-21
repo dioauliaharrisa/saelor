@@ -4,8 +4,6 @@ import { GET_PRODUCTS_BY_COLLECTION_IDS } from '../gql/queries/GetProductsByColl
 import { GET_PRODUCT_TYPES } from '../gql/queries/GetProductTypes'
 
 export const useProducts = () => {
-  // const products = ref([])
-
   const store = useCartStore()
 
   // This is used to prevent the infinite scroll from loading more products
@@ -17,8 +15,34 @@ export const useProducts = () => {
   const filters = reactive({
     categories: [],
     collections: [],
-    productTypes: []
+    productTypes: [],
+    attributes: []
   })
+
+  const toggleAttributeFilter = (slug, value) => {
+    console.log('🦆 ~ toggleAttributeFilter ~ slug, value:', slug, value)
+    const existingFilter = filters.attributes.find((attr) => attr.slug === slug)
+    if (existingFilter) {
+      const valueIndex = existingFilter.values.indexOf(value)
+      if (valueIndex > -1) {
+        // Remove the value
+        existingFilter.values.splice(valueIndex, 1)
+        // If no values left, remove the attribute filter
+        if (existingFilter.values.length === 0) {
+          const attrIndex = filters.attributes.findIndex(
+            (attr) => attr.slug === slug
+          )
+          filters.attributes.splice(attrIndex, 1)
+        }
+      } else {
+        // Add the value
+        existingFilter.values.push(value)
+      }
+    } else {
+      // Add new attribute filter
+      filters.attributes.push({ slug, values: [value] })
+    }
+  }
 
   const productsByCollectionIds = ref([])
   const categoryId = ref<string>('')
@@ -84,7 +108,6 @@ export const useProducts = () => {
   const refetchProducts = async (variables) => {
     const result = await refetch(variables)
     const pageInfo = result?.data?.products?.pageInfo
-    console.log('🦆 ~ refetchProducts ~ pageInfo:', result, pageInfo)
 
     isFullyLoaded.value = pageInfo?.hasNextPage === false
 
@@ -145,6 +168,7 @@ export const useProducts = () => {
   }
 
   return {
+    products: dataProducts,
     categoryId,
     collectionId,
     fetchMore: fetchMoreProducts,
@@ -156,6 +180,7 @@ export const useProducts = () => {
     productTypes,
     refetchProductTypes,
     isFullyLoaded,
-    attributes
+    attributes,
+    toggleAttributeFilter
   }
 }

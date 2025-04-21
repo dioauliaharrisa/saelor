@@ -3,13 +3,11 @@
   const categoryId = route.params.id
 
   const products = useProducts()
-  // const data = computed(() => products.data)
-  // console.log('🦆 ~ data:', data)
+  // const data = computed(() => products.products?.value?.value || [])
   const store = useCartStore()
   const data = computed(() => store.products)
+  console.log('🦆 ~ data:', data)
 
-  // const isFullyLoaded = computed(() => products.isFullyLoaded.value)
-  // const isFullyLoaded = products.isFullyLoaded
   const isFullyLoaded = useState('isFullyLoaded')
 
   const loading = products.loading
