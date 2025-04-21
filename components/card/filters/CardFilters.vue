@@ -1,0 +1,56 @@
+<script setup>
+  defineProps({
+    loading: Boolean
+  })
+
+  const route = useRoute()
+  const categoryId = route.params.id
+
+  const products = useProducts()
+  const productTypes = computed(() => products.productTypes)
+  console.log('🦆 ~ productTypes:', productTypes)
+  const filters = products.filters
+
+  onMounted(async () => {
+    await products.refetchProductTypes({})
+  })
+</script>
+
+<template>
+  <div v-if="loading" class="container">
+    <SkeletonCardProduct />
+  </div>
+  <div v-else class="container">
+    <p>Types</p>
+
+    <div
+      v-for="productType of productTypes.value"
+      :key="productType.node.id"
+      style="display: flex; padding: 1rem 0; gap: 0.5rem"
+    >
+      <Checkbox
+        v-model="filters.productTypes"
+        :inputId="productType.node.id"
+        name="product-type"
+        :value="productType.node.id"
+      />
+      <label :for="productType.node.id">{{ productType.node.name }}</label>
+    </div>
+    <button class="button_new" @click="products.refetchProducts">Filter</button>
+  </div>
+</template>
+
+<style scoped>
+  .container {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+
+    height: 300px;
+    max-width: 300px;
+
+    padding: 1rem;
+  }
+</style>

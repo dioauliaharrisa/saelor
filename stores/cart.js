@@ -6,11 +6,15 @@ export const useCartStore = defineStore('cartStore', {
     cartItems: [],
     totalPrice: 0,
     user: null,
-    breadcrumb: ''
+    breadcrumb: '',
+    products: []
   }),
   actions: {
     resetUser() {
       this.user = null
+    },
+    setProducts(products) {
+      this.products = products
     },
     resetCart() {
       this.cartItems = []

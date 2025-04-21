@@ -11,7 +11,6 @@ export default function useCheckout() {
   const checkoutItems = ref([])
 
   const checkoutId = computed(() => cartStore.checkoutId?.toString())
-  console.log('🦆 ~ useCheckout ~ checkoutId:', checkoutId)
 
   const { mutate: addItemToCheckout } = useMutation(ADD_ITEM_TO_CHECKOUT)
   const { mutate: createCheckout } = useMutation(CREATE_CHECKOUT)

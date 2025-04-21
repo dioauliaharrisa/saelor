@@ -5,15 +5,31 @@
   const categoryId = route.params.id
 
   const products = useProducts()
-  const data = products.data
+  // const data = computed(() => products.data)
+  // console.log('🦆 ~ data:', data)
+  const cartStore = useCartStore()
+  const data = computed(() => cartStore.products)
+  console.log('🦆 ~ data:', data)
   const loading = products.loading
+  const filters = products.filters
 
   onMounted(async () => {
-    await products.refetchProducts({
-      first: 8,
-      filter: { categories: [categoryId] }
+    const x = await products.refetchProducts({
+      first: 24,
+      filter: {
+        ...filters,
+        categories: [categoryId]
+      }
     })
   })
+
+  watch(
+    () => data,
+    (newData) => {
+      console.log('Data has been updated:', newData)
+    },
+    { immediate: true, deep: true }
+  )
 </script>
 <template>
   <div class="page">
@@ -22,6 +38,7 @@
       <div>
         <AccordionsCategories />
         <AccordionsCollections />
+        <CardFilters :loading="loading" />
       </div>
       <div class="grid_cards">
         <CardProduct

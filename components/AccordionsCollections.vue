@@ -1,11 +1,12 @@
 <script setup lang="ts">
-  const router = useRouter()
+  // const router = useRouter()
   const collections = useCollections()
   const categories = useCategories()
 
-  const data = collections.data
-  const dataCategories = categories.data
-  const useStore = useCartStore()
+  const dataCollections = reactive(collections.data)
+  const dataCategories = reactive(categories.data)
+
+  // const useStore = useCartStore()
 
   const handleClick = (collection) => {
     useStore.breadcrumb = collection.node.name
@@ -15,14 +16,74 @@
 
 <template>
   <Accordion multiple>
-    <AccordionTab header="Outer Tab 1">
+    <template #expandicon></template>
+    <template #collapseicon></template>
+    <AccordionTab expandIcon="material-symbols:home">
+      <template #expandicon></template>
+      <template #header>
+        <div style="display: flex; justify-content: space-between; width: 100%">
+          <span>Collections</span>
+          <div
+            style="
+              width: 100%;
+              max-width: 50px;
+              display: flex;
+              justify-content: center;
+            "
+          >
+            <Icon @click.stop="handleClick"
+            name="material-symbols:home"/>
+          </div>
+        </div>
+      </template>
       <Accordion multiple>
-        <AccordionTab header="Inner Tab 1">Content of Inner Tab 1</AccordionTab>
-        <AccordionTab header="Inner Tab 2">Content of Inner Tab 2</AccordionTab>
+        <template #expandicon></template>
+        <template #collapseicon></template>
+        <template
+          v-for="collection in dataCollections"
+          :key="collection.node.id"
+        >
+          <AccordionTab :header="collection.node.name"></AccordionTab>
+        </template>
       </Accordion>
     </AccordionTab>
 
-    <AccordionTab header="Outer Tab 2">Content of Outer Tab 2</AccordionTab>
+    <AccordionTab header="Categories">
+      <Accordion multiple>
+        <template #expandicon></template>
+        <template #collapseicon></template>
+        <template v-for="category in dataCategories" :key="category.node.id">
+          <AccordionTab :header="category.node.name">
+            <Accordion multiple>
+              <template #expandicon></template>
+              <template #collapseicon></template>
+              <template
+                v-for="subCategory in category.node.children.edges"
+                :key="subCategory?.node?.id"
+              >
+                <AccordionTab :header="subCategory.node?.name">
+                  <Accordion multiple>
+                    <template #expandicon></template>
+                    <template #collapseicon></template>
+                    <template
+                      v-for="subSubCategory in subCategory.node.children.edges"
+                      :key="subSubCategory?.node?.id"
+                    >
+                      <AccordionTab :header="subSubCategory.node.name">
+                        <pre>
+                      {{ subSubCategory }}
+                      </pre
+                        >
+                      </AccordionTab>
+                    </template>
+                  </Accordion>
+                </AccordionTab>
+              </template>
+            </Accordion>
+          </AccordionTab>
+        </template>
+      </Accordion>
+    </AccordionTab>
   </Accordion>
 </template>
 

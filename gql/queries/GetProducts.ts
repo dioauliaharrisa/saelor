@@ -31,6 +31,11 @@ export const GET_PRODUCTS = gql`
           media {
             url(format: WEBP)
           }
+          productType {
+            id
+            name
+            kind
+          }
         }
       }
       pageInfo {
