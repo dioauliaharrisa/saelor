@@ -20,7 +20,6 @@ export const useProducts = () => {
   })
 
   const toggleAttributeFilter = (slug, value) => {
-    console.log('🦆 ~ toggleAttributeFilter ~ slug, value:', slug, value)
     const existingFilter = filters.attributes.find((attr) => attr.slug === slug)
     if (existingFilter) {
       const valueIndex = existingFilter.values.indexOf(value)
@@ -76,7 +75,6 @@ export const useProducts = () => {
 
   const fetchMoreProducts = async () => {
     const pageInfo = dataProducts?.value?.products?.pageInfo
-    console.log('🦆 ~ fetchMoreProducts ~ dataProducts:', dataProducts)
     if (pageInfo?.hasNextPage) {
       const result = await fetchMore({
         variables: {

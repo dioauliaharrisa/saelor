@@ -9,7 +9,6 @@
   const products = useProducts()
   const productTypes = computed(() => products.productTypes)
   const attributes = computed(() => products.attributes)
-  console.log('🦆 ~ attributes:', attributes)
   const filters = products.filters
 
   onMounted(async () => {

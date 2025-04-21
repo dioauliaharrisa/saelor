@@ -6,7 +6,6 @@
   // const data = computed(() => products.products?.value?.value || [])
   const store = useCartStore()
   const data = computed(() => store.products)
-  console.log('🦆 ~ data:', data)
 
   const isFullyLoaded = useState('isFullyLoaded')
 
