@@ -27,15 +27,6 @@ export default function useCheckout() {
     }
   )
 
-  // watch(checkoutId, (newVal) => {
-  //   console.log('CheckoutId changed:', newVal)
-  //   if (!!checkoutId.value) {
-  //     isEnabledGetCheckout.value = true
-  //   } else {
-  //     isEnabledGetCheckout.value = false
-  //   }
-  // })
-
   const handleAddToCart = async ({
     productVariantId,
     quantity

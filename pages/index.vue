@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { useProducts } from '../composables/useProducts'
+  const cartStore = useCartStore()
 
   const products = useProducts()
   const loading = products.loading
@@ -7,7 +8,8 @@
 
   const categories = useCategories()
   const dataCategories = categories.data
-  const data = products.data
+
+  const data = computed(() => cartStore.products)
   onMounted(async () => {
     await products.refetchProducts({
       first: 8,

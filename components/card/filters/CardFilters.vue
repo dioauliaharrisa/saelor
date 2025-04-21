@@ -8,7 +8,6 @@
 
   const products = useProducts()
   const productTypes = computed(() => products.productTypes)
-  console.log('🦆 ~ productTypes:', productTypes)
   const filters = products.filters
 
   onMounted(async () => {
@@ -36,7 +35,17 @@
       />
       <label :for="productType.node.id">{{ productType.node.name }}</label>
     </div>
-    <button class="button_new" @click="products.refetchProducts">Filter</button>
+    <button
+      class="button_new"
+      @click="
+        products.refetchProducts({
+          first: 8,
+          filter: { ...toRaw(filters), categories: [categoryId] }
+        })
+      "
+    >
+      Filter
+    </button>
   </div>
 </template>
 

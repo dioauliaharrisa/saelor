@@ -3,9 +3,11 @@ import { GET_PRODUCTS_BY_COLLECTION_IDS } from '../gql/queries/GetProductsByColl
 import { GET_PRODUCT_TYPES } from '../gql/queries/GetProductTypes'
 
 export const useProducts = () => {
-  const products = ref([])
+  // const products = ref([])
 
   const store = useCartStore()
+
+  const isFullyLoaded = useState('isFullyLoaded', () => false)
 
   // soon to be deprecated
   const productTypes = ref([])
@@ -28,7 +30,7 @@ export const useProducts = () => {
     loading
   } = useQuery(
     GET_PRODUCTS,
-    { first: 24, immediate: false, filter: filters },
+    { first: 8, immediate: false, filter: filters },
     {
       fetchPolicy: 'network-only'
     }
@@ -41,40 +43,46 @@ export const useProducts = () => {
   } = useQuery(GET_PRODUCT_TYPES)
 
   const fetchMoreProducts = async () => {
-    console.log('🦆 fetchMoreProducts invoked')
-    console.log('🦆 ~ useProducts ~ filters:', filters)
-    const pageInfo = dataProducts.value?.products?.pageInfo
+    const pageInfo = dataProducts?.value?.products?.pageInfo
+    console.log('🦆 ~ fetchMoreProducts ~ dataProducts:', dataProducts)
     if (pageInfo?.hasNextPage) {
-      await fetchMore({
+      const result = await fetchMore({
         variables: {
           after: pageInfo.endCursor,
-          first: 11
-          // filter: filters
+          first: 8,
+          filter: filters
         },
         updateQuery: (previousResult, { fetchMoreResult }) => {
           if (!fetchMoreResult) return previousResult
+          const combinedEdges = [
+            ...(store.products || []),
+            ...fetchMoreResult.products.edges
+          ]
+          store.setProducts(combinedEdges)
           return {
             products: {
               ...fetchMoreResult.products,
-              edges: [
-                ...previousResult.products.edges,
-                ...fetchMoreResult.products.edges
-              ],
+              edges: combinedEdges,
               pageInfo: fetchMoreResult.products.pageInfo
             }
           }
         }
       })
+      const newPageInfo = result?.data?.products?.pageInfo
+      isFullyLoaded.value = !newPageInfo?.hasNextPage
     }
   }
 
   const refetchProducts = async (variables) => {
     const result = await refetch(variables)
+    const pageInfo = result?.data?.products?.pageInfo
+    console.log('🦆 ~ refetchProducts ~ pageInfo:', result, pageInfo)
+
+    isFullyLoaded.value = pageInfo?.hasNextPage === false
+
     if (result?.data?.products?.edges) {
-      products.value = result.data.products.edges
-      console.log('🦆 ~ refetchProducts ~ store:', store)
+      // products.value = result.data.products.edges
       store.setProducts(result.data.products.edges)
-      console.log('🦆 ~ refetchProducts ~ products:', products.value)
     }
     return result
   }
@@ -85,7 +93,7 @@ export const useProducts = () => {
   } = useQuery(
     GET_PRODUCTS_BY_COLLECTION_IDS,
     () => ({
-      first: 24,
+      // first: 24,
       filter: { collections: [collectionId.value] }
     }),
     {
@@ -93,36 +101,18 @@ export const useProducts = () => {
     }
   )
 
-  // watch(
-  //   () => dataProducts,
-  //   (newVal) => {
-  //     if (newVal?.products?.edges) {
-  //       products.value = newVal.products.edges
-
-  //       store.products = newVal.products.edges
-  //       console.log('🦆 ~ watch ~ products.value:', products.value)
-  //       console.log(
-  //         '🦆 ~ watch ~ newVal.products.edges:',
-  //         newVal.products.edges
-  //       )
-  //     }
-  //   }
-  // )
-
   watchEffect(async () => {
+    const pageInfo = dataProducts?.value?.products?.pageInfo
+    console.log('🦆 ~ watchEffect ~ pageInfo:', pageInfo)
+    isFullyLoaded.value = pageInfo?.hasNextPage === false
+
     if (dataProductsByCollectionIds?.value?.products?.edges) {
       productsByCollectionIds.value =
         dataProductsByCollectionIds.value.products.edges
     }
 
-    if (dataProducts.value?.products?.edges) {
-      const edges = dataProducts.value.products.edges
-      products.value = edges
-    }
-
     if (dataProductTypes.value?.productTypes?.edges) {
       productTypes.value = dataProductTypes.value.productTypes.edges
-      // console.log('🦆 ~ watchEffect ~ productTypes:', productTypes)
     }
 
     if (errorGetProductTypes.value) {
@@ -143,13 +133,12 @@ export const useProducts = () => {
   })
 
   const resetFilters = () => {
-    products.value = []
+    store.setProducts([])
     categoryId.value = ''
     collectionId.value = ''
   }
 
   return {
-    data: products,
     categoryId,
     collectionId,
     fetchMore: fetchMoreProducts,
@@ -159,6 +148,7 @@ export const useProducts = () => {
     loading: computed(() => loading.value),
     filters,
     productTypes,
-    refetchProductTypes
+    refetchProductTypes,
+    isFullyLoaded
   }
 }
