@@ -90,8 +90,8 @@
       </AccordionPanel>
     </Accordion>
 
-    <button
-      class="button_new"
+    <Button
+      class="j-button"
       @click="
         products.refetchProducts({
           first: 8,
@@ -100,7 +100,7 @@
       "
     >
       Filter
-    </button>
+    </Button>
   </div>
 </template>
 

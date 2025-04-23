@@ -55,7 +55,7 @@
           raised
           label="Load More"
           @click="products.fetchMore()"
-          class="button_load_more"
+          class="j-button"
         />
       </div>
     </div>

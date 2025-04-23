@@ -60,7 +60,7 @@
               </template>
             </InputNumber>
           </div>
-          <button
+          <Button
             class="button-add-to-cart"
             @click="
               handleAddToCart({
@@ -70,7 +70,7 @@
             "
           >
             Add to cart
-          </button>
+          </Button>
         </div>
       </div>
     </div>
