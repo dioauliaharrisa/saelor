@@ -5,7 +5,7 @@
     <PanelHeader />
     <div class="box_content">
       <div style="display: flex; flex-direction: column; gap: 2rem">
-        <AccordionsCategories />
+        <!-- <AccordionsCategories /> -->
         <AccordionsCollections />
         <CardFilters :loading="loading" />
       </div>

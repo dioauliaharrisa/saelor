@@ -107,7 +107,7 @@
 <style scoped>
   .container {
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
     border: 1px solid #ddd;
     border-radius: 8px;
