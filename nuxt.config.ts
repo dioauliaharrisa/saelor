@@ -49,20 +49,21 @@ export default defineNuxtConfig({
     '@primevue/nuxt-module',
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
-    'reka-ui/nuxt'
+    'reka-ui/nuxt',
+    'nuxt-meilisearch'
   ],
-
+  meilisearch: {
+    hostUrl: 'http://127.0.0.1:7700', // Replace with your Meilisearch host URL
+    searchApiKey: process.env.MEILISEARCH_SEARCH_KEY,
+    adminApiKey: process.env.MEILISEARCH_MASTER_KEY
+  },
   vite: {
     assetsInclude: ['**/*.svg'],
     server: {
       allowedHosts: ['.ngrok-free.app', '.serveo.net']
     }
   },
-  runtimeConfig: {
-    public: {
-      ngrokUrl: process.env.NGROK_URL
-    }
-  },
+
   apollo: {
     clients: {
       default: {
@@ -88,5 +89,8 @@ export default defineNuxtConfig({
         }
       }
     }
+  },
+  runtimeConfig: {
+    meiliAdminKey: process.env.MEILISEARCH_ADMIN_KEY
   }
 })

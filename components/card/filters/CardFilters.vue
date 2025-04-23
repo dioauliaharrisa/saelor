@@ -21,21 +21,6 @@
     <SkeletonCardProduct />
   </div>
   <div v-else class="container">
-    <p>Types</p>
-    <div
-      v-for="productType of productTypes.value"
-      :key="productType.node.id"
-      style="display: flex; padding: 1rem 0; gap: 0.5rem"
-    >
-      <Checkbox
-        v-model="filters.productTypes"
-        :inputId="productType.node.id"
-        name="product-type"
-        :value="productType.node.id"
-      />
-      <label :for="productType.node.id">{{ productType.node.name }}</label>
-    </div>
-
     <Accordion :value="[0]" multiple>
       <AccordionPanel value="0">
         <AccordionHeader>Attributes</AccordionHeader>
@@ -82,6 +67,20 @@
         </AccordionContent>
       </AccordionPanel>
     </Accordion>
+    <p>Types</p>
+    <div
+      v-for="productType of productTypes.value"
+      :key="productType.node.id"
+      style="display: flex; padding: 1rem 0; gap: 0.5rem"
+    >
+      <Checkbox
+        v-model="filters.productTypes"
+        :inputId="productType.node.id"
+        name="product-type"
+        :value="productType.node.id"
+      />
+      <label :for="productType.node.id">{{ productType.node.name }}</label>
+    </div>
 
     <button
       class="button_new"
