@@ -6,9 +6,9 @@
   <div class="footer">
     <div id="flex-top-part">
       <div style="display: flex; flex-direction: column; gap: 1rem">
+        <p @click="router.push('/')">Home</p>
         <p @click="router.push('/account')">Account</p>
-        <p>Placeholders</p>
-        <p>Placeholders</p>
+        <p>Contact Us</p>
         <p>Placeholders</p>
       </div>
       <div>
@@ -74,6 +74,6 @@
     width: 100%;
     padding: 0 3rem;
     height: 400px;
-    background-color: black;
+    background-color: var(--primary-color);
   }
 </style>

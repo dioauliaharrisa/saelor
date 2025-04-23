@@ -39,15 +39,17 @@
       <Accordion multiple>
         <template #expandicon></template>
         <template #collapseicon></template>
-        <template
-          v-for="collection in dataCollections"
-          :key="collection.node.id"
-        >
-          <AccordionTab
-            :header="collection.node.name"
-            expandIcon="material-symbols:home"
-          ></AccordionTab>
-        </template>
+        <AccordionContent>
+          <div
+            v-for="collection in dataCollections"
+            :key="collection.node.id"
+            style="display: flex; padding: 1rem 2rem; gap: 0.5rem"
+          >
+            <p @click="handleClick(collection)" style="cursor: pointer">
+              {{ collection.node.name }}
+            </p>
+          </div>
+        </AccordionContent>
       </Accordion>
     </AccordionTab>
 

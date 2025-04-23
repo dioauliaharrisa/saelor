@@ -8,6 +8,12 @@
   const quantity = ref(1)
 
   const { handleAddToCart } = useCart()
+
+  const { save } = useRecentlyViewed()
+  const handleClick = (product) => {
+    save(product)
+    router.push(`/${product?.node.id}`)
+  }
 </script>
 
 <template>
@@ -19,7 +25,7 @@
       v-if="product?.node.media?.[0]?.url"
       :src="product?.node.media?.[0]?.url"
       :alt="product?.title"
-      @click="router.push(`/${product?.node.id}`)"
+      @click="handleClick(product?.node.id)"
     />
     <img v-else :src="noImage" :alt="product?.title" />
     <div class="product-text">

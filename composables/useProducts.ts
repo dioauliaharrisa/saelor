@@ -2,6 +2,7 @@ import { GET_PRODUCTS } from '../gql/queries/GetProducts'
 import { GET_ATTRIBUTES } from '../gql/queries/GetAttributes'
 import { GET_PRODUCTS_BY_COLLECTION_IDS } from '../gql/queries/GetProductsByCollectionIds'
 import { GET_PRODUCT_TYPES } from '../gql/queries/GetProductTypes'
+import { GET_RECENTLY_VIEWED_PRODUCTS } from '../gql/queries/GetRecentlyViewedProducts'
 // import { MeiliSearch } from 'meilisearch'
 
 export const useProducts = () => {
@@ -65,6 +66,16 @@ export const useProducts = () => {
       fetchPolicy: 'network-only'
     }
   )
+
+  const {
+    result: dataRecentlyViewedProducts,
+    error: errorRVP,
+    refetch: refetchRVP,
+    loading: loadingRVP
+  } = useQuery(GET_RECENTLY_VIEWED_PRODUCTS, {
+    fetchPolicy: 'network-only',
+    immediate: false
+  })
 
   const {
     result: dataProductTypes,
@@ -213,6 +224,7 @@ export const useProducts = () => {
     refetchProductTypes,
     isFullyLoaded,
     attributes,
-    toggleAttributeFilter
+    toggleAttributeFilter,
+    refetchRVP
   }
 }

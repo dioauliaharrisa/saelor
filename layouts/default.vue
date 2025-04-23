@@ -1,12 +1,17 @@
 <script setup>
   const route = useRoute()
   console.log('🦆 ~ route:', route)
-  const excludedFromCardFilters = ['cart']
+  const excludedFromCardFilters = ['cart', 'account']
 </script>
 
 <template>
   <div class="container">
     <PanelHeader />
+    <div>
+      <h1>
+        {{ route.name }}
+      </h1>
+    </div>
     <div class="box_content">
       <div style="display: flex; flex-direction: column; gap: 2rem">
         <!-- <Breadcrumb /> -->

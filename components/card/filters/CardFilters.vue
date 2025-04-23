@@ -21,6 +21,9 @@
     <SkeletonCardProduct />
   </div>
   <div v-else class="container">
+    <Divider align="center" type="dotted">
+      <b>Shop by</b>
+    </Divider>
     <AccordionsCollections />
     <Divider align="center" type="dotted">
       <b>Filter</b>

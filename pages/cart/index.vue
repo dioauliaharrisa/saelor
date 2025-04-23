@@ -14,8 +14,9 @@
   const isDialogOpen = ref(false)
 
   const handleCheckoutViaPurchaseOrder = async () => {
-    cartStore.resetCart()
-    return
+    // cartStore.resetCart()
+    // return
+    isDialogOpen.value = true
   }
 </script>
 

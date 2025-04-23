@@ -8,17 +8,35 @@
   const categories = useCategories()
   const dataCategories = categories.data
 
+  const recentlyViewedProducts = ref(null)
+
   const data = computed(() => cartStore.products)
   onMounted(async () => {
     await products.refetchProducts({
       first: 8,
       immediate: false
     })
+    const stored = JSON.parse(
+      localStorage.getItem('recentlyViewedProducts') || '[]'
+    )
+    const { data } = await products.refetchRVP({ ids: stored })
+    recentlyViewedProducts.value = data?.products?.edges || []
   })
 </script>
 
 <template>
   <div>
+    <div v-if="recentlyViewedProducts">
+      <h2>Recently Viewed Products</h2>
+      <div class="grid_cards_recently_viewed_products">
+        <CardProduct
+          v-for="product in recentlyViewedProducts"
+          :key="product.id"
+          :product="product"
+          :loading="loading"
+        />
+      </div>
+    </div>
     <h2>Browse equipment by industry application</h2>
     <div class="grid_cards_collection">
       <CardCategories
@@ -27,7 +45,6 @@
         :category="category"
         :loading="loading"
       />
-      <!-- :loading="loadingCategories" -->
     </div>
     <div class="grid_cards">
       <CardProduct
@@ -55,6 +72,11 @@
   .grid_cards_collection {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .grid_cards_recently_viewed_products {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
     gap: 16px;
   }
   .button_new {
