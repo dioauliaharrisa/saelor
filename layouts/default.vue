@@ -5,8 +5,6 @@
     <PanelHeader />
     <div class="box_content">
       <div style="display: flex; flex-direction: column; gap: 2rem">
-        <!-- <AccordionsCategories /> -->
-        <!-- <AccordionsCollections /> -->
         <CardFilters :loading="loading" />
       </div>
       <slot />
@@ -33,5 +31,6 @@
     width: 100%;
     gap: 2rem;
     padding: 1rem;
+    background-color: #f0f0f0;
   }
 </style>

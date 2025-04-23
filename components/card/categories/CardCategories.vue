@@ -26,11 +26,13 @@
     justify-content: space-between;
 
     border: 1px solid #ddd;
-    border-radius: 8px;
+    /* border-radius: 8px; */
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     background-color: white;
     max-height: 150px;
+
+    margin: 2rem 0;
 
     cursor: pointer;
   }
@@ -40,7 +42,7 @@
     max-width: 100px;
     aspect-ratio: 1/1;
     object-fit: cover;
-    border-radius: 5px;
+    /* border-radius: 5px; */
 
     -webkit-mask-image: linear-gradient(
       to right,

@@ -29,11 +29,6 @@
       <BreadcrumbBreadcrumb />
     </div>
     <div style="display: flex; gap: 1rem">
-      <!-- <div>
-        <AccordionsCategories />
-        <AccordionsCollections />
-        <CardFilters :loading="loading" />
-      </div> -->
       <div
         style="
           display: flex;
@@ -51,11 +46,11 @@
           />
         </div>
         <Button
+          class="j-button"
           :disabled="isFullyLoaded"
           raised
-          label="Load More"
           @click="products.fetchMore()"
-          class="j-button"
+          label="Load More"
         />
       </div>
     </div>

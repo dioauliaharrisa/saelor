@@ -93,7 +93,7 @@
         </AccordionContent>
       </AccordionPanel>
     </Accordion>
-
+    <Divider />
     <Button
       class="j-button"
       @click="
@@ -110,13 +110,11 @@
 
 <style scoped>
   .container {
-    /* display: flex; */
-    /* flex-direction: column; */
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
     border: 1px solid #ddd;
-    border-radius: 8px;
+    /* border-radius: 8px; */
 
-    /* height: 300px; */
+    background-color: #ffffff;
     width: 100%;
     max-width: 300px;
 

@@ -33,7 +33,11 @@
       />
       <div class="bottom-part">
         <p class="price">
-          ${{ product?.node?.pricing?.priceRange?.start?.gross?.amount }}
+          {{
+            formatPrice(
+              product?.node?.pricing?.priceRange?.start?.gross?.amount
+            )
+          }}
         </p>
         <div
           style="flex: 1; display: flex; flex-direction: column; gap: 0.5rem"
@@ -61,7 +65,8 @@
             </InputNumber>
           </div>
           <Button
-            class="button-add-to-cart"
+            :disabled="!quantity"
+            class="button_add_to_cart"
             @click="
               handleAddToCart({
                 productVariantId: product.node.variants?.[0]?.id,
@@ -90,7 +95,7 @@
     width: 2rem;
   }
   .price,
-  .button-add-to-cart,
+  .button_add_to_cart,
   .input-wrapper {
     flex: 1;
     min-width: 0;
@@ -99,7 +104,7 @@
     font-size: 1.25rem;
     font-weight: 700;
   }
-  .button-add-to-cart,
+  .button_add_to_cart,
   .input-wrapper {
     height: 2.5rem;
   }
@@ -135,7 +140,7 @@
     color: var(--grass-11);
   }
 
-  .button-add-to-cart {
+  .button_add_to_cart {
     font-size: 15px;
     padding: 0 15px;
     line-height: 35px;
@@ -148,24 +153,24 @@
     font-size: small;
     /* box-shadow: 0 2px 10px gray; */
   }
-  .button-add-to-cart:hover {
+  .button_add_to_cart:hover {
     background-color: var(--primary-color);
   }
-  .button-add-to-cart:focus {
-    /* box-shadow: 0 0 0 2px black; */
-  }
+
   .container {
     display: flex;
     flex-direction: column;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
     border: 1px solid #ddd;
-    border-radius: 8px;
+    /* border-radius: 8px; */
 
     height: 300px;
     max-width: 300px;
 
     padding: 1rem;
     cursor: pointer;
+
+    background-color: #ffffff;
   }
   .container img {
     flex: 1;

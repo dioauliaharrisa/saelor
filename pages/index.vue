@@ -1,11 +1,10 @@
 <script setup lang="ts">
-  import { useProducts } from '../composables/useProducts'
   const cartStore = useCartStore()
 
   const products = useProducts()
   const loading = products.loading
   const loadingCategories = products.loadingCategories
-
+  const isFullyLoaded = useState('isFullyLoaded')
   const categories = useCategories()
   const dataCategories = categories.data
 
@@ -30,21 +29,22 @@
       />
       <!-- :loading="loadingCategories" -->
     </div>
-    <div style="display: flex; flex-direction: column; gap: 1rem">
-      <div class="grid_cards">
-        <CardProduct
-          v-for="product in data"
-          :key="product.id"
-          :product="product"
-          :loading="loading"
-        />
-      </div>
-      <Button
-        class="button_new"
-        @click="products.fetchMore()"
-        label="Load More"
+    <div class="grid_cards">
+      <CardProduct
+        v-for="product in data"
+        :key="product.id"
+        :product="product"
+        :loading="loading"
       />
     </div>
+    <Button
+      :disabled="isFullyLoaded"
+      raised
+      class="j-button"
+      style="margin: 1rem auto; display: block"
+      @click="products.fetchMore()"
+      label="Load More"
+    />
   </div>
 </template>
 
