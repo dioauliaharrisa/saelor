@@ -9,6 +9,10 @@
   const cartStore = useCartStore()
   const { user } = storeToRefs(cartStore)
 
+  // to get the amount of items on the cart
+  const { checkoutItems } = useCart()
+  const data = computed(() => checkoutItems.value?.lines || [])
+
   onMounted(async () => {
     if (refreshToken.value && !user.value) {
       await refreshAccessToken()
@@ -38,25 +42,18 @@
         <p style="color: white; font-size: xx-small">Select Store</p>
       </div> -->
       <div class="icons" @click="visible = true">
-        <Icon
-          name="material-symbols:person"
-          style="color: white; font-size: 15px"
-        />
+        <Icon name="material-symbols:person" class="icon" />
         <p v-if="user" style="color: white; font-size: xx-small">
           {{ user.firstName }}
         </p>
       </div>
       <div class="icons">
-        <Icon
-          name="fa6-solid:boxes-stacked"
-          style="color: white; font-size: 15px"
-        />
+        <Icon name="fa6-solid:boxes-stacked" class="icon" />
       </div>
       <div class="icons" @click="router.push({ path: '/cart' })">
-        <Icon
-          name="material-symbols:shopping-cart-rounded"
-          style="color: white; font-size: 15px"
-        />
+        <OverlayBadge :value="data?.length">
+          <Icon name="material-symbols:shopping-cart-rounded" class="icon" />
+        </OverlayBadge>
       </div>
     </div>
     <Drawer
@@ -113,6 +110,10 @@
   .icons:hover {
     background-color: gray;
     cursor: pointer;
+  }
+  .icon {
+    color: white;
+    font-size: 35px;
   }
   .wrapper {
     display: flex;

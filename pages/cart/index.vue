@@ -9,7 +9,7 @@
   const data = computed(() => checkoutItems.value?.lines || [])
   const totalPrice = computed(() => checkoutItems.value?.totalPrice || null)
 
-  const router = useRouter()
+  // const router = useRouter()
 
   const isDialogOpen = ref(false)
 

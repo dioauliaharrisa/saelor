@@ -24,7 +24,7 @@ export const useProducts = () => {
     attributes: []
   })
 
-  const toggleAttributeFilter = (slug, value) => {
+  const toggleAttributeFilter = (slug: string, value) => {
     const existingFilter = filters.attributes.find((attr) => attr.slug === slug)
     if (existingFilter) {
       const valueIndex = existingFilter.values.indexOf(value)
@@ -184,7 +184,7 @@ export const useProducts = () => {
     }
 
     if (error.value) {
-      console.log("🦆 ~ watchEffect ~ error:", error)
+      console.log('🦆 ~ watchEffect ~ error:', error)
       throw createError({
         statusCode: 500,
         statusMessage: 'Failed to fetch products',

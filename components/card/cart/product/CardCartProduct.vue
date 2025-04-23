@@ -1,5 +1,5 @@
 <script setup>
-  import noImage from '/x.png'
+  // import noImage from '/x.png'
 
   defineProps({
     product: Object
