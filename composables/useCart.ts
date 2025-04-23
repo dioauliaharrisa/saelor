@@ -116,16 +116,6 @@ export default function useCheckout() {
     }
   }
 
-  // watch(
-  //   () => checkoutId.value,
-  //   async (newId) => {
-  //     if (newId) {
-  //       await refetch()
-  //     }
-  //   },
-  //   { immediate: true }
-  // )
-
   watchEffect(() => {
     if (result.value?.checkout.lines) {
       checkoutItems.value = result.value?.checkout || []

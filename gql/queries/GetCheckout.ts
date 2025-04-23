@@ -20,6 +20,7 @@ export const GET_CHECKOUT = gql`
             productId
           }
           product {
+            name
             description
             media {
               url
