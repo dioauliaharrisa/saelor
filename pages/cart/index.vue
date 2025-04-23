@@ -37,8 +37,8 @@
       <div class="container" v-else>
         <Card v-for="(product, index) in data" :key="index" class="cart-item">
           <template #content>
-            <h6>Item is {{}}</h6>
-            <Divider />
+            <!-- <h6>Item is {{}}</h6>
+            <Divider /> -->
             <div class="card-content">
               <div class="part_1">
                 <Icon
@@ -91,7 +91,9 @@
         </Card>
       </div>
       <div id="container-checkout-total-price">
-        <p class="title">Total Price: $ {{ totalPrice?.gross.amount }}</p>
+        <p class="title">
+          Total Price: {{ formatPrice(totalPrice?.gross.amount) }}
+        </p>
         <Button
           id="button-proceed-to-checkout"
           label="Proceed to checkout via Purchase Order"
@@ -162,9 +164,10 @@
     border: none;
   }
   .page {
-    width: 100vw;
-    padding: 0 8rem;
-    overflow-x: hidden;
+    width: 100%;
+    min-width: 1200px;
+    /* padding: 0 8rem; */
+    /* overflow-x: hidden;  */
   }
   .title {
     font-weight: 700;
@@ -178,5 +181,10 @@
   .container_no_items_cart {
     display: flex;
     justify-content: center;
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 </style>

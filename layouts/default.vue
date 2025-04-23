@@ -1,11 +1,18 @@
-<script setup></script>
+<script setup>
+  const route = useRoute()
+  console.log('🦆 ~ route:', route)
+  const excludedFromCardFilters = ['cart']
+</script>
 
 <template>
   <div class="container">
     <PanelHeader />
     <div class="box_content">
       <div style="display: flex; flex-direction: column; gap: 2rem">
-        <CardFilters :loading="loading" />
+        <!-- <Breadcrumb /> -->
+        <div v-if="!excludedFromCardFilters.includes(route.name)">
+          <CardFilters :loading="loading" />
+        </div>
       </div>
       <slot />
     </div>
