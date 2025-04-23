@@ -19,37 +19,27 @@
 </script>
 
 <template>
-  <div class="page">
-    <div class="page-layout">
-      <div>
-        <AccordionsCategories />
-        <AccordionsCollections />
-      </div>
-      <div>
-        <h2>Browse equipment by industry application</h2>
-        <div class="grid_cards_collection">
-          <CardCategories
-            v-for="category in dataCategories"
-            :key="category.node.id"
-            :category="category"
-            :loading="loading"
-          />
-          <!-- :loading="loadingCategories" -->
-        </div>
-
-        <div class="grid_cards">
-          <CardProduct
-            v-for="product in data"
-            :key="product.id"
-            :product="product"
-            :loading="loading"
-          />
-        </div>
-        <button class="button_new" @click="products.fetchMore()">
-          LOAD MORE
-        </button>
-      </div>
+  <div>
+    <h2>Browse equipment by industry application</h2>
+    <div class="grid_cards_collection">
+      <CardCategories
+        v-for="category in dataCategories"
+        :key="category.node.id"
+        :category="category"
+        :loading="loading"
+      />
+      <!-- :loading="loadingCategories" -->
     </div>
+
+    <div class="grid_cards">
+      <CardProduct
+        v-for="product in data"
+        :key="product.id"
+        :product="product"
+        :loading="loading"
+      />
+    </div>
+    <button class="button_new" @click="products.fetchMore()">LOAD MORE</button>
   </div>
 </template>
 
@@ -128,10 +118,10 @@
     padding: 0.5rem;
     font-size: 0.75rem;
   }
-  .page {
+  /* .page {
     width: 100vw;
     padding: 0 8rem;
-  }
+  } */
   .header {
     display: flex;
     flex-direction: row;

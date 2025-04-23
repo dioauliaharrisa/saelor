@@ -22,17 +22,18 @@
     })
   })
 </script>
+
 <template>
-  <div class="page">
+  <div>
     <div style="align-self: flex-start">
       <BreadcrumbBreadcrumb />
     </div>
     <div style="display: flex; gap: 1rem">
-      <div>
+      <!-- <div>
         <AccordionsCategories />
         <AccordionsCollections />
         <CardFilters :loading="loading" />
-      </div>
+      </div> -->
       <div
         style="
           display: flex;

@@ -2,14 +2,14 @@ import { GET_PRODUCTS } from '../gql/queries/GetProducts'
 import { GET_ATTRIBUTES } from '../gql/queries/GetAttributes'
 import { GET_PRODUCTS_BY_COLLECTION_IDS } from '../gql/queries/GetProductsByCollectionIds'
 import { GET_PRODUCT_TYPES } from '../gql/queries/GetProductTypes'
-import { MeiliSearch } from 'meilisearch'
+// import { MeiliSearch } from 'meilisearch'
 
 export const useProducts = () => {
   const store = useCartStore()
-  const client = new MeiliSearch({
-    host: 'http://localhost:7700',
-    apiKey: useRuntimeConfig().meiliAdminKey
-  })
+  // const client = new MeiliSearch({
+  //   host: 'http://localhost:7700',
+  //   apiKey: useRuntimeConfig().meiliAdminKey
+  // })
 
   // This is used to prevent the infinite scroll from loading more products
   const isFullyLoaded = useState('isFullyLoaded', () => false)
@@ -138,32 +138,33 @@ export const useProducts = () => {
     const pageInfo = dataProducts?.value?.products?.pageInfo
     isFullyLoaded.value = pageInfo?.hasNextPage === false
 
-    if (dataProducts?.value?.products?.edges) {
-      const fetchedProducts = dataProducts?.value?.products?.edges.map(
-        (edge) => {
-          const product = edge.node
+    // if (dataProducts?.value?.products?.edges) {
+    // const fetchedProducts = dataProducts?.value?.products?.edges.map(
+    //   (edge) => {
+    //     const product = edge.node
 
-          return {
-            id: product.id.replace(/=$/, ''),
-            name: product.name,
-            thumbnail: product.media?.[0]?.url
-          }
-        }
-      )
+    //     return {
+    //       id: product.id.replace(/=$/, ''),
+    //       name: product.name,
+    //       thumbnail: product.media?.[0]?.url
+    //     }
+    //   }
+    // )
 
-      const indexExists = await client
-        .getIndex('products')
-        .then(() => true)
-        .catch(() => false)
+    // ON HOLD
+    // const indexExists = await client
+    //   .getIndex('products')
+    //   .then(() => true)
+    //   .catch(() => false)
 
-      if (!indexExists) {
-        await client.createIndex('products', { primaryKey: 'id' })
-      }
+    // if (!indexExists) {
+    //   await client.createIndex('products', { primaryKey: 'id' })
+    // }
 
-      await client
-        .index('products')
-        .addDocuments(fetchedProducts, { primaryKey: 'id' })
-    }
+    // await client
+    //   .index('products')
+    //   .addDocuments(fetchedProducts, { primaryKey: 'id' })
+    // }
 
     if (dataProductsByCollectionIds?.value?.products?.edges) {
       productsByCollectionIds.value =
@@ -183,6 +184,7 @@ export const useProducts = () => {
     }
 
     if (error.value) {
+      console.log("🦆 ~ watchEffect ~ error:", error)
       throw createError({
         statusCode: 500,
         statusMessage: 'Failed to fetch products',
