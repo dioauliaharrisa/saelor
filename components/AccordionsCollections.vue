@@ -1,14 +1,15 @@
 <script setup lang="ts">
-  // const router = useRouter()
+  const router = useRouter()
   const collections = useCollections()
   const categories = useCategories()
 
   const dataCollections = reactive(collections.data)
   const dataCategories = reactive(categories.data)
 
-  // const useStore = useCartStore()
+  const useStore = useCartStore()
 
   const handleClick = (collection) => {
+    console.log('🦆 ~ handleClick ~ collection:', collection)
     useStore.breadcrumb = collection.node.name
     router.push(`/collections/${collection.node.id}`)
   }
@@ -18,7 +19,7 @@
   <Accordion multiple>
     <template #expandicon></template>
     <template #collapseicon></template>
-    <AccordionTab expandIcon="material-symbols:home">
+    <AccordionTab>
       <template #expandicon></template>
       <template #header>
         <div style="display: flex; justify-content: space-between; width: 100%">
@@ -31,8 +32,7 @@
               justify-content: center;
             "
           >
-            <Icon @click.stop="handleClick"
-            name="material-symbols:home"/>
+            <Icon @click.stop="handleClick" name="material-symbols:home" />
           </div>
         </div>
       </template>
@@ -43,7 +43,10 @@
           v-for="collection in dataCollections"
           :key="collection.node.id"
         >
-          <AccordionTab :header="collection.node.name"></AccordionTab>
+          <AccordionTab
+            :header="collection.node.name"
+            expandIcon="material-symbols:home"
+          ></AccordionTab>
         </template>
       </Accordion>
     </AccordionTab>

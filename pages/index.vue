@@ -30,16 +30,21 @@
       />
       <!-- :loading="loadingCategories" -->
     </div>
-
-    <div class="grid_cards">
-      <CardProduct
-        v-for="product in data"
-        :key="product.id"
-        :product="product"
-        :loading="loading"
+    <div style="display: flex; flex-direction: column; gap: 1rem">
+      <div class="grid_cards">
+        <CardProduct
+          v-for="product in data"
+          :key="product.id"
+          :product="product"
+          :loading="loading"
+        />
+      </div>
+      <Button
+        class="button_new"
+        @click="products.fetchMore()"
+        label="Load More"
       />
     </div>
-    <button class="button_new" @click="products.fetchMore()">LOAD MORE</button>
   </div>
 </template>
 
@@ -118,10 +123,7 @@
     padding: 0.5rem;
     font-size: 0.75rem;
   }
-  /* .page {
-    width: 100vw;
-    padding: 0 8rem;
-  } */
+
   .header {
     display: flex;
     flex-direction: row;
@@ -141,39 +143,3 @@
     }
   }
 </style>
-
-<!-- <Card>
-      <template #title>Placeholder</template>
-      <template v-if="collections.length" #content>
-        <p
-          v-for="collection in collections"
-          :key="collection.id"
-          class="collection"
-        >
-          {{ collection?.node?.name }}
-        </p>
-        <Divider />
-        <p v-for="category in categories" :key="category.id" class="collection">
-          {{ category?.node?.name }}
-        </p>
-      </template>
-    </Card> -->
-<!-- <div class="container-search-box">
-      <div class="container-search-box-title">
-        <h1>Product Catalogue</h1>
-      </div>
-      <p class="container-description">
-        Search our extensive range of Hofparts: improved engineered parts that
-        are interchangeable with the OEM’s.
-      </p>
-      <div class="container-selects">
-        <Select option-label="name" placeholder="OEM Application" />
-        <Select option-label="name" placeholder="OEM Name" />
-        <Select option-label="name" placeholder="OEM Model" />
-        <Select option-label="name" placeholder="Location" />
-        <Button
-          label="Search Product Catalogue"
-          style="background-color: maroon; border: none"
-        />
-      </div>
-    </div> -->

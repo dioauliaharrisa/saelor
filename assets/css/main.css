@@ -43,3 +43,7 @@ p {
   font-size: small;
   /* box-shadow: 0 2px 10px gray; */
 }
+
+.p-accordion.p-component {
+  width: 100%;
+}

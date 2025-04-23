@@ -21,6 +21,10 @@
     <SkeletonCardProduct />
   </div>
   <div v-else class="container">
+    <AccordionsCollections />
+    <Divider align="center" type="dotted">
+      <b>Filter</b>
+    </Divider>
     <Accordion :value="[0]" multiple>
       <AccordionPanel value="0">
         <AccordionHeader>Attributes</AccordionHeader>
@@ -106,13 +110,14 @@
 
 <style scoped>
   .container {
-    display: flex;
+    /* display: flex; */
     /* flex-direction: column; */
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
     border: 1px solid #ddd;
     border-radius: 8px;
 
     /* height: 300px; */
+    width: 100%;
     max-width: 300px;
 
     padding: 1rem;

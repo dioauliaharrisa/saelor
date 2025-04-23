@@ -6,7 +6,7 @@
     <div class="box_content">
       <div style="display: flex; flex-direction: column; gap: 2rem">
         <!-- <AccordionsCategories /> -->
-        <AccordionsCollections />
+        <!-- <AccordionsCollections /> -->
         <CardFilters :loading="loading" />
       </div>
       <slot />
