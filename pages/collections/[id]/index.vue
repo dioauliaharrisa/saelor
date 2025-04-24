@@ -3,7 +3,9 @@
   const collectionId = route.params.id
 
   const products = useProducts()
-  const dataProducts = products.data
+  const cartStore = useCartStore()
+  const data = computed(() => cartStore.products)
+  console.log('🦆 ~ dataProducts:', data)
 
   onMounted(() => {
     products.refetchProducts({
@@ -13,15 +15,11 @@
   })
 </script>
 <template>
-  <div class="page">
-    <BreadcrumbBreadcrumb />
+  <div>
+    <!-- <BreadcrumbBreadcrumb /> -->
     <div style="display: flex; gap: 1rem">
       <div class="grid_cards">
-        <div
-          v-for="product in dataProducts"
-          :key="product.node?.id"
-          class="product"
-        >
+        <div v-for="product in data" :key="product.node?.id" class="product">
           <CardProduct :product="product" />
         </div>
       </div>
