@@ -68,10 +68,10 @@ export const useProducts = () => {
   )
 
   const {
-    result: dataRecentlyViewedProducts,
-    error: errorRVP,
+    // result: dataRecentlyViewedProducts,
+    // error: errorRVP,
     refetch: refetchRVP,
-    loading: loadingRVP
+    // loading: loadingRVP
   } = useQuery(GET_RECENTLY_VIEWED_PRODUCTS, {
     fetchPolicy: 'network-only',
     immediate: false
