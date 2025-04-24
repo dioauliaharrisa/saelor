@@ -18,15 +18,17 @@ export const useProducts = () => {
   // soon to be deprecated
   const productTypes = ref([])
 
-  const filters = reactive({
+  const filters = useState('filters', () => ({
     categories: [],
     collections: [],
     productTypes: [],
     attributes: []
-  })
+  }))
 
   const toggleAttributeFilter = (slug: string, value) => {
-    const existingFilter = filters.attributes.find((attr) => attr.slug === slug)
+    const existingFilter = filters.value.attributes.find(
+      (attr) => attr.slug === slug
+    )
     if (existingFilter) {
       const valueIndex = existingFilter.values.indexOf(value)
       if (valueIndex > -1) {
@@ -34,10 +36,10 @@ export const useProducts = () => {
         existingFilter.values.splice(valueIndex, 1)
         // If no values left, remove the attribute filter
         if (existingFilter.values.length === 0) {
-          const attrIndex = filters.attributes.findIndex(
+          const attrIndex = filters.value.attributes.findIndex(
             (attr) => attr.slug === slug
           )
-          filters.attributes.splice(attrIndex, 1)
+          filters.value.attributes.splice(attrIndex, 1)
         }
       } else {
         // Add the value
@@ -45,7 +47,7 @@ export const useProducts = () => {
       }
     } else {
       // Add new attribute filter
-      filters.attributes.push({ slug, values: [value] })
+      filters.value.attributes.push({ slug, values: [value] })
     }
   }
 
@@ -61,7 +63,7 @@ export const useProducts = () => {
     loading
   } = useQuery(
     GET_PRODUCTS,
-    { first: 8, immediate: false, filter: filters },
+    { first: 8, immediate: false, filter: filters.value },
     {
       fetchPolicy: 'network-only'
     }
@@ -70,7 +72,7 @@ export const useProducts = () => {
   const {
     // result: dataRecentlyViewedProducts,
     // error: errorRVP,
-    refetch: refetchRVP,
+    refetch: refetchRVP
     // loading: loadingRVP
   } = useQuery(GET_RECENTLY_VIEWED_PRODUCTS, {
     fetchPolicy: 'network-only',
@@ -96,7 +98,7 @@ export const useProducts = () => {
         variables: {
           after: pageInfo.endCursor,
           first: 8,
-          filter: filters
+          filter: filters.value
         },
         updateQuery: (previousResult, { fetchMoreResult }) => {
           if (!fetchMoreResult) return previousResult
@@ -219,7 +221,7 @@ export const useProducts = () => {
     dataByCollectionIds: dataProductsByCollectionIds,
     refetchProducts,
     loading: computed(() => loading.value),
-    filters,
+    filters: filters.value,
     productTypes,
     refetchProductTypes,
     isFullyLoaded,
