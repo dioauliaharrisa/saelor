@@ -1,6 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import Material from '@primeuix/themes/material'
-import { definePreset, palette } from '@primeuix/themes'
+// import Nora from '@primeuix/themes/nora'
+import Material from '@primeuix/themes/Material'
+import { definePreset } from '@primeuix/themes'
 
 const MyPreset = definePreset(Material, {
   semantic: {

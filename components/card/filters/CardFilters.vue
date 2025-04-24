@@ -27,6 +27,8 @@
       <b>Shop by</b>
     </Divider>
     <AccordionsCollections />
+    <AccordionSidePanelShopByCollections />
+    <AccordionSidePanelShopByCategories />
     <Divider align="center" type="dotted">
       <b>Filter</b>
     </Divider>
