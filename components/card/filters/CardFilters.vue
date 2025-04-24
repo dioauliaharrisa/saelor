@@ -102,7 +102,10 @@
       @click="
         products.refetchProducts({
           first: 8,
-          filter: { ...toRaw(filters), categories: [categoryId] }
+          filter: {
+            ...toRaw(filters),
+            categories: categoryId ? [categoryId] : []
+          }
         })
       "
     >

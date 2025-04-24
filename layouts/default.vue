@@ -2,13 +2,18 @@
   const route = useRoute()
   console.log('🦆 ~ route:', route)
   const excludedFromCardFilters = ['cart', 'account']
+  const excludedFromTopBar = ['index']
+
+  const products = useProducts()
+  const filters = products.filters
 </script>
 
 <template>
   <div class="container">
     <PanelHeader />
     <div>
-      <h1>
+      <pre>{{ filters }}</pre>
+      <h1 v-if="!excludedFromTopBar.includes(route.name)">
         {{ route.name }}
       </h1>
     </div>
