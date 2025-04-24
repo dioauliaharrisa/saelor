@@ -3,7 +3,6 @@
 
   const products = useProducts()
   const loading = products.loading
-  const loadingCategories = products.loadingCategories
   const isFullyLoaded = useState('isFullyLoaded')
   const categories = useCategories()
   const dataCategories = categories.data
