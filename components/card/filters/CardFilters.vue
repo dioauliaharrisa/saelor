@@ -103,8 +103,8 @@
     /* border-radius: 8px; */
 
     background-color: #ffffff;
-    width: 100%;
-    max-width: 300px;
+    /* width: 200px; */
+    min-width: 300px;
 
     padding: 1rem;
   }
