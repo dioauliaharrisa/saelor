@@ -14,6 +14,7 @@
 
   onMounted(async () => {
     await products.refetchProductTypes({})
+    console.log('🦆 ~ onMounted ~ products:', products)
   })
 </script>
 
