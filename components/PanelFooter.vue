@@ -74,6 +74,6 @@
     width: 100%;
     padding: 0 3rem;
     height: 400px;
-    background-color: var(--primary-color);
+    background-color: var(--secondary-color);
   }
 </style>

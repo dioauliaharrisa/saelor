@@ -30,7 +30,7 @@
       />
     </div>
     <div class="header-middle-part">
-      <SearchBar />
+      <InputSearch />
     </div>
     <div class="header-right-part">
       <!-- <div class="icons">
@@ -43,17 +43,18 @@
       </div> -->
       <div class="icons" @click="visible = true">
         <Icon name="material-symbols:person" class="icon" />
-        <p v-if="user" style="color: white; font-size: xx-small">
+        <p v-if="user" style="color: var(--primary-color); font-size: medium">
           {{ user.firstName }}
         </p>
       </div>
-      <div class="icons">
-        <Icon name="fa6-solid:boxes-stacked" class="icon" />
-      </div>
+
       <div class="icons" @click="router.push({ path: '/cart' })">
-        <OverlayBadge :value="data?.length">
-          <Icon name="material-symbols:shopping-cart-rounded" class="icon" />
-        </OverlayBadge>
+        <!-- <OverlayBadge :value="data?.length"> -->
+        <Icon name="material-symbols:shopping-cart-rounded" class="icon" />
+        <!-- </OverlayBadge> -->
+        <p v-if="user" style="color: var(--primary-color); font-size: medium">
+          {{ data }} items
+        </p>
       </div>
     </div>
     <Drawer
@@ -106,27 +107,33 @@
     display: flex;
     align-items: center;
     padding: 0.5rem 0.2rem;
+    width: 100%;
+    justify-content: center;
   }
   .icons:hover {
-    background-color: gray;
+    /* background-color: var(--secondary-color); */
+    background-color: var(--tertiary-color);
     cursor: pointer;
   }
   .icon {
-    color: white;
+    color: var(--primary-color);
     font-size: 35px;
   }
   .wrapper {
     display: flex;
     align-items: center;
+    justify-content: center;
 
     width: 100%;
-    background-color: var(--primary-color);
-    padding: 0.5rem 6rem;
+    background-color: white;
     gap: 1rem;
+    padding: 0 4rem;
+
+    min-height: 150px;
   }
 
   .header-left-part {
-    width: 10%;
+    flex: 1;
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -139,14 +146,91 @@
   }
 
   .header-middle-part {
-    flex: 1;
+    flex: 6;
   }
 
   .header-right-part {
-    width: 25%;
+    flex: 1;
     display: flex;
     align-items: center;
     text-wrap: nowrap;
     gap: 0.5rem;
+  }
+
+  /* Responsive styles */
+  @media (max-width: 1024px) {
+    .wrapper {
+      padding: 0.5rem 3rem;
+    }
+
+    .header-left-part {
+      width: 15%;
+    }
+
+    .header-middle-part {
+      flex: 2;
+    }
+
+    .header-right-part {
+      width: 35%;
+      gap: 1rem;
+    }
+
+    .icon {
+      font-size: 30px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .wrapper {
+      padding: 0.5rem 2rem;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .header-left-part {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .header-middle-part {
+      width: 100%;
+      margin-top: 1rem;
+    }
+
+    .header-right-part {
+      width: 100%;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .icon {
+      font-size: 25px;
+    }
+
+    .icons p {
+      display: none;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .wrapper {
+      padding: 0.5rem 1rem;
+    }
+
+    .header-left-part > img {
+      max-width: 80%;
+    }
+
+    .icon {
+      font-size: 20px;
+    }
+
+    .header-right-part {
+      width: 100%;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
   }
 </style>
