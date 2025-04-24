@@ -106,7 +106,10 @@
     align-items: center;
     justify-content: space-between;
     min-height: 60px;
-    width: 100vw;
+    width: 100%;
+    max-width: 100%; /* Prevents horizontal overflow */
+    overflow-x: hidden; /* Hides any horizontal overflow */
+    overflow-y: hidden; /* Hides any horizontal overflow */
   }
   .box_content {
     display: flex;

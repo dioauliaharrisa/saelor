@@ -112,7 +112,6 @@
     justify-content: center;
   }
   .icons:hover {
-    /* background-color: var(--secondary-color); */
     background-color: var(--tertiary-color);
     cursor: pointer;
   }
