@@ -5,10 +5,9 @@
   const products = useProducts()
   const cartStore = useCartStore()
   const data = computed(() => cartStore.products)
-  console.log('🦆 ~ dataProducts:', data)
 
-  onMounted(() => {
-    products.refetchProducts({
+  onMounted(async () => {
+    await products.refetchProducts({
       first: 8,
       filter: { collections: [collectionId] }
     })
