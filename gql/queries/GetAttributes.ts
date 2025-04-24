@@ -10,7 +10,7 @@ export const GET_ATTRIBUTES = gql`
           id
           name
           slug
-          choices(first: 10) {
+          choices(first: 30) {
             edges {
               node {
                 id

@@ -26,6 +26,9 @@
 <template>
   <div>
     <div v-if="recentlyViewedProducts?.length">
+      <div class="mobile_filters">
+        <CardFilters :loading="false" />
+      </div>
       <h2>Recently Viewed Products</h2>
       <div class="grid_cards_recently_viewed_products">
         <CardProduct
@@ -154,13 +157,21 @@
   }
 
   @media (max-width: 1024px) {
-    .grid {
-      grid-template-columns: repeat(4, 1fr);
+    .grid_cards {
+      grid-template-columns: repeat(3, 0.1fr);
     }
   }
   @media (max-width: 600px) {
-    .grid {
+    .grid_cards {
       grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .mobile_filters {
+    display: none;
+  }
+  @media (max-width: 768px) {
+    .mobile_filters {
+      display: block;
     }
   }
 </style>

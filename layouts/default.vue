@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   const route = useRoute()
   const excludedFromCardFilters = ['cart', 'account']
   const excludedFromTopBar = ['index']
@@ -13,17 +13,30 @@
       filters.productTypes.length ||
       filters.attributes.length
   )
+
+  const breakpoints = useBreakpoints({
+    mobile: 0, // optional
+    tablet: 640,
+    laptop: 1024,
+    desktop: 1280
+  })
+  const shouldHideCardFilters = computed((): boolean => {
+    const isBelowLaptop = breakpoints.smaller('laptop').value
+    const hasBannedURL = excludedFromCardFilters.includes(route.name)
+
+    console.log(
+      '🦆 ~ shouldHideCardFilters ~ isBelowLaptop || hasBannedURL:',
+      isBelowLaptop,
+      hasBannedURL
+    )
+    return isBelowLaptop || hasBannedURL
+  })
 </script>
 
 <template>
   <div class="container">
     <PanelHeader />
     <div>
-      <!-- <pre>{{ filters?.productTypes }}</pre>
-      <pre>{{ productTypes }}</pre> -->
-      <!-- <pre
-        >{{ productTypes.find((type) => return {type.node.id === filter.slug}) }}</pre
-      > -->
       <h1 v-if="!excludedFromTopBar.includes(route.name)">
         {{ route.name }}
       </h1>
@@ -87,8 +100,8 @@
     <div class="box_content">
       <div style="display: flex; flex-direction: column; gap: 2rem">
         <!-- <Breadcrumb /> -->
-        <div v-if="!excludedFromCardFilters.includes(route.name)">
-          <CardFilters :loading="loading" />
+        <div v-if="!shouldHideCardFilters">
+          <CardFilters :loading="false" />
         </div>
       </div>
       <slot />
@@ -119,5 +132,10 @@
     gap: 2rem;
     padding: 1rem;
     background-color: #f0f0f0;
+  }
+  @media (max-width: 1024px) {
+    .grid_cards {
+      grid-template-columns: repeat(4, 1fr);
+    }
   }
 </style>

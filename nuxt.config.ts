@@ -24,7 +24,8 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
     'reka-ui/nuxt',
-    'nuxt-meilisearch'
+    'nuxt-meilisearch',
+    '@vueuse/nuxt'
   ],
   meilisearch: {
     hostUrl: 'http://127.0.0.1:7700', // Replace with your Meilisearch host URL
