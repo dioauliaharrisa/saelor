@@ -1,6 +1,7 @@
 <script setup>
   const collections = useCollections()
   const dataCollections = computed(() => collections.data?.value || [])
+  console.log('🦆 ~ dataCollections:', dataCollections)
   const handleClick = (collection) => {
     useStore.breadcrumb = collection.node.name
     router.push(`/collections/${collection.node.id}`)
@@ -8,14 +9,17 @@
 </script>
 
 <template>
-  <Accordion v-if="dataCollections.length" :value="[0]" multiple>
-    <AccordionPanel
-      v-for="collection in dataCollections"
-      :key="collection.node?.id"
-      :value="collection.node?.id"
-    >
+  <Accordion :value="[0]" multiple>
+    <AccordionPanel>
+      <AccordionHeader>Collections</AccordionHeader>
       <AccordionContent>
-        <p @click="handleClick(collection)" style="cursor: pointer">
+        <p
+          @click="handleClick(collection)"
+          style="cursor: pointer"
+          v-for="collection in dataCollections"
+          :key="collection.node?.id"
+          :value="collection.node?.id"
+        >
           {{ collection.node?.name }}
         </p>
       </AccordionContent>
