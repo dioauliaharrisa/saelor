@@ -6,9 +6,9 @@
     }
   })
   const router = useRouter()
-  const useStore = useCartStore()
+  // const useStore = useCartStore()
   const handleClick = (category) => {
-    useStore.breadcrumb = category.node.name
+    // useStore.breadcrumb = category.node.name
     router.push(`/category/${category.node.id}`)
   }
 </script>
@@ -30,20 +30,7 @@
       </AccordionContent>
     </AccordionPanel>
   </Accordion>
-  <p v-else class="text" @click="handleClick(category)">
+  <p v-else class="j-accordion-text" @click="handleClick(category)">
     {{ category.node.name }}
   </p>
 </template>
-
-<style>
-  .text {
-    padding: 1rem 1.2rem;
-    font-size: 1rem;
-    color: var(--text-color);
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-  }
-  .text:hover {
-    background-color: var(--secondary-color);
-  }
-</style>
