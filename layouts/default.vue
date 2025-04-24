@@ -20,6 +20,7 @@
     laptop: 1024,
     desktop: 1280
   })
+  
   const shouldHideCardFilters = computed((): boolean => {
     const isBelowLaptop = breakpoints.smaller('laptop').value
     const hasBannedURL = excludedFromCardFilters.includes(route.name)

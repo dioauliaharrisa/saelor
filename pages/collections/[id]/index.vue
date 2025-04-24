@@ -1,4 +1,5 @@
 <script setup>
+  import imageNoProductsFound from '/no_products_available.png'
   const route = useRoute()
   const collectionId = route.params.id
 
@@ -14,21 +15,14 @@
   })
 </script>
 <template>
-  <div>
-    <!-- <BreadcrumbBreadcrumb /> -->
-    <div style="display: flex; gap: 1rem">
-      <div class="grid_cards">
-        <div v-for="product in data" :key="product.node?.id" class="product">
-          <CardProduct :product="product" />
-        </div>
+  <div style="display: flex; align-items: center">
+    <div v-if="!data.length" class="container_no_products_available">
+      <img :src="imageNoProductsFound" :alt="'no products found'" />
+    </div>
+    <div class="grid_cards">
+      <div v-for="product in data" :key="product.node?.id" class="product">
+        <CardProduct :product="product" />
       </div>
     </div>
   </div>
 </template>
-
-<style scoped>
-  .page {
-    width: 100vw;
-    padding: 0 8rem;
-  }
-</style>

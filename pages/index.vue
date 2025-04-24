@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import imageNoProductsFound from '/no_products_available.png'
   const cartStore = useCartStore()
 
   const products = useProducts()
@@ -48,13 +49,16 @@
         :loading="loading"
       />
     </div>
-    <div class="grid_cards">
+    <div v-if="data.length" class="grid_cards">
       <CardProduct
         v-for="product in data"
         :key="product.id"
         :product="product"
         :loading="loading"
       />
+    </div>
+    <div class="container_no_products_available" v-else>
+      <img :src="imageNoProductsFound" :alt="'no products found'" />
     </div>
     <Button
       :disabled="isFullyLoaded"
