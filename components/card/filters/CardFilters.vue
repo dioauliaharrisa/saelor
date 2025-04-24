@@ -10,6 +10,7 @@
   const productTypes = computed(() => products.productTypes)
   const attributes = computed(() => products.attributes)
   const filters = products.filters
+  console.log('🦆 ~ filters:', filters)
 
   onMounted(async () => {
     await products.refetchProductTypes({})
