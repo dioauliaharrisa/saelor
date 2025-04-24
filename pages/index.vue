@@ -58,8 +58,8 @@
       raised
       class="j-button"
       style="margin: 1rem auto; display: block"
-      @click="products.fetchMore()"
       label="Load More"
+      @click="products.fetchMore()"
     />
   </div>
 </template>

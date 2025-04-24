@@ -1,6 +1,10 @@
 export const GET_ATTRIBUTES = gql`
   query GetAttributes {
-    attributes(first: 100, channel: "default-channel") {
+    attributes(
+      first: 100
+      channel: "default-channel"
+      filter: { filterableInStorefront: true }
+    ) {
       edges {
         node {
           id

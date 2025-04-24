@@ -55,26 +55,27 @@ export const useProducts = () => {
   const categoryId = ref<string>('')
   const collectionId = ref<string>('')
 
+  const variables = ref({
+    first: 8,
+    filter: {} // start empty or with initial values
+  })
+
   const {
     result: dataProducts,
     error,
     refetch,
     fetchMore,
     loading
-  } = useQuery(
-    GET_PRODUCTS,
-    { first: 8, immediate: false, filter: filters.value },
-    {
-      fetchPolicy: 'network-only'
-    }
-  )
+  } = useQuery(GET_PRODUCTS, variables, {
+    fetchPolicy: 'network-only',
+    immediate: false
+  })
 
-  const {
-    // result: dataRecentlyViewedProducts,
-    // error: errorRVP,
-    refetch: refetchRVP
-    // loading: loadingRVP
-  } = useQuery(GET_RECENTLY_VIEWED_PRODUCTS, {
+  const applyFilters = () => {
+    variables.value.filter = toRaw(filters.value)
+  }
+
+  const { refetch: refetchRVP } = useQuery(GET_RECENTLY_VIEWED_PRODUCTS, {
     fetchPolicy: 'network-only',
     immediate: false
   })
@@ -213,6 +214,7 @@ export const useProducts = () => {
   }
 
   return {
+    applyFilters,
     products: dataProducts,
     categoryId,
     collectionId,
