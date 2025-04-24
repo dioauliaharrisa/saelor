@@ -1,11 +1,11 @@
 <script setup lang="ts">
-  import {
-    AccordionContent,
-    AccordionHeader,
-    AccordionItem,
-    AccordionRoot,
-    AccordionTrigger
-  } from 'reka-ui'
+  // import {
+  //   AccordionContent,
+  //   AccordionHeader,
+  //   AccordionItem,
+  //   AccordionRoot,
+  //   AccordionTrigger
+  // } from 'reka-ui'
   // const { categories, selectedCategory, categoryHeader } = useCategories()
   const categories = useCategories()
   // const collections = useCollections()
