@@ -1,5 +1,5 @@
 <script setup>
-  import AccordionsCollections from '../../components/AccordionsCollections.vue'
+
   import { GET_PRODUCT } from '../../gql/queries/GetProduct.ts'
   import { CREATE_CHECKOUT } from '../../gql/mutations/CreateCheckout.ts'
   import { ADD_ITEM_TO_CHECKOUT } from '../../gql/mutations/AddItemToCheckout.ts'
@@ -95,8 +95,6 @@
 <template>
   <div class="page">
     <div class="container_product_display">
-      <AccordionsCategories />
-      <AccordionsCollections />
       <div class="container_product_image">
         <Galleria
           :value="product?.media"

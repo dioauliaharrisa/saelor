@@ -16,10 +16,6 @@
   <div class="page">
     <BreadcrumbBreadcrumb />
     <div style="display: flex; gap: 1rem">
-      <div>
-        <AccordionsCategories />
-        <AccordionsCollections />
-      </div>
       <div class="grid_cards">
         <div
           v-for="product in dataProducts"
