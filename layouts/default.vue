@@ -7,6 +7,13 @@
   const products = useProducts()
   const productTypes = computed(() => products.productTypes)
   const filters = products.filters
+  const hasActiveFilters = computed(
+    () =>
+      filters.categories.length ||
+      filters.collections.length ||
+      filters.productTypes.length ||
+      filters.attributes.length
+  )
 </script>
 
 <template>
@@ -23,12 +30,7 @@
       </h1>
 
       <div
-        v-if="
-          filters?.categories.length ||
-          filters?.collections.length ||
-          filters?.productTypes.length ||
-          filters?.attributes.length
-        "
+        v-if="hasActiveFilters"
         style="
           display: flex;
           padding: 2rem;

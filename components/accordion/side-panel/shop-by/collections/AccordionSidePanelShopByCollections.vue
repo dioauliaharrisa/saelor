@@ -19,6 +19,7 @@
           v-for="collection in dataCollections"
           :key="collection.node?.id"
           :value="collection.node?.id"
+          class="j-accordion-text"
         >
           {{ collection.node?.name }}
         </p>
