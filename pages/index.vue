@@ -25,7 +25,7 @@
 
 <template>
   <div>
-    <div v-if="recentlyViewedProducts">
+    <div v-if="recentlyViewedProducts?.value.length">
       <h2>Recently Viewed Products</h2>
       <div class="grid_cards_recently_viewed_products">
         <CardProduct
