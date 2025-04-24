@@ -32,6 +32,7 @@
     <div class="header-middle-part">
       <InputSearch />
     </div>
+
     <div class="header-right-part">
       <!-- <div class="icons">
         <Icon
@@ -49,14 +50,14 @@
       </div>
 
       <div class="icons" @click="router.push({ path: '/cart' })">
-        <!-- <OverlayBadge :value="data?.length"> -->
         <Icon name="material-symbols:shopping-cart-rounded" class="icon" />
-        <!-- </OverlayBadge> -->
+
         <p v-if="user" style="color: var(--primary-color); font-size: medium">
-          {{ data }} items
+          {{ data.length }} items
         </p>
       </div>
     </div>
+
     <Drawer
       v-model:visible="visible"
       :header="`Hi ${user?.firstName ?? 'User'}`"

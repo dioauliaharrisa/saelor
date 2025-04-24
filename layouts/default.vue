@@ -1,6 +1,5 @@
 <script setup>
   const route = useRoute()
-  console.log('🦆 ~ route:', route)
   const excludedFromCardFilters = ['cart', 'account']
   const excludedFromTopBar = ['index']
 
