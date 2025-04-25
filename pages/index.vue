@@ -12,7 +12,7 @@
 
   const isDrawerVisible = ref(false)
 
-  const data = computed(() => cartStore.products)
+  const data = computed(() => cartStore.products || [])
   console.log('🦆 ~ data:', data)
 
   const breakpoints = useBreakpoints({
@@ -23,10 +23,6 @@
     desktop: 1440
   })
   const isBelowDesktop = breakpoints.smaller('desktop')
-
-  // const toggleDrawerVisible = () => {
-  //   isDrawerVisible.value = !isDrawerVisible.value
-  // }
 
   onMounted(async () => {
     await products.refetchProducts({
@@ -52,8 +48,7 @@
       label="Filter"
       variant="outlined"
       @click="isDrawerVisible = !isDrawerVisible"
-      icon="material-symbols:filter-alt-sharp"
-    />
+    ></Button>
     <div v-if="recentlyViewedProducts?.length">
       <h2>Recently Viewed Products</h2>
       <div class="grid_cards_recently_viewed_products">
@@ -74,6 +69,7 @@
         :loading="loading"
       />
     </div>
+
     <div v-if="data.length" class="grid_cards">
       <CardProduct
         v-for="product in data"

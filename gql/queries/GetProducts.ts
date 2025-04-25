@@ -1,10 +1,11 @@
 export const GET_PRODUCTS = gql`
-  query GetProducts($first: Int, $after: String, $filter: ProductFilterInput) {
+  query GetProducts($first: Int, $after: String, $filter: ProductFilterInput, $search: String) {
     products(
       channel: "default-channel"
       first: $first
       after: $after
       filter: $filter
+      search: $search
     ) {
       edges {
         node {
