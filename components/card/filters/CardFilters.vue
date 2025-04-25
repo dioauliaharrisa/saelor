@@ -1,6 +1,11 @@
 <script setup>
-  defineProps({
-    loading: Boolean
+  const { onClose } = defineProps({
+    loading: Boolean,
+    onClose: {
+      type: Function,
+      required: false,
+      default: undefined
+    }
   })
 
   const route = useRoute()
@@ -10,7 +15,16 @@
 
   const attributes = computed(() => products.attributes)
   const filters = products.filters
-
+  const applyFilters = async () => {
+    await products.refetchProducts({
+      first: 8,
+      filter: {
+        ...toRaw(filters),
+        categories: categoryId ? [categoryId] : []
+      }
+    })
+    onClose?.()
+  }
   onMounted(async () => {
     await products.refetchProductTypes({})
   })
@@ -77,20 +91,7 @@
     </Accordion>
     <AccordionSidePanelFilterType />
     <Divider />
-    <Button
-      class="j-button"
-      @click="
-        products.refetchProducts({
-          first: 8,
-          filter: {
-            ...toRaw(filters),
-            categories: categoryId ? [categoryId] : []
-          }
-        })
-      "
-    >
-      Filter
-    </Button>
+    <Button class="j-button" @click="applyFilters">Filter</Button>
   </div>
 </template>
 

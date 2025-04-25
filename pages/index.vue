@@ -10,7 +10,23 @@
 
   const recentlyViewedProducts = ref(null)
 
+  const isDrawerVisible = ref(false)
+
   const data = computed(() => cartStore.products)
+
+  const breakpoints = useBreakpoints({
+    mobile: 0,
+    mobileLarge: 425,
+    tablet: 768,
+    laptop: 1024,
+    desktop: 1440
+  })
+  const isBelowDesktop = breakpoints.smaller('desktop')
+
+  // const toggleDrawerVisible = () => {
+  //   isDrawerVisible.value = !isDrawerVisible.value
+  // }
+
   onMounted(async () => {
     await products.refetchProducts({
       first: 8,
@@ -26,10 +42,17 @@
 
 <template>
   <div>
+    <DrawerFilters v-model:visible="isDrawerVisible" style="width: 100%" />
+    <!-- <div class="mobile_filters">
+      <CardFilters :loading="false" />
+    </div> -->
+    <Button
+      v-if="isBelowDesktop"
+      label="Filter"
+      variant="outlined"
+      @click="isDrawerVisible = !isDrawerVisible"
+    />
     <div v-if="recentlyViewedProducts?.length">
-      <div class="mobile_filters">
-        <CardFilters :loading="false" />
-      </div>
       <h2>Recently Viewed Products</h2>
       <div class="grid_cards_recently_viewed_products">
         <CardProduct
