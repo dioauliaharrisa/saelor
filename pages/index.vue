@@ -13,7 +13,6 @@
   const isDrawerVisible = ref(false)
 
   const data = computed(() => cartStore.products || [])
-  console.log('🦆 ~ data:', data)
 
   const breakpoints = useBreakpoints({
     mobile: 0,
@@ -32,8 +31,8 @@
     const stored = JSON.parse(
       localStorage.getItem('recentlyViewedProducts') || '[]'
     )
-    const { data } = await products.refetchRVP({ ids: stored })
-    recentlyViewedProducts.value = data?.products?.edges || []
+    const refetchedData = await products.refetchRVP({ ids: stored })
+    recentlyViewedProducts.value = refetchedData.data?.products?.edges || []
   })
 </script>
 // material-symbols:filter-alt-sharp
