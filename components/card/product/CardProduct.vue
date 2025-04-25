@@ -76,7 +76,8 @@
             @click="
               handleAddToCart({
                 productVariantId: product.node.variants?.[0]?.id,
-                quantity
+                quantity,
+                productName: product.node.name
               })
             "
           >

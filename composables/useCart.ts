@@ -26,13 +26,16 @@ export default function useCheckout() {
       enabled: !!checkoutId.value
     }
   )
+  console.log('🦆 ~ useCheckout ~ result:', result)
 
   const handleAddToCart = async ({
     productVariantId,
-    quantity
+    quantity,
+    productName
   }: {
     productVariantId: string
     quantity: number
+    productName: string
   }) => {
     let checkoutId = cartStore.checkoutId
 
@@ -57,7 +60,7 @@ export default function useCheckout() {
         // if (errors.length) throw errors
 
         showSuccessToast(
-          `${quantity} item/s of ${productVariantId} successfully in the cart`
+          `${quantity} item/s of ${productName} successfully in the cart`
         )
       } catch (error) {
         showFieldErrors(Array.isArray(error) ? error : [error])
