@@ -15,21 +15,17 @@
   )
 
   const breakpoints = useBreakpoints({
-    mobile: 0, // optional
-    tablet: 640,
+    mobile: 0,
+    mobileLarge: 425,
+    tablet: 768,
     laptop: 1024,
-    desktop: 1280
+    desktop: 1440
   })
-  
+
   const shouldHideCardFilters = computed((): boolean => {
-    const isBelowLaptop = breakpoints.smaller('laptop').value
+    const isBelowLaptop = breakpoints.smaller('desktop').value
     const hasBannedURL = excludedFromCardFilters.includes(route.name)
 
-    console.log(
-      '🦆 ~ shouldHideCardFilters ~ isBelowLaptop || hasBannedURL:',
-      isBelowLaptop,
-      hasBannedURL
-    )
     return isBelowLaptop || hasBannedURL
   })
 </script>
@@ -133,10 +129,5 @@
     gap: 2rem;
     padding: 1rem;
     background-color: #f0f0f0;
-  }
-  @media (max-width: 1024px) {
-    .grid_cards {
-      grid-template-columns: repeat(4, 1fr);
-    }
   }
 </style>
