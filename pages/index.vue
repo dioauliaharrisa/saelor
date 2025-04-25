@@ -1,10 +1,10 @@
 <script setup lang="ts">
-  import imageNoProductsFound from '/no_products_available.png'
+  // import imageNoProductsFound from '/no_products_available.png'
   const cartStore = useCartStore()
 
   const products = useProducts()
   const loading = products.loading
-  const isFullyLoaded = useState('isFullyLoaded')
+  const isFullyLoaded = useState<boolean>('isFullyLoaded', () => false)
   const categories = useCategories()
   const dataCategories = categories.data
 
@@ -49,7 +49,7 @@
       variant="outlined"
       @click="isDrawerVisible = !isDrawerVisible"
     ></Button>
-    <div v-if="recentlyViewedProducts?.length">
+    <div v-if="recentlyViewedProducts">
       <h2>Recently Viewed Products</h2>
       <div class="grid_cards_recently_viewed_products">
         <CardProduct
@@ -78,8 +78,8 @@
         :loading="loading"
       />
     </div>
-    <div class="container_no_products_available" v-else>
-      <img :src="imageNoProductsFound" :alt="'no products found'" />
+    <div v-else class="container_no_products_available">
+      <img src="/no_products_available.png" :alt="'no products found'" />
     </div>
     <Button
       :disabled="isFullyLoaded"

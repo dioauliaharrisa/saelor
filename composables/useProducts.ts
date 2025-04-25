@@ -25,6 +25,8 @@ export const useProducts = () => {
     attributes: []
   }))
 
+  const search = useState<string>('search', () => '')
+
   const toggleAttributeFilter = (slug: string, value) => {
     const existingFilter = filters.value.attributes.find(
       (attr) => attr.slug === slug
@@ -87,9 +89,9 @@ export const useProducts = () => {
   } = useQuery(GET_PRODUCT_TYPES)
 
   const {
-    result: attributes,
-    error: errorGetAttributes,
-    refetch: refetchAttributes
+    result: attributes
+    // error: errorGetAttributes,
+    // refetch: refetchAttributes
   } = useQuery(GET_ATTRIBUTES)
 
   const fetchMoreProducts = async () => {
@@ -229,6 +231,7 @@ export const useProducts = () => {
     isFullyLoaded,
     attributes,
     toggleAttributeFilter,
-    refetchRVP
+    refetchRVP,
+    search
   }
 }

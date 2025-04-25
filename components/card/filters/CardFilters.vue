@@ -13,7 +13,9 @@
 
   const products = useProducts()
 
-  const attributes = computed(() => products.attributes)
+  const attributes = computed(
+    () => products.attributes || { attributes: { edges: [] } }
+  )
   const filters = products.filters
   const applyFilters = async () => {
     await products.refetchProducts({

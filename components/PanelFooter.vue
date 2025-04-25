@@ -37,7 +37,7 @@
 <style scoped>
   p {
     font-size: 0.8rem;
-    color: white;
+    color: var(--primary-color);
   }
   #flex-top-part {
     display: flex;
@@ -64,7 +64,7 @@
   }
 
   hr {
-    background-color: white;
+    background-color: var(--primary-color);
     width: 100%;
     height: 0.05rem;
     border-radius: 5px;
@@ -74,6 +74,6 @@
     width: 100%;
     padding: 0 3rem;
     height: 400px;
-    background-color: var(--secondary-color);
+    background-color: white;
   }
 </style>
