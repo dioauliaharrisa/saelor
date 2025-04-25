@@ -14,7 +14,7 @@
   const products = useProducts()
 
   const attributes = computed(
-    () => products.attributes || { attributes: { edges: [] } }
+    () => products.attributes?.attributes?.edges || []
   )
   const filters = products.filters
   const applyFilters = async () => {
@@ -50,7 +50,7 @@
         <AccordionHeader>Attributes</AccordionHeader>
         <AccordionContent>
           <Accordion
-            v-for="attribute in attributes.value.attributes.edges"
+            v-for="attribute in attributes"
             :key="attribute.node.id"
             :value="[0]"
             multiple
