@@ -39,7 +39,7 @@
     recentlyViewedProducts.value = data?.products?.edges || []
   })
 </script>
-
+// material-symbols:filter-alt-sharp
 <template>
   <div>
     <DrawerFilters v-model:visible="isDrawerVisible" style="width: 100%" />
@@ -51,6 +51,7 @@
       label="Filter"
       variant="outlined"
       @click="isDrawerVisible = !isDrawerVisible"
+      icon="material-symbols:filter-alt-sharp"
     />
     <div v-if="recentlyViewedProducts?.length">
       <h2>Recently Viewed Products</h2>
