@@ -16,6 +16,7 @@ export const useCollections = () => {
       })
     }
   })
+  console.log('🦆 ~ watchEffect ~ collections:', collections)
 
   return { data: collections }
 }
