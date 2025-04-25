@@ -32,7 +32,7 @@
       localStorage.getItem('recentlyViewedProducts') || '[]'
     )
     const refetchedData = await products.refetchRVP({ ids: stored })
-    recentlyViewedProducts.value = refetchedData.data?.products?.edges || []
+    recentlyViewedProducts.value = refetchedData?.data?.products?.edges || []
   })
 </script>
 // material-symbols:filter-alt-sharp
