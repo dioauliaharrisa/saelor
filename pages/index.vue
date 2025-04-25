@@ -13,6 +13,7 @@
   const isDrawerVisible = ref(false)
 
   const data = computed(() => cartStore.products)
+  console.log('🦆 ~ data:', data)
 
   const breakpoints = useBreakpoints({
     mobile: 0,
