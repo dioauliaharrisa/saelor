@@ -177,6 +177,9 @@
     cursor: pointer;
 
     background-color: #ffffff;
+
+    overflow: hidden; /* Prevent content overflow */
+    text-overflow: ellipsis; /* Add ellipsis for overflowing text */
   }
   .container img {
     flex: 1;
