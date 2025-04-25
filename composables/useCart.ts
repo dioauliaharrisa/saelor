@@ -26,7 +26,6 @@ export default function useCheckout() {
       enabled: !!checkoutId.value
     }
   )
-  console.log('🦆 ~ useCheckout ~ result:', result)
 
   const handleAddToCart = async ({
     productVariantId,
