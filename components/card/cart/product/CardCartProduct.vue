@@ -27,7 +27,7 @@
               product.variant.product.media?.[0]?.url
             "
             alt="Product Image"
-            class="product-image"
+            class="product_image"
           />
         </div>
         <div class="part-2">
@@ -61,7 +61,8 @@
 
 <style scoped>
   .cart-item {
-    max-height: 400px;
+    max-height: 150px;
+    width: 100%;
   }
   .card-content {
     display: flex;
@@ -86,10 +87,9 @@
     flex: 1;
     /* background-color: gray; */
   }
-  .product-image {
-    width: 200px;
-    height: 200px;
+  .product_image {
+    width: 75px;
+    aspect-ratio: 1/1;
     object-fit: cover;
-    border-radius: 4px;
   }
 </style>

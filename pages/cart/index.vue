@@ -69,7 +69,7 @@
   .p-card-content {
     background-color: red;
   }
-  .container-content {
+  .container_content {
     display: flex;
     align-items: center;
   }
@@ -92,8 +92,8 @@
     border: none;
   }
   .page {
-    width: 100%;
-    min-width: 1200px;
+    /* width: 100%; */
+    /* min-width: 1200px; */
     /* padding: 0 8rem; */
     /* overflow-x: hidden;  */
   }
@@ -115,5 +115,6 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    width: 100%;
   }
 </style>
