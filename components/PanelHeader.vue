@@ -22,15 +22,17 @@
 
 <template>
   <div class="wrapper">
-    <div class="header-left-part">
-      <img
-        src="/Logo_Jayben.svg"
-        alt="Logo Jayben"
-        @click="router.push({ path: '/' })"
-      />
-    </div>
-    <div class="header-middle-part">
-      <InputSearch />
+    <div class="mobile_top_part">
+      <div class="header-left-part">
+        <img
+          src="/Logo_Jayben.svg"
+          alt="Logo Jayben"
+          @click="router.push({ path: '/' })"
+        />
+      </div>
+      <div class="header-middle-part">
+        <InputSearch />
+      </div>
     </div>
 
     <div class="header-right-part">
@@ -132,10 +134,14 @@
     min-height: 150px;
   }
 
+  .mobile_top_part {
+    display: flex;
+    gap: 2rem;
+    width: 100%;
+  }
+
   .header-left-part {
     flex: 1;
-    display: flex;
-    align-items: center;
     cursor: pointer;
   }
 
@@ -145,8 +151,9 @@
     display: block;
   }
 
-  .header-middle-part {
-    flex: 6;
+  .header_middle_part {
+    flex: 7;
+    width: 100%;
   }
 
   .header-right-part {
@@ -182,6 +189,11 @@
   }
 
   @media (max-width: 768px) {
+    .mobile_top_part {
+      display: flex;
+      gap: 1rem;
+      width: 100%;
+    }
     .wrapper {
       padding: 0.5rem 2rem;
       flex-direction: column;
@@ -190,12 +202,12 @@
     }
 
     .header-left-part {
-      width: 100%;
+      flex: 1;
       justify-content: center;
     }
 
     .header-middle-part {
-      width: 100%;
+      flex: 3;
       margin-top: 1rem;
     }
 
