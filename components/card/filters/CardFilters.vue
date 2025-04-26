@@ -13,9 +13,8 @@
 
   const products = useProducts()
 
-  const attributes = computed(
-    () => products.attributes?.attributes?.edges || []
-  )
+  const attributes = computed(() => products.attributes?.value?.attributes?.edges)
+  console.log('🦆 ~ attributes:', products?.attributes)
   const filters = products.filters
   const applyFilters = async () => {
     await products.refetchProducts({

@@ -33,9 +33,7 @@
   const { fetchCollection } = useCollections()
 
   const collectionName = ref<string | null>(null)
-  console.log('🦆 ~ collectionName:', collectionName)
   const collectionDescription = ref<string | null>(null)
-  console.log('🦆 ~ collectionDescription:', collectionDescription)
 
   const isCollectionPage = computed(() => route.name?.startsWith('collection'))
 
