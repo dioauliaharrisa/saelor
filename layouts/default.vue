@@ -22,11 +22,47 @@
     desktop: 1440
   })
 
+  const routeName = computed(() => route.name)
+
   const shouldHideCardFilters = computed((): boolean => {
     const isBelowLaptop = breakpoints.smaller('desktop').value
     const hasBannedURL = excludedFromCardFilters.includes(route.name)
 
     return isBelowLaptop || hasBannedURL
+  })
+  const { fetchCollection } = useCollections()
+
+  const collectionName = ref<string | null>(null)
+  console.log('🦆 ~ collectionName:', collectionName)
+  const collectionDescription = ref<string | null>(null)
+  console.log('🦆 ~ collectionDescription:', collectionDescription)
+
+  const isCollectionPage = computed(() => route.name?.startsWith('collection'))
+
+  watchEffect(async () => {
+    if (isCollectionPage.value) {
+      const collectionId = route.params.id
+      if (collectionId) {
+        try {
+          const collection = await fetchCollection(collectionId)
+          collectionName.value = collection?.data?.collection?.name || null // Set collection name
+          collectionDescription.value =
+            collection?.data?.collection?.description || null // Set collection description
+        } catch (error) {
+          console.error('Failed to fetch collection:', error)
+          collectionName.value = null // Reset collection name on error
+        }
+      }
+    } else {
+      collectionName.value = null // Reset collection name when not on a collection page
+    }
+  })
+
+  const displayTopBar = computed(() => {
+    if (routeName.value.startsWith('collection')) {
+      return collectionName
+    }
+    return route.name
   })
 </script>
 
@@ -35,9 +71,13 @@
     <PanelHeader />
     <div>
       <h1 v-if="!excludedFromTopBar.includes(route.name)">
-        {{ route.name }}
+        {{ displayTopBar }}
       </h1>
-
+      <RichTextRenderer
+        v-if="collectionDescription"
+        :content="collectionDescription"
+        :font-size="'.75rem'"
+      />
       <div
         v-if="hasActiveFilters"
         style="
