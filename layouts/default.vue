@@ -54,7 +54,9 @@
         }
       }
     } else {
-      collectionName.value = null // Reset collection name when not on a collection page
+      //reset
+      collectionName.value = null
+      collectionDescription.value = null
     }
   })
 
