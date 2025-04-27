@@ -2,7 +2,7 @@
   --primary-color: #004273;
   --secondary-color: #789bb5;
   --tertiary-color: #f0f4f7;
-  color-scheme: light;
+  color-scheme: light !important;
 }
 
 .text-heading {
