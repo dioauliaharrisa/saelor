@@ -3,7 +3,13 @@
 import Material from '@primeuix/themes/material'
 import { definePreset } from '@primeuix/themes'
 
-const MyPreset = definePreset(Material, {})
+const MyPreset = definePreset(Material, {
+  theme: {
+    options: {
+      darkModeSelector: false
+    }
+  }
+})
 
 export default defineNuxtConfig({
   ssr: false,
