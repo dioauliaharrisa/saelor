@@ -4,6 +4,7 @@ export const GET_PRODUCTS = gql`
     $after: String
     $filter: ProductFilterInput
     $search: String
+    $sortBy: ProductOrder
   ) {
     products(
       first: $first
@@ -11,6 +12,7 @@ export const GET_PRODUCTS = gql`
       filter: $filter
       search: $search
       channel: "australia-direct-sales"
+      sortBy: $sortBy
     ) {
       edges {
         node {

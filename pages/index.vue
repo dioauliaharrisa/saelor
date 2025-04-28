@@ -23,6 +23,29 @@
   })
   const isBelowDesktop = breakpoints.smaller('desktop')
 
+  const selectedCity = ref()
+  const cities = ref([
+    { name: 'Sort alphabetically', code: 'alphabetically' },
+    { name: 'Sort by price', code: 'pricewise' }
+  ])
+
+  const onSortChange = async () => {
+    if (!selectedCity.value) return
+
+    const selected = selectedCity.value.code
+
+    if (selected === 'alphabetically') {
+      await products.refetchProducts({
+        sortBy: { field: 'NAME', direction: 'ASC' },
+        first: 8
+      })
+    } else {
+      await products.refetchProducts({
+        sortBy: { field: 'MINIMAL_PRICE', direction: 'ASC' },
+        first: 8
+      })
+    }
+  }
   onMounted(async () => {
     await products.refetchProducts({
       first: 8,
@@ -69,13 +92,25 @@
       />
     </div>
 
-    <div v-if="data.length" class="grid_cards">
-      <CardProduct
-        v-for="product in data"
-        :key="product.id"
-        :product="product"
-        :loading="loading"
-      />
+    <div v-if="data.length">
+      <div class="sort-bar">
+        <Select
+          v-model="selectedCity"
+          :options="cities"
+          option-label="name"
+          placeholder="None"
+          :highlightOnSelect="false"
+          @change="onSortChange"
+        />
+      </div>
+      <div class="grid_cards">
+        <CardProduct
+          v-for="product in data"
+          :key="product.id"
+          :product="product"
+          :loading="loading"
+        />
+      </div>
     </div>
     <div v-else class="container_no_products_available">
       <img src="/no_products_available.png" :alt="'no products found'" />
@@ -170,6 +205,13 @@
     text-wrap: nowrap;
     padding: 0.5rem;
     font-size: 0.75rem;
+  }
+  .sort-bar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0;
   }
 
   .header {

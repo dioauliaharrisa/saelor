@@ -26,7 +26,6 @@ export default function useCheckout() {
       enabled: !!checkoutId.value
     }
   )
-
   const handleAddToCart = async ({
     productVariantId,
     quantity,
@@ -105,7 +104,6 @@ export default function useCheckout() {
       }
     }
   }
-
   const handleDeleteCheckoutItem = async (idCheckoutLines) => {
     try {
       const { data } = await deleteCheckoutItem({
