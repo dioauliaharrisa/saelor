@@ -62,7 +62,7 @@
         const { data } = await registerAccount({
           email: values.email,
           password: values.password,
-          channel: 'default-channel',
+          channel: 'australia-direct-sales',
           firstName: values.firstName,
           lastName: values.lastName
         })

@@ -2,7 +2,7 @@ export const GET_ATTRIBUTES = gql`
   query GetAttributes {
     attributes(
       first: 100
-      channel: "default-channel"
+      channel: "australia-direct-sales"
       filter: { filterableInStorefront: true }
     ) {
       edges {

@@ -38,13 +38,22 @@
         :font-size="'.75rem'"
       />
       <div class="bottom-part">
-        <p class="price">
-          {{
-            formatPrice(
-              product?.node?.pricing?.priceRange?.start?.gross?.amount
-            )
-          }}
-        </p>
+        <div style="display: flex">
+          <p class="price">
+            {{
+              formatPrice(
+                product?.node?.pricing?.priceRange?.start?.gross?.amount
+              )
+            }}
+          </p>
+          <p class="price-before-gst">
+            {{
+              formatPrice(
+                product?.node?.pricing?.priceRange?.start?.net?.amount
+              )
+            }}
+          </p>
+        </div>
         <div
           style="flex: 1; display: flex; flex-direction: column; gap: 0.5rem"
         >
@@ -102,13 +111,19 @@
     width: 2rem;
   }
   .price,
-  .button_add_to_cart,
   .input-wrapper {
     flex: 1;
     min-width: 0;
   }
+  .button_add_to_cart{
+    flex: 0.5;
+  } 
+  .price-before-gst {
+    font-size: 0.75rem;
+    font-weight: 400;
+  }
   .price {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     font-weight: 700;
   }
   .button_add_to_cart,
@@ -122,7 +137,7 @@
   .bottom-part {
     display: flex;
     align-items: flex-end;
-    gap: 2rem;
+    gap: 0.5rem;
     min-width: 0;
   }
 

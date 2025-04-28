@@ -8,7 +8,7 @@
     }
   })
   const variables = {
-    channel: 'default-channel'
+    channel: 'australia-direct-sales'
   }
   const { data } = await useAsyncQuery(GET_PAGES, variables)
   const pages = computed(() => data?.value?.pages?.edges || [])

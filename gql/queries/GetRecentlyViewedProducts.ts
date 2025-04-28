@@ -1,6 +1,10 @@
 export const GET_RECENTLY_VIEWED_PRODUCTS = gql`
   query GetRecentlyViewedProducts($ids: [ID!]) {
-    products(channel: "default-channel", first: 5, where: { ids: $ids }) {
+    products(
+      channel: "australia-direct-sales"
+      first: 5
+      where: { ids: $ids }
+    ) {
       edges {
         node {
           id

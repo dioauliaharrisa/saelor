@@ -1,6 +1,10 @@
 export const GET_PRODUCTS_BY_COLLECTION_IDS = gql`
   query GetProductsByCollectionIds($first: Int, $filter: ProductFilterInput) {
-    products(channel: "default-channel", first: $first, filter: $filter) {
+    products(
+      channel: "australia-direct-sales"
+      first: $first
+      filter: $filter
+    ) {
       edges {
         node {
           id

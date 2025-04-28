@@ -70,7 +70,7 @@ export default function useCheckout() {
       try {
         const { data } = await createCheckout({
           input: {
-            channel: 'default-channel',
+            channel: 'australia-direct-sales',
             lines: [
               {
                 quantity: quantity,

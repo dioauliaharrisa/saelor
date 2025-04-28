@@ -200,7 +200,7 @@ export const useProducts = () => {
     }
 
     if (error.value) {
-      console.log('🦆 ~ watchEffect ~ error:', error)
+      console.error('🦆 ~ watchEffect ~ error:', error)
       throw createError({
         statusCode: 500,
         statusMessage: 'Failed to fetch products',

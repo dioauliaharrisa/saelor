@@ -1,6 +1,6 @@
 export const GET_COLLECTIONS = gql`
   query GetCollections {
-    collections(channel: "default-channel", first: 10) {
+    collections(channel: "australia-direct-sales", first: 10) {
       edges {
         cursor
         node {

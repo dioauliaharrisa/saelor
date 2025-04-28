@@ -14,7 +14,7 @@
 
   const variables = {
     id,
-    channel: 'default-channel'
+    channel: 'australia-direct-sales'
   }
   const { data } = await useAsyncQuery(GET_PRODUCT, variables)
   const product = data?.value?.product || null
@@ -53,7 +53,7 @@
       try {
         const { data } = await mutate({
           input: {
-            channel: 'default-channel',
+            channel: 'australia-direct-sales',
             lines: [
               {
                 quantity: quantity.value,

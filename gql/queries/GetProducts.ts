@@ -6,11 +6,11 @@ export const GET_PRODUCTS = gql`
     $search: String
   ) {
     products(
-      channel: "default-channel"
       first: $first
       after: $after
       filter: $filter
       search: $search
+      channel: "australia-direct-sales"
     ) {
       edges {
         node {
