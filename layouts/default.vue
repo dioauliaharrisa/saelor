@@ -135,11 +135,8 @@
       </div>
     </div>
     <div class="box_content">
-      <div style="display: flex; flex-direction: column; gap: 2rem">
-        <!-- <Breadcrumb /> -->
-        <div v-if="!shouldHideCardFilters">
-          <CardFilters :loading="false" />
-        </div>
+      <div v-if="!shouldHideCardFilters">
+        <CardFilters :loading="false" />
       </div>
       <slot />
     </div>

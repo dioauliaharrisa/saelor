@@ -71,6 +71,7 @@
   }
   .container_content {
     display: flex;
+    flex-direction: column;
     align-items: center;
   }
   .container_checkout_total_price {
@@ -93,7 +94,7 @@
   }
   .page {
     /* width: 100%; */
-    /* min-width: 1200px; */
+    min-width: 1200px;
     /* padding: 0 8rem; */
     /* overflow-x: hidden;  */
   }
@@ -104,6 +105,7 @@
   }
   .text_indicator_cart_items {
     display: flex;
+    flex-direction: column;
     gap: 2rem;
     padding: 2rem 0;
   }

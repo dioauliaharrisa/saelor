@@ -1,5 +1,10 @@
 export const GET_PRODUCTS = gql`
-  query GetProducts($first: Int, $after: String, $filter: ProductFilterInput, $search: String) {
+  query GetProducts(
+    $first: Int
+    $after: String
+    $filter: ProductFilterInput
+    $search: String
+  ) {
     products(
       channel: "default-channel"
       first: $first
@@ -19,6 +24,9 @@ export const GET_PRODUCTS = gql`
             priceRange {
               start {
                 gross {
+                  amount
+                }
+                net {
                   amount
                 }
               }

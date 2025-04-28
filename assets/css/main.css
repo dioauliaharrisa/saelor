@@ -5,6 +5,11 @@
   color-scheme: light !important;
 }
 
+.p-inputtext {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
 .text-heading {
   font-size: 1.5rem;
   font-weight: bold;
