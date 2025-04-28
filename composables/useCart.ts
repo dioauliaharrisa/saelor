@@ -37,6 +37,8 @@ export default function useCheckout() {
     productName: string
   }) => {
     let checkoutId = cartStore.checkoutId
+    if (result?.value?.checkout?.lines?.length === 0)
+      cartStore.checkoutId = null
 
     if (!quantity) throw ['ERROR 666 QUANTITY REQUIRED']
     if (!productVariantId) throw ['ERROR 666 PRODUCT VARIANT ID REQUIRED']
@@ -47,7 +49,7 @@ export default function useCheckout() {
           data: {
             checkoutLinesAdd: {
               // checkout,
-              // errors
+              errors
             }
           }
         } = await addItemToCheckout({
@@ -56,12 +58,14 @@ export default function useCheckout() {
           variantId: productVariantId
         })
 
-        // if (errors.length) throw errors
+        if (errors.length) throw errors
+        await refetch()
 
         showSuccessToast(
           `${quantity} item/s of ${productName} successfully in the cart`
         )
-      } catch (error) {
+      } catch (errors) {
+        console.log('🦆 ~ useCheckout ~ errors:', errors)
         showFieldErrors(Array.isArray(error) ? error : [error])
       }
     }

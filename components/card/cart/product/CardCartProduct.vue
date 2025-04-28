@@ -11,6 +11,7 @@
 <template>
   <Card class="cart-item">
     <template #content>
+      <!-- <pre>{{ product.totalPrice }}</pre> -->
       <!-- <h6>Item is {{}}</h6>
             <Divider /> -->
       <div class="card-content">
@@ -41,18 +42,49 @@
             :font-size="'.75rem'"
           />
         </div>
-        <div class="part-3">
-          <p style="font-weight: 700">
-            {{ formatPrice(product.unitPrice?.gross.amount) }}
-          </p>
-          <p>Each</p>
+
+        <div class="container-unit">
+          <h3>Unit</h3>
+          <Divider />
+          <div class="container-sub-units">
+            <div style="display: flex; flex-direction: column; gap: 1rem">
+              <div class="cont-exc-gst">
+                <p style="font-weight: 700">
+                  {{ formatPrice(product.unitPrice?.net.amount) }}
+                </p>
+                <p>Each (exc. GST)</p>
+              </div>
+              <p>Quantity ordered:{{ product.quantity }}</p>
+            </div>
+            <Divider layout="vertical" />
+            <div class="cont-with-gst">
+              <p style="font-weight: 700">
+                {{ formatPrice(product.unitPrice?.gross.amount) }}
+              </p>
+              <p>Each</p>
+            </div>
+          </div>
         </div>
-        <div class="part-4">
-          <p style="font-weight: 700">
-            {{ formatPrice(product.totalPrice?.gross.amount) }}
-          </p>
-          <p style="padding-bottom: 1rem">Total (exc. GST)</p>
-          <p>Quantity ordered:{{ product.quantity }}</p>
+        <div class="container-total">
+          <h3>Total</h3>
+          <Divider />
+          <div class="container-sub-units">
+            <div>
+              <p style="font-weight: 700">
+                {{ formatPrice(product.totalPrice?.net.amount) }}
+              </p>
+              <p style="padding-bottom: 1rem; font-weight: 700">
+                Total (exc. GST)
+              </p>
+            </div>
+            <Divider layout="vertical" />
+            <div>
+              <p style="font-weight: 700">
+                {{ formatPrice(product.totalPrice?.gross.amount) }}
+              </p>
+              <p style="font-weight: 700">Total</p>
+            </div>
+          </div>
         </div>
       </div>
     </template>
@@ -61,31 +93,37 @@
 
 <style scoped>
   .cart-item {
-    max-height: 150px;
+    max-height: 200px;
     width: 100%;
   }
   .card-content {
     display: flex;
+    gap: 1rem;
   }
   .part_1 {
     flex: 1;
     display: flex;
     align-items: center;
     gap: 1rem;
+    padding: 1rem 0;
   }
 
   .part-2 {
-    flex: 6;
-    /* background-color: #d0d0d0; */
+    flex: 4;
+    padding: 0 1rem;
   }
 
-  .part-3 {
+  .container-unit {
     flex: 3;
-    /* background-color: #b0b0b0; */
+    display: flex;
+    flex-direction: column;
   }
-  .part-4 {
-    flex: 1;
-    /* background-color: gray; */
+  .container-sub-units {
+    display: flex;
+    justify-content: space-between;
+  }
+  .container-total {
+    flex: 3;
   }
   .product_image {
     width: 75px;

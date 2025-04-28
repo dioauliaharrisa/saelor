@@ -8,13 +8,6 @@ export const GET_CHECKOUT = gql`
         variant {
           id
           name
-          pricing {
-            price {
-              gross {
-                amount
-              }
-            }
-          }
           media {
             url
             productId
@@ -35,16 +28,25 @@ export const GET_CHECKOUT = gql`
           gross {
             amount
           }
+          net {
+            amount
+          }
         }
         unitPrice {
           currency
           gross {
             amount
           }
+          net {
+            amount
+          }
         }
       }
       totalPrice {
         gross {
+          amount
+        }
+        net {
           amount
         }
       }
