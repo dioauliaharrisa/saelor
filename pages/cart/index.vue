@@ -49,7 +49,14 @@
         <Button
           id="button-proceed-to-checkout"
           label="Proceed to checkout via Purchase Order"
-          @click="generatePurchaseOrderPdf({ checkoutLines: data })"
+          @click="
+            generatePurchaseOrderPdf({
+              checkoutLines: data,
+              unitPriceWithTax: unitPrice?.gross.amount,
+              totalWithTax: totalPrice?.gross.amount,
+              totalExcTax: totalPrice?.net.amount
+            })
+          "
         />
         <!-- @click="handleCheckoutViaPurchaseOrder()" -->
 

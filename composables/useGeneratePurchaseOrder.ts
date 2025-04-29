@@ -30,8 +30,17 @@ const template = {
   schemas: [
     [
       {
+        type: 'line',
+        position: { x: 25, y: 20 },
+        width: 160,
+        height: 2.2,
+        color: '#004273',
+        alignment: 'center',
+        name: 'headerLine'
+      },
+      {
         type: 'svg',
-        position: { x: 20, y: 20 },
+        position: { x: 20, y: 30 },
         content: jaybenLogo,
         width: 60,
         height: 20,
@@ -40,7 +49,7 @@ const template = {
       },
       {
         type: 'text',
-        position: { x: 120.13, y: 20 },
+        position: { x: 120.13, y: 30 },
         content: 'Purchase Order',
         width: 69.87,
         height: 22.68,
@@ -126,29 +135,46 @@ const template = {
         content:
           '[["Eggshell Camisole Top","1","123","123"],["Cuban Collar Shirt","2","127","254"]]',
         showHead: true,
-        head: ['Item', 'Quantity', 'Unit Price', 'Total'],
+        head: [
+          'Item',
+          'Qty',
+          'Unit Price (exc. GST)',
+          'Unit Price (with GST)',
+          'Total Unit Price (exc. GST)',
+          'Total Unit Price (with GST)'
+        ],
         headWidthPercentages: [
-          49.538325694806396, 17.962830593295262, 19.26354959425127,
-          13.23529411764708
+          16.688837615093302, 10.69232750284623, 15.541628999707521,
+          13.327205882352953, 18.75, 25
         ],
         fontName: '',
         tableStyles: { borderWidth: 0, borderColor: '#000000' },
         headStyles: {
           fontName: '',
-          fontSize: 13,
+          fontSize: 11,
           characterSpacing: 0,
           alignment: 'center',
           verticalAlignment: 'middle',
           lineHeight: 1,
           fontColor: '#000000',
           borderColor: '#000000',
-          backgroundColor: '',
-          borderWidth: { top: 0.1, right: 0, bottom: 0, left: 0 },
-          padding: { top: 5, right: 5, bottom: 5, left: 5 }
+          backgroundColor: '#f0f4f7',
+          borderWidth: {
+            top: 0.1,
+            right: 0.1,
+            bottom: 0.0,
+            left: 0.1
+          },
+          padding: {
+            top: 2,
+            right: 1,
+            bottom: 2,
+            left: 1
+          }
         },
         bodyStyles: {
           fontName: '',
-          fontSize: 13,
+          fontSize: 8,
           characterSpacing: 0,
           alignment: 'center',
           verticalAlignment: 'middle',
@@ -158,7 +184,7 @@ const template = {
           backgroundColor: '',
           alternateBackgroundColor: '',
           borderWidth: { top: 0.1, right: 0, bottom: 0.1, left: 0 },
-          padding: { top: 6, right: 5, bottom: 5, left: 5 }
+          padding: { top: 2, right: 2, bottom: 2, left: 2 }
         },
         columnStyles: { alignment: { '0': 'left', '3': 'right' } },
         name: 'orders',
@@ -177,7 +203,7 @@ const template = {
         lineHeight: 1,
         characterSpacing: 0,
         fontColor: '#000000',
-        backgroundColor: '',
+        backgroundColor: '#f0f4f7',
         opacity: 1,
         readOnly: true,
         fontName: '',
@@ -197,12 +223,12 @@ const template = {
         lineHeight: 1,
         characterSpacing: 0,
         fontColor: '#000000',
-        backgroundColor: '',
+        backgroundColor: '#f0f4f7',
         opacity: 1,
         strikethrough: false,
         underline: false,
         readOnly: false,
-        text: 'Tax ({rate}%)',
+        text: 'Total (exc. GST)',
         variables: ['rate'],
         required: false,
         dynamicFontSize: { min: 4, max: 13, fit: 'vertical' },
@@ -222,29 +248,28 @@ const template = {
       },
       {
         type: 'text',
-        content:
-          '{orders.reduce((sum, item) => sum + parseFloat(item[1] || 0) * parseFloat(item[2] || 0), 0)}',
+        content: '{totalExcTax}',
         position: { x: 158.79, y: 157.1 },
         width: 26.21,
         height: 7.56,
         rotate: 0,
         alignment: 'right',
         verticalAlignment: 'middle',
-        fontSize: 13,
+        fontSize: 12,
         lineHeight: 1,
         characterSpacing: 0,
         fontColor: '#000000',
-        backgroundColor: '',
+        backgroundColor: '#f0f4f7',
         opacity: 1,
         fontName: '',
         name: 'subtotal',
         readOnly: true,
-        required: false,
-        dynamicFontSize: { min: 4, max: 13, fit: 'horizontal' }
+        required: false
+        // dynamicFontSize: { min: 4, max: 13, fit: 'horizontal' }
       },
       {
         type: 'text',
-        content: '{Number(subtotal) * Number(taxInput.rate) / 100}',
+        content: '{totalTax}',
         position: { x: 158.79, y: 164.98 },
         width: 26.21,
         height: 8.89,
@@ -255,53 +280,54 @@ const template = {
         lineHeight: 1,
         characterSpacing: 0,
         fontColor: '#000000',
-        backgroundColor: '',
+        backgroundColor: '#f0f4f7',
         opacity: 1,
         fontName: '',
         name: 'tax',
         readOnly: true,
-        required: false,
-        dynamicFontSize: { min: 4, max: 13, fit: 'horizontal' }
+        required: false
+        // dynamicFontSize: { min: 4, max: 13, fit: 'horizontal' }
       },
+
       {
         type: 'text',
         position: { x: 131.94, y: 174.64 },
-        content: 'Total',
+        content: 'Total with tax:',
         width: 27.01,
         height: 11,
         rotate: 0,
         alignment: 'right',
         verticalAlignment: 'middle',
-        fontSize: 20,
+        fontSize: 12,
         lineHeight: 1,
         characterSpacing: 0,
         fontColor: '#000000',
         fontName: '',
-        backgroundColor: '',
+        backgroundColor: '#f0f4f7',
         opacity: 1,
         readOnly: true,
-        name: 'totalLabel'
+        name: 'totalTextLabel'
       },
       {
         type: 'text',
-        content: '${Number(subtotal) + Number(tax)}',
+        content: '{totalWithTax}',
         position: { x: 159.05, y: 174.64 },
         width: 25.95,
         height: 11,
         rotate: 0,
         alignment: 'right',
         verticalAlignment: 'middle',
-        fontSize: 20,
+        fontSize: 12,
         lineHeight: 1,
         characterSpacing: 0,
         fontColor: '#000000',
-        backgroundColor: '',
+        backgroundColor: '#f0f4f7',
         opacity: 1,
         fontName: '',
         name: 'total',
         readOnly: true,
-        required: false,
-        dynamicFontSize: { min: 4, max: 20, fit: 'horizontal' }
+        required: false
+        // dynamicFontSize: { min: 4, max: 20, fit: 'horizontal' }
       },
 
       {
@@ -456,10 +482,7 @@ const inputs = [
       Date: '15 November 2023'
     }),
     taxInput: '{"rate":"10"}',
-    orders: [
-      ['Axle Shaft', '1', '123', '123'],
-      ['Turbine', '2', '127', '254']
-    ],
+
     // Payment Information
     paymentInfoInput:
       'Acme Bank\nAccount Name: John Doe\nAccount No.: ****-7890\nRouting No.: 123456789\nPay by: 30 November 2023',
@@ -467,7 +490,6 @@ const inputs = [
     // Shop Information
     shopName: 'Acme Inc.',
     shopAddress: '456 Business Ave, Suite 100\nSan Francisco, CA 94107',
-
     // Footer Information (for staticSchema)
     footerInfo: JSON.stringify({
       InvoiceNo: 'INV-2023-001',
@@ -483,21 +505,53 @@ const inputs = [
   }
 ]
 
-export const generatePurchaseOrderPdf = async ({ checkoutLines }) => {
-  console.log('🦆 ~ generatePurchaseOrderPdf ~ checkoutLines:', checkoutLines)
+type CheckoutLine = {
+  variant: {
+    product: {
+      name: string
+    }
+  }
+  quantity: number
+  unitPrice: {
+    gross: {
+      amount: number
+    }
+  }
+  totalPrice: {
+    gross: {
+      amount: number
+    }
+  }
+}
 
+type GeneratePurchaseOrderPdfParams = {
+  checkoutLines: CheckoutLine[]
+  totalWithTax: number
+  totalExcTax: number
+}
+
+export const generatePurchaseOrderPdf = async ({
+  checkoutLines,
+  totalWithTax,
+  totalExcTax
+}: GeneratePurchaseOrderPdfParams) => {
   const orders = []
   checkoutLines.forEach((checkout) => {
     const order = [
       checkout.variant.product.name,
       checkout.quantity.toString(),
+      formatPrice(checkout.unitPrice.net.amount),
       formatPrice(checkout.unitPrice.gross.amount),
+      formatPrice(checkout.totalPrice.net.amount),
       formatPrice(checkout.totalPrice.gross.amount)
     ]
     orders.push(order)
   })
 
   inputs[0].orders = orders
+  inputs[0].totalWithTax = formatPrice(totalWithTax)
+  inputs[0].totalExcTax = formatPrice(totalExcTax)
+  inputs[0].totalTax = formatPrice(totalWithTax - totalExcTax)
 
   // return
   const pdf = await generate({
