@@ -49,8 +49,10 @@
         <Button
           id="button-proceed-to-checkout"
           label="Proceed to checkout via Purchase Order"
-          @click="handleCheckoutViaPurchaseOrder()"
+          @click="generatePurchaseOrderPdf({ checkoutLines: data })"
         />
+        <!-- @click="handleCheckoutViaPurchaseOrder()" -->
+
         <!-- <Button
           id="button-checkout"
           label="Checkout"

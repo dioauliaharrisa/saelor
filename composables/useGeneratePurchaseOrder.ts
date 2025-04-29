@@ -481,10 +481,26 @@ const inputs = [
   }
 ]
 
-export const generatePurchaseOrderPdf = async () => {
+export const generatePurchaseOrderPdf = async ({ checkoutLines }) => {
+  console.log('🦆 ~ generatePurchaseOrderPdf ~ checkoutLines:', checkoutLines)
+
+  const orders = []
+  checkoutLines.forEach((checkout) => {
+    console.log('🦆 ~ checkoutLines.forEach ~ checkout:', checkout)
+    const order = [
+      checkout.variant.product.name,
+      checkout.quantity,
+      checkout.unitPrice.gross.amount,
+      checkout.totalPrice.gross.amount
+    ]
+    orders.push(order)
+  })
+  console.log('🦆 ~ checkoutLines.forEach ~ orders:', orders)
+
+  // return
   const pdf = await generate({
     template,
-    inputs,
+    inputs: [...inputs],
     plugins: {
       text,
       image,
