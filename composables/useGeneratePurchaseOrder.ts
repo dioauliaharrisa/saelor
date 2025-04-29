@@ -105,6 +105,45 @@ const template = {
         fontName: '',
         name: 'billedToInput'
       },
+      {
+        type: 'text',
+        position: { x: 120, y: 57.88 },
+        content: 'Shipped to:',
+        width: 84.69,
+        height: 9.42,
+        rotate: 0,
+        alignment: 'left',
+        verticalAlignment: 'top',
+        fontSize: 13,
+        lineHeight: 1,
+        characterSpacing: 0,
+        fontColor: '#000000',
+        backgroundColor: '',
+        opacity: 1,
+        readOnly: true,
+        fontName: '',
+        name: 'shippedToLabel'
+      },
+      {
+        type: 'text',
+        content:
+          'Imani Olowe \n+123-456-7890 \n63 Ivy Road, Hawkville, GA, USA 31036',
+        position: { x: 120, y: 67.94 },
+        width: 84.95,
+        height: 34.07,
+        rotate: 0,
+        alignment: 'left',
+        verticalAlignment: 'top',
+        fontSize: 13,
+        lineHeight: 1,
+        characterSpacing: 0,
+        fontColor: '#000000',
+        backgroundColor: '',
+        opacity: 1,
+        dynamicFontSize: { min: 3, max: 13, fit: 'vertical' },
+        fontName: '',
+        name: 'shippedToInput'
+      },
       // {
       //   type: 'multiVariableText',
       //   position: { x: 119.87, y: 67.88 },
@@ -139,13 +178,12 @@ const template = {
           'Item',
           'Qty',
           'Unit Price (exc. GST)',
-          'Unit Price (with GST)',
           'Total Unit Price (exc. GST)',
           'Total Unit Price (with GST)'
         ],
         headWidthPercentages: [
-          16.688837615093302, 10.69232750284623, 15.541628999707521,
-          13.327205882352953, 18.75, 25
+          19.46366230541769, 18.125709261669424, 15.543097772986739,
+          21.867530659926153, 25
         ],
         fontName: '',
         tableStyles: { borderWidth: 0, borderColor: '#000000' },
@@ -477,6 +515,8 @@ const inputs = [
   {
     billedToInput:
       'Dhio Aulia Harrisa\n+6281234567890\nJl. Raya No. 123, Jakarta, Indonesia',
+    shippedToInput:
+      'Dhio Aulia Harrisa\n+6281234567890\nJl. Raya No. 123, Jakarta, Indonesia',
     info: JSON.stringify({
       InvoiceNo: 'INV-2023-001',
       Date: '15 November 2023'
@@ -541,7 +581,6 @@ export const generatePurchaseOrderPdf = async ({
       checkout.variant.product.name,
       checkout.quantity.toString(),
       formatPrice(checkout.unitPrice.net.amount),
-      formatPrice(checkout.unitPrice.gross.amount),
       formatPrice(checkout.totalPrice.net.amount),
       formatPrice(checkout.totalPrice.gross.amount)
     ]

@@ -6,7 +6,24 @@ import { definePreset } from '@primeuix/themes'
 const MyPreset = definePreset(Material, {
   theme: {
     options: {
-      darkModeSelector: false
+      darkModeSelector: false,
+      focusRing: {
+        width: '10px',
+        style: 'solid',
+        color: '{primary.color}',
+        offset: '2px',
+        shadow: 'none'
+      }
+    }
+  },
+  components: {
+    button: {
+      primary: {
+        hover: {
+          background: '#b8e3ff', // Your custom hover background color
+          color: '#ffffff' // Your custom hover text color
+        }
+      }
     }
   }
 })
