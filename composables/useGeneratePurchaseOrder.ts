@@ -8,13 +8,7 @@ import {
   svg
 } from '@pdfme/schemas'
 
-const template = {
-  schemas: [
-    [
-      {
-        type: 'svg',
-        position: { x: 20, y: 20 },
-        content: `<svg width="177px" height="60px" viewBox="0 0 177 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+const jaybenLogo = `<svg width="177px" height="60px" viewBox="0 0 177 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
             <title>194B3745-FE6E-4061-9A30-A945694FBF5A</title>
             <desc>Created with sketchtool.</desc>
             <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -30,7 +24,15 @@ const template = {
                     </g>
                 </g>
             </g>
-        </svg>`,
+        </svg>`
+
+const template = {
+  schemas: [
+    [
+      {
+        type: 'svg',
+        position: { x: 20, y: 20 },
+        content: jaybenLogo,
         width: 60,
         height: 20,
         readOnly: true,
@@ -486,21 +488,21 @@ export const generatePurchaseOrderPdf = async ({ checkoutLines }) => {
 
   const orders = []
   checkoutLines.forEach((checkout) => {
-    console.log('🦆 ~ checkoutLines.forEach ~ checkout:', checkout)
     const order = [
       checkout.variant.product.name,
-      checkout.quantity,
-      checkout.unitPrice.gross.amount,
-      checkout.totalPrice.gross.amount
+      checkout.quantity.toString(),
+      formatPrice(checkout.unitPrice.gross.amount),
+      formatPrice(checkout.totalPrice.gross.amount)
     ]
     orders.push(order)
   })
-  console.log('🦆 ~ checkoutLines.forEach ~ orders:', orders)
+
+  inputs[0].orders = orders
 
   // return
   const pdf = await generate({
     template,
-    inputs: [...inputs],
+    inputs,
     plugins: {
       text,
       image,
