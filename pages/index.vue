@@ -101,11 +101,11 @@
     <div v-else class="container_no_products_available">
       <img src="/no_products_available.png" :alt="'no products found'" />
     </div>
-    <!-- class="j-button" -->
     <Button
       :disabled="isFullyLoaded"
       style="margin: 1rem auto; display: block"
       label="Load More"
+      class="j-button"
       @click="products.fetchMore()"
     />
   </div>
