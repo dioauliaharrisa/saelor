@@ -102,9 +102,9 @@
       <img src="/no_products_available.png" :alt="'no products found'" />
     </div>
     <!-- raised -->
+    <!-- class="j-button" -->
     <Button
       :disabled="isFullyLoaded"
-      class="j-button"
       style="margin: 1rem auto; display: block"
       label="Load More"
       @click="products.fetchMore()"
