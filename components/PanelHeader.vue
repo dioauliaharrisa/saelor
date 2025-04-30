@@ -110,10 +110,10 @@
           @click="router.push({ path: '/change-password' })"
         />
         <Button
+          v-if="user"
           label="Account"
-          variant="link"
+          severity="secondary"
           @click="router.push({ path: '/account' })"
-          style="max-width: 4rem"
         />
       </div>
     </Drawer>
@@ -147,9 +147,12 @@
     position: sticky;
     top: 0;
     z-index: 90;
-    display: flex;
+
+    display: grid;
+    grid-template-areas: 'left middle right';
+    grid-template-columns: 1fr 2fr 1fr;
     align-items: center;
-    justify-content: center;
+    gap: 1rem;
 
     width: 100%;
     background-color: white;
@@ -166,8 +169,15 @@
   }
 
   .header-left-part {
-    /* flex: 1; */
+    grid-area: left;
+
     cursor: pointer;
+  }
+  .header-middle-part {
+    grid-area: middle;
+  }
+  .header-right-part {
+    grid-area: right;
   }
 
   .header-left-part > img {
@@ -258,10 +268,12 @@
       font-size: 20px;
     }
     .wrapper {
-      display: flex;
-      flex-wrap: wrap;
+      grid-template-areas:
+        'left'
+        'right'
+        'middle';
+      grid-template-columns: 1fr;
       padding: 0.5rem 1rem;
-      gap: 1rem;
     }
 
     .header-left-part,

@@ -43,10 +43,11 @@
         />
       </div>
       <div class="container_checkout_total_price">
-        <p class="title">
+        <p v-if="data.length > 0" class="title">
           Total Price: {{ formatPrice(totalPrice?.gross.amount) }}
         </p>
         <Button
+          v-if="data.length > 0"
           id="button-proceed-to-checkout"
           label="Proceed to checkout via Purchase Order"
           @click="
