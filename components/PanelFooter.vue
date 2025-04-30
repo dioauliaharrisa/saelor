@@ -7,7 +7,6 @@
     <div id="flex-top-part">
       <div style="display: flex; flex-direction: column; gap: 1rem">
         <p @click="router.push('/')">Home</p>
-        <p @click="router.push('/account')">Account</p>
         <p>Contact Us</p>
         <p>Placeholders</p>
       </div>

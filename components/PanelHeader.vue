@@ -93,6 +93,12 @@
           label="Change Password"
           @click="router.push({ path: '/change-password' })"
         />
+        <Button
+          label="Account"
+          variant="link"
+          @click="router.push({ path: '/account' })"
+          style="max-width: 4rem"
+        />
       </div>
     </Drawer>
   </div>
@@ -122,6 +128,9 @@
     font-size: 35px;
   }
   .wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 1000000000;
     display: flex;
     align-items: center;
     justify-content: center;
