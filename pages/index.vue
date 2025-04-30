@@ -135,11 +135,7 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;
   }
-  .grid_cards_recently_viewed_products {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 16px;
-  }
+
   .button_new {
     background-color: var(--primary-color);
     border: solid 1px var(--primary-color);
@@ -226,6 +222,12 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
   } */
+  .grid_cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    width: 100%;
+  }
 
   @media (max-width: 1024px) {
     .grid_cards {
