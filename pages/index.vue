@@ -101,7 +101,6 @@
     <div v-else class="container_no_products_available">
       <img src="/no_products_available.png" :alt="'no products found'" />
     </div>
-    <!-- raised -->
     <!-- class="j-button" -->
     <Button
       :disabled="isFullyLoaded"
