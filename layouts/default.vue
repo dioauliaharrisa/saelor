@@ -1,7 +1,7 @@
 <script setup lang="ts">
   const route = useRoute()
   const excludedFromCardFilters = ['cart', 'account', 'login']
-  const excludedFromTopBar = ['index', 'cart']
+  const excludedFromTopBar = ['index', 'cart', 'id']
 
   const products = useProducts()
   const productTypes = computed(() => products.productTypes)
@@ -23,6 +23,7 @@
   })
 
   const routeName = computed(() => route.name)
+  console.log('🦆 ~ routeName:', routeName)
 
   const shouldHideCardFilters = computed((): boolean => {
     const isBelowLaptop = breakpoints.smaller('desktop').value
