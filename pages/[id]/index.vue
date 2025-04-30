@@ -195,6 +195,10 @@
         </div>
       </div>
     </div>
+    <div class="container-recommendation">
+      <div class="grid-cards">
+      </div>
+    </div>
 
     <DialogWarrantyInformation v-model:visible="visible" />
   </div>
