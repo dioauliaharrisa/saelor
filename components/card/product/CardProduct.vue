@@ -42,17 +42,11 @@
           <p class="price">
             {{
               formatPrice(
-                product?.node?.pricing?.priceRange?.start?.gross?.amount
-              )
-            }}
-          </p>
-          <p class="price-before-gst">
-            {{
-              formatPrice(
                 product?.node?.pricing?.priceRange?.start?.net?.amount
               )
             }}
           </p>
+          <p class="price-before-gst">EX-GST</p>
         </div>
         <div
           style="flex: 1; display: flex; flex-direction: column; gap: 0.5rem"
@@ -115,12 +109,13 @@
     flex: 1;
     min-width: 0;
   }
-  .button_add_to_cart{
+  .button_add_to_cart {
     flex: 0.5;
-  } 
+  }
   .price-before-gst {
     font-size: 0.75rem;
     font-weight: 400;
+    justify-self: end;
   }
   .price {
     font-size: 1.2rem;
@@ -187,7 +182,7 @@
     /* border-radius: 8px; */
 
     height: 300px;
-    max-width: 300px;
+    width: 300px;
 
     padding: 1rem;
     cursor: pointer;

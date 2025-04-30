@@ -34,41 +34,32 @@
 <template>
   <div class="wrapper">
     <DrawerFilters v-model:visible="isDrawerVisible" style="width: 100%" />
-    <div class="mobile_top_part">
-      <div class="header-left-part">
-        <Button
-          v-if="isBelowDesktop"
-          style="width: 40px; height: 40px; padding: 0"
-          @click="isDrawerVisible = !isDrawerVisible"
-        >
-          <template #icon>
-            <Icon
-              name="material-symbols:list-alt-outline-sharp"
-              class="icon"
-              style="color: white"
-            />
-          </template>
-        </Button>
-        <img
-          src="/Logo_Jayben.svg"
-          alt="Logo Jayben"
-          @click="router.push({ path: '/' })"
-        />
-      </div>
-      <div class="header-middle-part">
-        <InputSearch />
-      </div>
+
+    <div class="header-left-part">
+      <Button
+        v-if="isBelowDesktop"
+        style="width: 40px; height: 40px; padding: 0"
+        @click="isDrawerVisible = !isDrawerVisible"
+      >
+        <template #icon>
+          <Icon
+            name="material-symbols:list-alt-outline-sharp"
+            class="icon"
+            style="color: white"
+          />
+        </template>
+      </Button>
+      <img
+        src="/Logo_Jayben.svg"
+        alt="Logo Jayben"
+        @click="router.push({ path: '/' })"
+      />
+    </div>
+    <div class="header-middle-part">
+      <InputSearch />
     </div>
 
     <div class="header-right-part">
-      <!-- <div class="icons">
-        <Icon
-          name="material-symbols:android-emergency-location-service"
-          style="color: white; font-size: 15px"
-        />
-
-        <p style="color: white; font-size: xx-small">Select Store</p>
-      </div> -->
       <div class="icons" @click="visible = true">
         <Icon name="material-symbols:person" class="icon" />
         <p v-if="user" style="color: var(--primary-color); font-size: medium">
@@ -175,7 +166,7 @@
   }
 
   .header-left-part {
-    flex: 1;
+    /* flex: 1; */
     cursor: pointer;
   }
 
@@ -204,10 +195,6 @@
       padding: 0.5rem 3rem;
     }
 
-    .header-left-part {
-      width: 15%;
-    }
-
     .header-middle-part {
       flex: 2;
     }
@@ -230,7 +217,7 @@
     }
     .wrapper {
       padding: 0.5rem 2rem;
-      flex-direction: column;
+      /* flex-direction: column; */
       align-items: center;
       gap: 1.5rem;
     }
@@ -267,16 +254,27 @@
   }
 
   @media (max-width: 480px) {
-    .wrapper {
-      padding: 0.5rem 1rem;
-    }
     .icon {
       font-size: 20px;
     }
+    .wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 0.5rem 1rem;
+      gap: 1rem;
+    }
+
+    .header-left-part,
+    .header-middle-part,
     .header-right-part {
-      width: 100%;
-      justify-content: space-between;
-      gap: 0.5rem;
+      width: 100%; /* <== Full width per row */
+      justify-content: center;
+    }
+
+    .header-right-part {
+      flex-direction: column; /* <== Stack icons/buttons vertically */
+      align-items: center;
+      order: 0;
     }
   }
 </style>
