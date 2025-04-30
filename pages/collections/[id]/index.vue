@@ -7,6 +7,16 @@
   const cartStore = useCartStore()
   const data = computed(() => cartStore.products)
 
+  const isDrawerVisible = ref(false)
+
+  const breakpoints = useBreakpoints({
+    mobile: 0,
+    mobileLarge: 425,
+    tablet: 768,
+    laptop: 1024,
+    desktop: 1440
+  })
+  const isBelowDesktop = breakpoints.smaller('desktop')
   onMounted(async () => {
     await products.refetchProducts({
       first: 8,
@@ -14,15 +24,45 @@
     })
   })
 </script>
+
 <template>
   <div style="display: flex; align-items: center">
+    <DrawerFilters v-model:visible="isDrawerVisible" style="width: 100%" />
     <div v-if="!data.length" class="container_no_products_available">
       <img :src="imageNoProductsFound" :alt="'no products found'" />
     </div>
-    <div class="grid_cards">
-      <div v-for="product in data" :key="product.node?.id" class="product">
-        <CardProduct :product="product" />
+
+    <div style="display: flex; flex-direction: column; gap: 1rem">
+      <Button
+        v-if="isBelowDesktop"
+        label="Filter"
+        variant="outlined"
+        style="max-width: 200px"
+        @click="isDrawerVisible = !isDrawerVisible"
+      ></Button>
+      <div class="grid_cards">
+        <div v-for="product in data" :key="product.node?.id" class="product">
+          <CardProduct :product="product" />
+        </div>
       </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+  @media (max-width: 1024px) {
+    .grid_cards {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  @media (max-width: 768px) {
+    .grid_cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 425px) {
+    .grid_cards {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+</style>

@@ -222,10 +222,10 @@
     color: white;
   }
 
-  .grid_cards {
+  /* .grid_cards {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-  }
+  } */
 
   @media (max-width: 1024px) {
     .grid_cards {
