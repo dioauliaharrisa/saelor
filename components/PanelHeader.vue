@@ -18,12 +18,37 @@
       await refreshAccessToken()
     }
   })
+
+  const breakpoints = useBreakpoints({
+    mobile: 0,
+    mobileLarge: 425,
+    tablet: 768,
+    laptop: 1024,
+    desktop: 1440
+  })
+
+  const isBelowDesktop = breakpoints.smaller('desktop')
+  const isDrawerVisible = ref(false)
 </script>
 
 <template>
   <div class="wrapper">
+    <DrawerFilters v-model:visible="isDrawerVisible" style="width: 100%" />
     <div class="mobile_top_part">
       <div class="header-left-part">
+        <Button
+          v-if="isBelowDesktop"
+          style="width: 40px; height: 40px; padding: 0"
+          @click="isDrawerVisible = !isDrawerVisible"
+        >
+          <template #icon>
+            <Icon
+              name="material-symbols:list-alt-outline-sharp"
+              class="icon"
+              style="color: white"
+            />
+          </template>
+        </Button>
         <img
           src="/Logo_Jayben.svg"
           alt="Logo Jayben"
@@ -130,7 +155,7 @@
   .wrapper {
     position: sticky;
     top: 0;
-    z-index: 1000000000;
+    z-index: 90;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -212,11 +237,17 @@
 
     .header-left-part {
       flex: 1;
+      display: flex;
+      gap: 1rem;
       justify-content: center;
+      align-items: center;
+    }
+    .header-left-part > img {
+      max-width: 100px;
     }
 
     .header-middle-part {
-      flex: 3;
+      flex: 1;
       margin-top: 1rem;
     }
 
@@ -227,7 +258,7 @@
     }
 
     .icon {
-      font-size: 25px;
+      font-size: 3rem;
     }
 
     .icons p {
@@ -239,15 +270,9 @@
     .wrapper {
       padding: 0.5rem 1rem;
     }
-
-    .header-left-part > img {
-      max-width: 80%;
-    }
-
     .icon {
       font-size: 20px;
     }
-
     .header-right-part {
       width: 100%;
       justify-content: space-between;

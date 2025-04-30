@@ -14,15 +14,6 @@
 
   const data = computed(() => cartStore.products || [])
 
-  const breakpoints = useBreakpoints({
-    mobile: 0,
-    mobileLarge: 425,
-    tablet: 768,
-    laptop: 1024,
-    desktop: 1440
-  })
-  const isBelowDesktop = breakpoints.smaller('desktop')
-
   const selectedCity = ref()
   const cities = ref([
     { name: 'Sort alphabetically', code: 'alphabetically' },
@@ -65,12 +56,6 @@
     <!-- <div class="mobile_filters">
       <CardFilters :loading="false" />
     </div> -->
-    <Button
-      v-if="isBelowDesktop"
-      label="Filter"
-      variant="outlined"
-      @click="isDrawerVisible = !isDrawerVisible"
-    ></Button>
     <div v-if="recentlyViewedProducts">
       <h2>Recently Viewed Products</h2>
       <div class="grid_cards_recently_viewed_products">
