@@ -39,6 +39,7 @@
       <Button
         v-if="isBelowDesktop"
         style="width: 40px; height: 40px; padding: 0"
+        class="button-drawer"
         @click="isDrawerVisible = !isDrawerVisible"
       >
         <template #icon>
@@ -121,6 +122,9 @@
 </template>
 
 <style scoped>
+  .button-drawer {
+    background-color: var(--primary-color);
+  }
   #button-sign-in {
     background-color: var(--primary-color);
     color: white;
