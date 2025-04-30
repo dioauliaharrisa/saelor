@@ -16,8 +16,10 @@
   
 }
 
-html {
-  color-scheme: light;
+@media (prefers-color-scheme:dark) {
+  :root{
+    color-scheme:light !important;
+  }
 }
 
 .p-button {
