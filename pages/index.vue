@@ -112,6 +112,18 @@
 </template>
 
 <style scoped>
+  .j-button {
+    font-size: 15px;
+    padding: 0 15px;
+    line-height: 35px;
+    height: 35px;
+    cursor: pointer;
+    border-radius: 4px;
+    border: none;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: small;
+  }
   h2 {
     padding: 1rem 0;
   }
