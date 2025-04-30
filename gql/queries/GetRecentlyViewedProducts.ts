@@ -19,9 +19,15 @@ export const GET_RECENTLY_VIEWED_PRODUCTS = gql`
                 gross {
                   amount
                 }
+                net {
+                  amount
+                }
               }
               stop {
                 gross {
+                  amount
+                }
+                net {
                   amount
                 }
               }

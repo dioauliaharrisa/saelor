@@ -9,6 +9,7 @@
   const dataCategories = categories.data
 
   const recentlyViewedProducts = ref(null)
+  console.log('🦆 ~ recentlyViewedProducts:', recentlyViewedProducts)
 
   const isDrawerVisible = ref(false)
 

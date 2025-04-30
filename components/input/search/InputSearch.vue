@@ -25,6 +25,7 @@
       placeholder="Search products"
       size="large"
       fluid
+      @keydown.enter="applySearch"
     />
     <InputGroupAddon>
       <Button
