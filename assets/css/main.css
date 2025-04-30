@@ -3,6 +3,21 @@
   --secondary-color: #789bb5;
   --tertiary-color: #f0f4f7;
   color-scheme: light !important;
+  --p-button-primary-background: var(--primary-color);
+  --p-button-primary-hover-background: var(--secondary-color);
+
+  --p-button-primary-border-color: var(--primary-color);
+  --p-button-primary-hover-border-color: var(--secondary-color);
+  --p-button-outlined-primary-color: var(--secondary-color);
+  --p-button-outlined-primary-border-color: var(--secondary-color);
+  --p-inputtext-border-radius: 1px;
+  --p-iftalabel-focus-color: #000000;
+  --p-inputtext-border-color: var(--secondary-color);
+  
+}
+
+.p-button {
+  font-size: .8rem;
 }
 
 .p-inputtext {

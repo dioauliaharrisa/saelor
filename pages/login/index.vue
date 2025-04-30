@@ -2,6 +2,10 @@
   import { z } from 'zod'
   import { zodResolver } from '@primevue/forms/resolvers/zod'
 
+  definePageMeta({
+    layout: false
+  })
+
   const { login } = useAuth()
 
   const FormLogin = z.object({
@@ -37,69 +41,122 @@
 
 <template>
   <div class="page">
-    <div class="container-register">
-      <div class="container-header"><p>Login</p></div>
-      <div class="container-content">
-        <Form
-          v-slot="$form"
-          :initial-values="initialValues"
-          :resolver="resolver"
-          @submit="onFormSubmit"
-          class="form-register"
-        >
-          <div class="form-input">
-            <InputText name="email" type="text" placeholder="Email" fluid />
-            <Message
-              v-if="$form.username?.invalid"
-              severity="error"
-              size="small"
-              variant="simple"
-            >
-              {{ $form.username.error.message }}
-            </Message>
-          </div>
-          <div class="form-input">
-            <Password
-              name="password"
-              placeholder="Password"
-              :feedback="false"
-              toggleMask
-              fluid
-              inputClass="form-control"
-            />
-            <Message
-              v-if="$form.password?.invalid"
-              severity="error"
-              size="small"
-              variant="simple"
-            >
-              <ul class="my-0 px-4 flex flex-col gap-1">
-                <li
-                  v-for="(error, index) of $form.password.errors"
-                  :key="index"
-                >
-                  {{ error.message }}
-                </li>
-              </ul>
-            </Message>
-          </div>
-          <p id="link-forgot-password" @click="router.push('/reset-password')">
-            Forgot password?
-          </p>
-          <Button
-            id="button-submit"
-            type="submit"
-            severity="secondary"
-            label="Submit"
-            :loading="loading"
-          />
-        </Form>
+    <div class="container-login">
+      <div class="container-header">
+        <img
+          class="logo"
+          src="/Logo_Jayben.svg"
+          alt="Logo Jayben"
+          @click="router.push({ path: '/' })"
+        />
+        <h3>Login</h3>
+        <Divider />
       </div>
+      <Form
+        v-slot="$form"
+        :initial-values="initialValues"
+        :resolver="resolver"
+        class="form-login"
+        @submit="onFormSubmit"
+      >
+        <IftaLabel class="form-input">
+          <InputText name="email" type="text" placeholder="Email" fluid />
+          <label for="email">Email</label>
+          <Message
+            v-if="$form.username?.invalid"
+            severity="error"
+            size="small"
+            variant="simple"
+          >
+            {{ $form.username.error.message }}
+          </Message>
+        </IftaLabel>
+        <IftaLabel class="form-input">
+          <Password
+            name="password"
+            placeholder="Password"
+            :feedback="false"
+            toggleMask
+            fluid
+            inputClass="form-control"
+          />
+          <label for="password">Password</label>
+          <Message
+            v-if="$form.password?.invalid"
+            severity="error"
+            size="small"
+            variant="simple"
+          >
+            <ul class="my-0 px-4 flex flex-col gap-1">
+              <li v-for="(error, index) of $form.password.errors" :key="index">
+                {{ error.message }}
+              </li>
+            </ul>
+          </Message>
+        </IftaLabel>
+        <p id="link-forgot-password" @click="router.push('/reset-password')">
+          Forgot password?
+        </p>
+        <Button
+          id="button-submit"
+          type="submit"
+          label="Submit"
+          :loading="loading"
+        />
+      </Form>
     </div>
   </div>
 </template>
 
 <style scoped>
+  .container-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .logo {
+    max-width: 100px;
+    cursor: pointer;
+  }
+  .page {
+    min-height: 100vh;
+    /* margin: 0 auto; */
+    background: #004273;
+    background: linear-gradient(
+      90deg,
+      rgba(0, 66, 115, 1) 0%,
+      rgba(120, 155, 181, 1) 100%,
+      rgba(240, 244, 247, 1) 100%
+    );
+    display: flex;
+    align-items: center;
+  }
+
+  .form-login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem 0;
+    /* border: 6px solid var(--primary-color); */
+  }
+  .container-login {
+    background: #004273;
+    background: linear-gradient(
+      90deg,
+      rgba(0, 66, 115, 1) 0%,
+      rgba(120, 155, 181, 1) 0%,
+      rgba(240, 244, 247, 1) 100%
+    );
+    /* border: 2px solid var(--primary-color); */
+    padding: 2rem;
+    border-radius: 0.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .container-content {
+  }
   #link-forgot-password {
     font-size: xx-small;
     padding: 0;
@@ -111,20 +168,9 @@
     cursor: pointer;
   }
   #button-submit {
-    background-color: var(--primary-color);
+    /* background-color: var(--primary-color); */
   }
-  .page {
-    max-width: 80vw;
-    margin: 0 auto;
-    /* background-color: red; */
-  }
-  .form-register {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    padding: 2rem 0;
-  }
+
   .form-input {
     display: flex;
     flex-direction: column;

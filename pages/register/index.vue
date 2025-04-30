@@ -6,6 +6,10 @@
   import { ACCOUNT_SET_DEFAULT_ADDRESS } from '../../gql/mutations/AccountSetDefaultAddress.ts'
   import { useRouter } from 'vue-router'
 
+  definePageMeta({
+    layout: false
+  })
+
   const { mutate: registerAccount } = useMutation(REGISTER_ACCOUNT)
   const { mutate: createAccountAddress } = useMutation(CREATE_ACCOUNT_ADDRESS)
   const { mutate: setAccountDefaultAddress } = useMutation(
@@ -154,7 +158,16 @@
 <template>
   <div class="page">
     <div class="container-register">
-      <div class="container-header"><p>Create Account</p></div>
+      <div class="container-header">
+        <img
+          class="logo"
+          src="/Logo_Jayben.svg"
+          alt="Logo Jayben"
+          @click="router.push({ path: '/' })"
+        />
+        <h3>Create Account</h3>
+        <Divider />
+      </div>
       <Form
         v-slot="$form"
         :initial-values="initialValues"
@@ -206,7 +219,6 @@
         <Button
           id="button-submit"
           type="submit"
-          severity="secondary"
           label="Submit"
           :loading="loading"
         />
@@ -216,27 +228,58 @@
 </template>
 
 <style scoped>
+  .container-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .logo {
+    max-width: 100px;
+    cursor: pointer;
+  }
   .container-register {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 2rem;
     padding: 2rem;
-    border: 1px solid var(--primary-color);
-    border-radius: 5px;
-    margin: 1rem;
+    /* border: 1px solid var(--primary-color); */
+    border-radius: 0.2rem;
+
+    max-width: 600px;
+    margin: 0 auto;
+
+    background: #004273;
+    background: linear-gradient(
+      90deg,
+      rgba(0, 66, 115, 1) 0%,
+      rgba(120, 155, 181, 1) 0%,
+      rgba(240, 244, 247, 1) 100%
+    );
+
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
   }
   #button-submit {
-    background-color: var(--primary-color);
-    color: white;
+    /* background-color: var(--primary-color); */
+    /* color: white; */
     grid-column: span 2;
     justify-self: center;
   }
   .page {
-    width: 100%;
-    max-width: 40vw;
+    min-height: 100vh; /* max-width: 40vw; */
     margin: 0 auto;
-    /* background-color: red; */
+
+    display: flex;
+    align-items: center;
+
+    background: #004273;
+    background: linear-gradient(
+      90deg,
+      rgba(0, 66, 115, 1) 0%,
+      rgba(120, 155, 181, 1) 100%,
+      rgba(240, 244, 247, 1) 0%
+    );
   }
   .container-content {
     display: grid;

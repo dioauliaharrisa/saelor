@@ -13,6 +13,29 @@ const MyPreset = definePreset(Material, {
         color: '{primary.color}',
         offset: '2px',
         shadow: 'none'
+      },
+      palette: {
+        primary: {
+          main: '#000000', // Set your desired primary color here
+          light: '#42a5f5',
+          dark: '#1565c0',
+          contrastText: '#ffffff'
+        }
+      }
+    },
+    semantic: {
+      primary: {
+        50: '{indigo.50}',
+        100: '{indigo.100}',
+        200: '{indigo.200}',
+        300: '{indigo.300}',
+        400: '{indigo.400}',
+        500: '{indigo.500}',
+        600: '{indigo.600}',
+        700: '{indigo.700}',
+        800: '{indigo.800}',
+        900: '{indigo.900}',
+        950: '{indigo.950}'
       }
     }
   },
@@ -62,7 +85,6 @@ export default defineNuxtConfig({
       allowedHosts: ['.ngrok-free.app', '.serveo.net']
     }
   },
-
   apollo: {
     clients: {
       default: {
