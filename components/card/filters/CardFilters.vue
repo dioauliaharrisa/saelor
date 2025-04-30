@@ -13,7 +13,9 @@
 
   const products = useProducts()
 
-  const attributes = computed(() => products.attributes?.value?.attributes?.edges)
+  const attributes = computed(
+    () => products.attributes?.value?.attributes?.edges
+  )
   console.log('🦆 ~ attributes:', products?.attributes)
   const filters = products.filters
   const applyFilters = async () => {
@@ -92,11 +94,14 @@
     </Accordion>
     <AccordionSidePanelFilterType />
     <Divider />
-    <Button class="j-button" @click="applyFilters">Filter</Button>
+    <Button class="button-apply-filter" @click="applyFilters">Filter</Button>
   </div>
 </template>
 
 <style scoped>
+  .button-apply-filter {
+    background-color: var(--primary-color);
+  }
   .container {
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
     border: 1px solid #ddd;
