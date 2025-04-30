@@ -156,8 +156,8 @@
     min-height: 60px;
     width: 100%;
     max-width: 100%; /* Prevents horizontal overflow */
-    overflow-x: hidden; /* Hides any horizontal overflow */
-    overflow-y: hidden; /* Hides any horizontal overflow */
+    /* overflow-x: hidden; */
+    /* overflow-y: visible; */
   }
   .box_content {
     display: flex;
