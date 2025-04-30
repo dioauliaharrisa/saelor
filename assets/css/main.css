@@ -16,6 +16,10 @@
   
 }
 
+html {
+  color-scheme: light;
+}
+
 .p-button {
   font-size: .8rem;
 }
