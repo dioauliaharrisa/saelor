@@ -6,7 +6,7 @@ import { definePreset } from '@primeuix/themes'
 const MyPreset = definePreset(Material, {
   theme: {
     options: {
-      darkModeSelector: '.non-existent-dark-mode-class',
+      darkModeSelector: '.fake-dark-selector',
       focusRing: {
         width: '10px',
         style: 'solid',
