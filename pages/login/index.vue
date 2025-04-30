@@ -60,7 +60,7 @@
         @submit="onFormSubmit"
       >
         <IftaLabel class="form-input">
-          <InputText name="email" type="text" placeholder="Email" fluid />
+          <InputText name="email" type="text" fluid />
           <label for="email">Email</label>
           <Message
             v-if="$form.username?.invalid"
@@ -74,7 +74,6 @@
         <IftaLabel class="form-input">
           <Password
             name="password"
-            placeholder="Password"
             :feedback="false"
             toggleMask
             fluid
