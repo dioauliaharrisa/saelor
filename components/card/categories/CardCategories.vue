@@ -58,4 +58,9 @@
     text-align: end;
     padding: 0.5rem;
   }
+  @media (max-width: 425px) {
+    .container {
+      margin: 0;
+    }
+  }
 </style>

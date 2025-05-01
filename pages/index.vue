@@ -110,42 +110,6 @@
         :category="category"
         :loading="loading"
       />
-      <Carousel
-        circular
-        v-if="dataCategories?.length"
-        :value="dataCategories.map((edge) => edge.node)"
-        :numVisible="3"
-        :numScroll="1"
-        :responsiveOptions="responsiveOptions"
-      >
-        <template #item="slotProps">
-          <div
-            class="border border-surface-200 dark:border-surface-700 rounded m-2 p-4"
-          >
-            <div class="mb-4">
-              <div class="relative mx-auto">
-                <img
-                  :src="slotProps.data.backgroundImage?.url"
-                  :alt="slotProps.data.name"
-                  style="
-                    width: 100%;
-                    height: 200px;
-                    object-fit: cover;
-                    border-radius: 8px;
-                  "
-                />
-                <!-- <Tag
-                  :value="slotProps.data.inventoryStatus"
-                  :severity="getSeverity(slotProps.data.inventoryStatus)"
-                  class="absolute"
-                  style="left: 5px; top: 5px"
-                /> -->
-              </div>
-            </div>
-            <div class="mb-4 font-medium">{{ slotProps.data.name }}</div>
-          </div>
-        </template>
-      </Carousel>
     </div>
 
     <div v-if="data.length">
@@ -200,7 +164,7 @@
   .grid_cards_collection {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    /* gap: 16px; */
   }
 
   .button_new {
@@ -309,6 +273,11 @@
   @media (max-width: 425px) {
     .grid_cards {
       grid-template-columns: repeat(1, 1fr);
+    }
+    .grid_cards_collection {
+      display: grid;
+      grid-template-columns: 1fr;
+      /* gap: 16px; */
     }
   }
   .mobile_filters {
