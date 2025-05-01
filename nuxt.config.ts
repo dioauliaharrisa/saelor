@@ -1,4 +1,4 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+
 // import Nora from '@primeuix/themes/nora'
 import Material from '@primeuix/themes/material'
 import { definePreset } from '@primeuix/themes'
