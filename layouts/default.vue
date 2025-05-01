@@ -32,6 +32,7 @@
     return isBelowLaptop || hasBannedURL
   })
   const { fetchCollection } = useCollections()
+  const { fetchCategory } = useCategories()
 
   const collectionName = ref<string | null>(null)
   const categoryName = ref<string | null>(null)
@@ -59,16 +60,18 @@
       collectionName.value = null
       collectionDescription.value = null
     }
-    if(isCategoryPage.value) {
+    if (isCategoryPage.value) {
       const categoryId = route.params.id
       if (categoryId) {
         try {
-          const category = await 
-        } catch(error) {
+          const category = await fetchCategory(categoryId)
+          categoryName.value = category?.data?.category?.name || null
+        } catch (error) {
           console.error('Failed to fetch collection:', error)
           categoryName.value = null
         }
       }
+    }
   })
 
   const displayTopBar = computed(() => {
@@ -76,7 +79,7 @@
       return collectionName
     }
     if (routeName.value.startsWith('category')) {
-      return collectionName
+      return categoryName
     }
     return route.name
   })

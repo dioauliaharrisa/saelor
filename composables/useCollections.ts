@@ -3,7 +3,7 @@ import { GET_COLLECTION } from '../gql/queries/GetCollection'
 
 export const useCollections = () => {
   const collections = ref<Array<any>>([])
-  const variables = ref<{ id?: string } | null>(null) 
+  const variables = ref<{ id?: string } | null>(null)
 
   const {
     result,
@@ -34,5 +34,5 @@ export const useCollections = () => {
     }
   })
 
-  return { data: collections, fetchCollection }
+  return { fetchCollection }
 }

@@ -18,7 +18,7 @@ export const useCategories = () => {
   const {
     result: dataCategories,
     loading: loadingCategories,
-    error: errorCategory,
+    error: errorCategories,
     refetch: refetchCategories
   } = useQuery(GET_CATEGORY, categoriesVariables, {
     enabled: computed(() => !!selectedCategory.value)
