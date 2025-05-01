@@ -54,12 +54,7 @@
 <template>
   <div>
     <DrawerFilters v-model:visible="isDrawerVisible" style="width: 100%" />
-    <h2>
-      Submit your make, model, and part number. Get a PDF confirmation — we’ll
-      handle the rest.
-    </h2>
-    <PanelInquiry />
-    <div v-if="recentlyViewedProducts">
+     <div v-if="recentlyViewedProducts">
       <h2>Recently Viewed Products</h2>
       <div class="grid_cards_recently_viewed_products">
         <CardProduct

@@ -50,7 +50,7 @@ const template = {
       {
         type: 'text',
         position: { x: 120.13, y: 30 },
-        content: 'Purchase Order',
+        content: 'Product Inquiry',
         width: 69.87,
         height: 22.68,
         rotate: 0,
@@ -67,106 +67,6 @@ const template = {
         name: 'head'
       },
       {
-        type: 'text',
-        position: { x: 20, y: 57.88 },
-        content: 'Billed to:',
-        width: 84.69,
-        height: 9.42,
-        rotate: 0,
-        alignment: 'left',
-        verticalAlignment: 'top',
-        fontSize: 13,
-        lineHeight: 1,
-        characterSpacing: 0,
-        fontColor: '#000000',
-        backgroundColor: '',
-        opacity: 1,
-        readOnly: true,
-        fontName: '',
-        name: 'billedToLabel'
-      },
-      {
-        type: 'text',
-        content:
-          'Imani Olowe \n+123-456-7890 \n63 Ivy Road, Hawkville, GA, USA 31036',
-        position: { x: 20, y: 67.94 },
-        width: 84.95,
-        height: 34.07,
-        rotate: 0,
-        alignment: 'left',
-        verticalAlignment: 'top',
-        fontSize: 13,
-        lineHeight: 1,
-        characterSpacing: 0,
-        fontColor: '#000000',
-        backgroundColor: '',
-        opacity: 1,
-        dynamicFontSize: { min: 3, max: 13, fit: 'vertical' },
-        fontName: '',
-        name: 'billedToInput'
-      },
-      {
-        type: 'text',
-        position: { x: 120, y: 57.88 },
-        content: 'Shipped to:',
-        width: 84.69,
-        height: 9.42,
-        rotate: 0,
-        alignment: 'left',
-        verticalAlignment: 'top',
-        fontSize: 13,
-        lineHeight: 1,
-        characterSpacing: 0,
-        fontColor: '#000000',
-        backgroundColor: '',
-        opacity: 1,
-        readOnly: true,
-        fontName: '',
-        name: 'shippedToLabel'
-      },
-      {
-        type: 'text',
-        content:
-          'Imani Olowe \n+123-456-7890 \n63 Ivy Road, Hawkville, GA, USA 31036',
-        position: { x: 120, y: 67.94 },
-        width: 84.95,
-        height: 34.07,
-        rotate: 0,
-        alignment: 'left',
-        verticalAlignment: 'top',
-        fontSize: 13,
-        lineHeight: 1,
-        characterSpacing: 0,
-        fontColor: '#000000',
-        backgroundColor: '',
-        opacity: 1,
-        dynamicFontSize: { min: 3, max: 13, fit: 'vertical' },
-        fontName: '',
-        name: 'shippedToInput'
-      },
-      // {
-      //   type: 'multiVariableText',
-      //   position: { x: 119.87, y: 67.88 },
-      //   content: '{"InvoiceNo":"12345","Date":"16 June 2025"}',
-      //   width: 70.13,
-      //   height: 33.52,
-      //   rotate: 0,
-      //   alignment: 'right',
-      //   verticalAlignment: 'top',
-      //   fontSize: 13,
-      //   lineHeight: 1.5,
-      //   characterSpacing: 0,
-      //   fontColor: '#000000',
-      //   backgroundColor: '',
-      //   opacity: 1,
-      //   strikethrough: false,
-      //   underline: false,
-      //   text: 'Invoice No.{InvoiceNo}\n{Date}',
-      //   variables: ['InvoiceNo', 'Date'],
-      //   fontName: '',
-      //   name: 'info'
-      // },
-      {
         type: 'table',
         position: { x: 20, y: 110.81 },
         width: 170,
@@ -174,17 +74,8 @@ const template = {
         content:
           '[["Eggshell Camisole Top","1","123","123"],["Cuban Collar Shirt","2","127","254"]]',
         showHead: true,
-        head: [
-          'Item',
-          'Qty',
-          'Unit Price (exc. GST)',
-          'Total Unit Price (exc. GST)',
-          'Total Unit Price (with GST)'
-        ],
-        headWidthPercentages: [
-          19.46366230541769, 18.125709261669424, 15.543097772986739,
-          21.867530659926153, 25
-        ],
+        head: ['Make', 'Model', 'Model Part Number'],
+        headWidthPercentages: [33, 33, 33],
         fontName: '',
         tableStyles: { borderWidth: 0, borderColor: '#000000' },
         headStyles: {
@@ -227,223 +118,6 @@ const template = {
         columnStyles: { alignment: { '0': 'left', '3': 'right' } },
         name: 'orders',
         readOnly: false
-      },
-      {
-        type: 'text',
-        position: { x: 133.01, y: 156.89 },
-        content: 'Subtotal',
-        width: 25.42,
-        height: 8.09,
-        rotate: 0,
-        alignment: 'right',
-        verticalAlignment: 'middle',
-        fontSize: 13,
-        lineHeight: 1,
-        characterSpacing: 0,
-        fontColor: '#000000',
-        backgroundColor: '#f0f4f7',
-        opacity: 1,
-        readOnly: true,
-        fontName: '',
-        name: 'subtotalLabel'
-      },
-      {
-        type: 'multiVariableText',
-        position: { x: 118.73, y: 164.98 },
-        name: 'taxInput',
-        content: '{"rate":"10"}',
-        width: 40.2,
-        height: 9.18,
-        rotate: 0,
-        alignment: 'right',
-        verticalAlignment: 'middle',
-        fontSize: 13,
-        lineHeight: 1,
-        characterSpacing: 0,
-        fontColor: '#000000',
-        backgroundColor: '#f0f4f7',
-        opacity: 1,
-        strikethrough: false,
-        underline: false,
-        readOnly: false,
-        text: 'Total (exc. GST)',
-        variables: ['rate'],
-        required: false,
-        dynamicFontSize: { min: 4, max: 13, fit: 'vertical' },
-        fontName: ''
-      },
-      {
-        type: 'line',
-        position: { x: 132.09, y: 174.35 },
-        width: 52.91,
-        height: 0.1,
-        rotate: 0,
-        opacity: 1,
-        readOnly: true,
-        color: '#000000',
-        name: 'line',
-        content: ''
-      },
-      {
-        type: 'text',
-        content: '{totalExcTax}',
-        position: { x: 158.79, y: 157.1 },
-        width: 26.21,
-        height: 7.56,
-        rotate: 0,
-        alignment: 'right',
-        verticalAlignment: 'middle',
-        fontSize: 12,
-        lineHeight: 1,
-        characterSpacing: 0,
-        fontColor: '#000000',
-        backgroundColor: '#f0f4f7',
-        opacity: 1,
-        fontName: '',
-        name: 'subtotal',
-        readOnly: true,
-        required: false
-        // dynamicFontSize: { min: 4, max: 13, fit: 'horizontal' }
-      },
-      {
-        type: 'text',
-        content: '{totalTax}',
-        position: { x: 158.79, y: 164.98 },
-        width: 26.21,
-        height: 8.89,
-        rotate: 0,
-        alignment: 'right',
-        verticalAlignment: 'middle',
-        fontSize: 13,
-        lineHeight: 1,
-        characterSpacing: 0,
-        fontColor: '#000000',
-        backgroundColor: '#f0f4f7',
-        opacity: 1,
-        fontName: '',
-        name: 'tax',
-        readOnly: true,
-        required: false
-        // dynamicFontSize: { min: 4, max: 13, fit: 'horizontal' }
-      },
-
-      {
-        type: 'text',
-        position: { x: 131.94, y: 174.64 },
-        content: 'Total with tax:',
-        width: 27.01,
-        height: 11,
-        rotate: 0,
-        alignment: 'right',
-        verticalAlignment: 'middle',
-        fontSize: 12,
-        lineHeight: 1,
-        characterSpacing: 0,
-        fontColor: '#000000',
-        fontName: '',
-        backgroundColor: '#f0f4f7',
-        opacity: 1,
-        readOnly: true,
-        name: 'totalTextLabel'
-      },
-      {
-        type: 'text',
-        content: '{totalWithTax}',
-        position: { x: 159.05, y: 174.64 },
-        width: 25.95,
-        height: 11,
-        rotate: 0,
-        alignment: 'right',
-        verticalAlignment: 'middle',
-        fontSize: 12,
-        lineHeight: 1,
-        characterSpacing: 0,
-        fontColor: '#000000',
-        backgroundColor: '#f0f4f7',
-        opacity: 1,
-        fontName: '',
-        name: 'total',
-        readOnly: true,
-        required: false
-        // dynamicFontSize: { min: 4, max: 20, fit: 'horizontal' }
-      },
-
-      {
-        type: 'text',
-        position: { x: 20, y: 232.67 },
-        content: 'Payment Information',
-        width: 84.69,
-        height: 9.42,
-        rotate: 0,
-        alignment: 'left',
-        verticalAlignment: 'top',
-        fontSize: 13,
-        lineHeight: 1,
-        characterSpacing: 0,
-        fontColor: '#000000',
-        backgroundColor: '',
-        opacity: 1,
-        readOnly: true,
-        fontName: '',
-        name: 'paymentInfoLabel'
-      },
-      {
-        type: 'text',
-        content:
-          'Briard Bank\nAccount Name: Dhio Aulia Harrisa\nAccount No.: 123-456-7890\nPay by: 5 July 2025',
-        position: { x: 20, y: 242.83 },
-        width: 84.95,
-        height: 34.07,
-        rotate: 0,
-        alignment: 'left',
-        verticalAlignment: 'top',
-        fontSize: 13,
-        lineHeight: 1,
-        characterSpacing: 0,
-        fontColor: '#000000',
-        backgroundColor: '',
-        opacity: 1,
-        dynamicFontSize: { min: 8, max: 13, fit: 'vertical' },
-        fontName: '',
-        name: 'paymentInfoInput'
-      },
-      {
-        type: 'text',
-        position: { x: 119.33, y: 248.39 },
-        content: 'Dhio Aulia Harrisa',
-        width: 70.67,
-        height: 8.36,
-        rotate: 0,
-        alignment: 'right',
-        verticalAlignment: 'top',
-        fontSize: 18,
-        lineHeight: 1,
-        characterSpacing: 0,
-        fontColor: '#000000',
-        backgroundColor: '',
-        opacity: 1,
-        readOnly: true,
-        fontName: '',
-        name: 'shopName'
-      },
-      {
-        type: 'text',
-        position: { x: 107.69, y: 256.9 },
-        content: '123 Anywhere St., Any City, ST 12345',
-        width: 82.31,
-        height: 20,
-        rotate: 0,
-        alignment: 'right',
-        verticalAlignment: 'top',
-        fontSize: 13,
-        lineHeight: 1,
-        characterSpacing: 0,
-        fontColor: '#000000',
-        backgroundColor: '',
-        opacity: 1,
-        readOnly: true,
-        fontName: '',
-        name: 'shopAddress'
       }
     ]
   ],
@@ -464,27 +138,6 @@ const template = {
         color: '#999999',
         required: false,
         content: ''
-      },
-      {
-        name: 'footerInfo',
-        type: 'text',
-        content: 'PO No.{info.InvoiceNo} • {total}USD due {date}',
-        position: { x: 20, y: 282 },
-        width: 122.51,
-        height: 10,
-        rotate: 0,
-        alignment: 'left',
-        verticalAlignment: 'middle',
-        fontSize: 13,
-        lineHeight: 1,
-        characterSpacing: 0,
-        fontColor: '#000000',
-        backgroundColor: '',
-        opacity: 1,
-        strikethrough: false,
-        underline: false,
-        required: false,
-        readOnly: true
       },
       {
         name: 'pageNumber',
@@ -511,57 +164,12 @@ const template = {
   }
 }
 
-const inputs = [
-  {
-    billedToInput:
-      'Dhio Aulia Harrisa\n+6281234567890\nJl. Raya No. 123, Jakarta, Indonesia',
-    shippedToInput:
-      'Dhio Aulia Harrisa\n+6281234567890\nJl. Raya No. 123, Jakarta, Indonesia',
-    info: JSON.stringify({
-      InvoiceNo: 'INV-2023-001',
-      Date: '15 November 2023'
-    }),
-    taxInput: '{"rate":"10"}',
-
-    // Payment Information
-    paymentInfoInput:
-      'Acme Bank\nAccount Name: John Doe\nAccount No.: ****-7890\nRouting No.: 123456789\nPay by: 30 November 2023',
-
-    // Shop Information
-    shopName: 'Acme Inc.',
-    shopAddress: '456 Business Ave, Suite 100\nSan Francisco, CA 94107',
-    // Footer Information (for staticSchema)
-    footerInfo: JSON.stringify({
-      InvoiceNo: 'INV-2023-001',
-      total: '199.94',
-      date: '30 November 2023'
-    }),
-
-    // Page Numbering
-    pageNumber: JSON.stringify({
-      currentPage: '1',
-      totalPages: '1'
-    })
-  }
-]
+const inputs = [{}]
 
 type CheckoutLine = {
-  variant: {
-    product: {
-      name: string
-    }
-  }
-  quantity: number
-  unitPrice: {
-    gross: {
-      amount: number
-    }
-  }
-  totalPrice: {
-    gross: {
-      amount: number
-    }
-  }
+  make: string
+  model: string
+  modelPartNumber: string
 }
 
 type GeneratePurchaseOrderPdfParams = {
@@ -570,29 +178,19 @@ type GeneratePurchaseOrderPdfParams = {
   totalExcTax: number
 }
 
-export const generatePDFInquiredProducts = async ({
-  checkoutLines,
-  totalWithTax,
-  totalExcTax
-}: GeneratePurchaseOrderPdfParams) => {
+export const generatePDFInquiredProducts = async (
+  checkoutLines: GeneratePurchaseOrderPdfParams
+) => {
   const orders = []
   checkoutLines.forEach((checkout) => {
-    const order = [
-      checkout.variant.product.name,
-      checkout.quantity.toString(),
-      formatPrice(checkout.unitPrice.net.amount),
-      formatPrice(checkout.totalPrice.net.amount),
-      formatPrice(checkout.totalPrice.gross.amount)
-    ]
+    console.log('🦆 ~ checkoutLines.forEach ~ checkout:', checkout)
+    const order = [checkout.make, checkout.model, checkout.modelPartNumber]
     orders.push(order)
   })
 
   inputs[0].orders = orders
-  inputs[0].totalWithTax = formatPrice(totalWithTax)
-  inputs[0].totalExcTax = formatPrice(totalExcTax)
-  inputs[0].totalTax = formatPrice(totalWithTax - totalExcTax)
+  console.log('🦆 ~ inputs:', inputs)
 
-  // return
   const pdf = await generate({
     template,
     inputs,

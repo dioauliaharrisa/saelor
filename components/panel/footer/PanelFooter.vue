@@ -7,7 +7,10 @@
     <div id="flex-top-part">
       <div style="display: flex; flex-direction: column; gap: 1rem">
         <p @click="router.push('/')">Home</p>
-        <p>Contact Us</p>
+        <p @click="router.push('inquiry')">Inquiry</p>
+        <!-- <p>Placeholders</p> -->
+      </div>
+      <!-- <div>
         <p>Placeholders</p>
       </div>
       <div>
@@ -15,10 +18,7 @@
       </div>
       <div>
         <p>Placeholders</p>
-      </div>
-      <div>
-        <p>Placeholders</p>
-      </div>
+      </div> -->
     </div>
     <Divider />
 

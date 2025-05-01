@@ -70,9 +70,10 @@
   // }
 
   // Handle form submission
-  const onFormSubmit = (validationObject) => {
+  const onFormSubmit = async (validationObject) => {
     if (validationObject.valid) {
       console.log('🦆 ~ onFormSubmit ~ validationObject:', validationObject)
+      await generatePDFInquiredProducts(validationObject.values.inquiry)
     }
   }
 </script>
