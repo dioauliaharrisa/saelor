@@ -183,13 +183,11 @@ export const generatePDFInquiredProducts = async (
 ) => {
   const orders = []
   checkoutLines.forEach((checkout) => {
-    console.log('🦆 ~ checkoutLines.forEach ~ checkout:', checkout)
     const order = [checkout.make, checkout.model, checkout.modelPartNumber]
     orders.push(order)
   })
 
   inputs[0].orders = orders
-  console.log('🦆 ~ inputs:', inputs)
 
   const pdf = await generate({
     template,

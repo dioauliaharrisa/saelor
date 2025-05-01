@@ -64,7 +64,6 @@ export default function useCheckout() {
           `${quantity} item/s of ${productName} successfully in the cart`
         )
       } catch (errors) {
-        console.log('🦆 ~ useCheckout ~ errors:', errors)
         showFieldErrors(Array.isArray(error) ? error : [error])
       }
     }

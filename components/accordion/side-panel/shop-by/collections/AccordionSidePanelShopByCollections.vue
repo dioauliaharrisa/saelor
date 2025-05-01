@@ -1,11 +1,9 @@
 <script setup>
   const collections = useCollections()
   const dataCollections = computed(() => collections.data?.value || [])
-  console.log('🦆 ~ dataCollections:', dataCollections)
   const useStore = useCartStore()
   const router = useRouter()
   const handleClick = (collection) => {
-    console.log('🦆 ~ handleClick ~ collection:', collection)
     useStore.breadcrumb = collection.node.name
     router.push(`/collections/${collection.node.id}`)
   }

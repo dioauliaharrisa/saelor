@@ -23,7 +23,6 @@
   })
 
   const routeName = computed(() => route.name)
-  console.log('🦆 ~ routeName:', routeName)
 
   const shouldHideCardFilters = computed((): boolean => {
     const isBelowLaptop = breakpoints.smaller('desktop').value
