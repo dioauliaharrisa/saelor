@@ -7,6 +7,7 @@
   const isFullyLoaded = useState<boolean>('isFullyLoaded', () => false)
   const categories = useCategories()
   const dataCategories = categories.data
+  console.log('🦆 ~ dataCategories:', dataCategories)
 
   const recentlyViewedProducts = ref(null)
 
@@ -48,12 +49,49 @@
     const refetchedData = await products.refetchRVP({ ids: stored })
     recentlyViewedProducts.value = refetchedData?.data?.products?.edges || []
   })
+  const responsiveOptions = ref([
+    {
+      breakpoint: '1400px',
+      numVisible: 2,
+      numScroll: 1
+    },
+    {
+      breakpoint: '1199px',
+      numVisible: 3,
+      numScroll: 1
+    },
+    {
+      breakpoint: '767px',
+      numVisible: 2,
+      numScroll: 1
+    },
+    {
+      breakpoint: '575px',
+      numVisible: 1,
+      numScroll: 1
+    }
+  ])
+  // const getSeverity = (status) => {
+  //   switch (status) {
+  //     case 'INSTOCK':
+  //       return 'success'
+
+  //     case 'LOWSTOCK':
+  //       return 'warn'
+
+  //     case 'OUTOFSTOCK':
+  //       return 'danger'
+
+  //     default:
+  //       return null
+  //   }
+  // }
 </script>
 // material-symbols:filter-alt-sharp
 <template>
   <div>
     <DrawerFilters v-model:visible="isDrawerVisible" style="width: 100%" />
-     <div v-if="recentlyViewedProducts">
+    <div v-if="recentlyViewedProducts">
       <h2>Recently Viewed Products</h2>
       <div class="grid_cards_recently_viewed_products">
         <CardProduct
@@ -72,6 +110,42 @@
         :category="category"
         :loading="loading"
       />
+      <Carousel
+        circular
+        v-if="dataCategories?.length"
+        :value="dataCategories.map((edge) => edge.node)"
+        :numVisible="3"
+        :numScroll="1"
+        :responsiveOptions="responsiveOptions"
+      >
+        <template #item="slotProps">
+          <div
+            class="border border-surface-200 dark:border-surface-700 rounded m-2 p-4"
+          >
+            <div class="mb-4">
+              <div class="relative mx-auto">
+                <img
+                  :src="slotProps.data.backgroundImage?.url"
+                  :alt="slotProps.data.name"
+                  style="
+                    width: 100%;
+                    height: 200px;
+                    object-fit: cover;
+                    border-radius: 8px;
+                  "
+                />
+                <!-- <Tag
+                  :value="slotProps.data.inventoryStatus"
+                  :severity="getSeverity(slotProps.data.inventoryStatus)"
+                  class="absolute"
+                  style="left: 5px; top: 5px"
+                /> -->
+              </div>
+            </div>
+            <div class="mb-4 font-medium">{{ slotProps.data.name }}</div>
+          </div>
+        </template>
+      </Carousel>
     </div>
 
     <div v-if="data.length">
