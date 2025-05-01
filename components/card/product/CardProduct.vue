@@ -67,7 +67,7 @@
               </template>
               <template #decrementicon>
                 <Icon
-                  name="material-symbols:chevron-right-rounded"
+                  name="material-symbols:chevron-left-rounded"
                   style="color: black; font-size: 25px"
                 />
               </template>
