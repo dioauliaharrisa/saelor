@@ -34,9 +34,11 @@
   const { fetchCollection } = useCollections()
 
   const collectionName = ref<string | null>(null)
+  const categoryName = ref<string | null>(null)
   const collectionDescription = ref<string | null>(null)
 
   const isCollectionPage = computed(() => route.name?.startsWith('collection'))
+  const isCategoryPage = computed(() => route.name?.startsWith('category'))
 
   watchEffect(async () => {
     if (isCollectionPage.value) {
@@ -57,10 +59,23 @@
       collectionName.value = null
       collectionDescription.value = null
     }
+    if(isCategoryPage.value) {
+      const categoryId = route.params.id
+      if (categoryId) {
+        try {
+          const category = await 
+        } catch(error) {
+          console.error('Failed to fetch collection:', error)
+          categoryName.value = null
+        }
+      }
   })
 
   const displayTopBar = computed(() => {
     if (routeName.value.startsWith('collection')) {
+      return collectionName
+    }
+    if (routeName.value.startsWith('category')) {
       return collectionName
     }
     return route.name

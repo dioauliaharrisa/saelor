@@ -42,7 +42,9 @@
           <p class="price">
             {{
               formatPrice(
-                product?.node?.pricing?.priceRange?.start?.net?.amount
+                (product?.node?.pricing?.priceRange?.start?.gross?.amount *
+                  11) /
+                  10
               )
             }}
           </p>

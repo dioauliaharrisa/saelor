@@ -3,7 +3,7 @@ import { GET_COLLECTION } from '../gql/queries/GetCollection'
 
 export const useCollections = () => {
   const collections = ref<Array<any>>([])
-  const variables = ref<{ id?: string } | null>(null) // Define variables with an optional `id`
+  const variables = ref<{ id?: string } | null>(null) 
 
   const {
     result,

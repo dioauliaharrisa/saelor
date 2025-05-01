@@ -9,23 +9,38 @@ export const useCategories = () => {
 
   const { data, error } = useAsyncQuery(GET_CATEGORIES)
 
-  const categoryVariables = computed(() => ({
+  const categoriesVariables = computed(() => ({
     id: selectedCategory.value
   }))
 
+  const categoryVariable = ref<{ id?: string } | null>(null)
+
   const {
-    result: dataCategory,
+    result: dataCategories,
     loading: loadingCategories,
     error: errorCategory,
     refetch: refetchCategories
-  } = useQuery(GET_CATEGORY, categoryVariables, {
+  } = useQuery(GET_CATEGORY, categoriesVariables, {
     enabled: computed(() => !!selectedCategory.value)
   })
 
+  const {
+    result: dataCategory,
+    loading: loadingCategory,
+    error: errorCategory,
+    refetch: refetchCategory
+  } = useQuery(GET_CATEGORY, categoryVariable, {
+    enabled: computed(() => !!categoryVariable.value)
+  })
+  const fetchCategory = async (id: string) => {
+    categoryVariable.value = { id }
+    return await refetchCategory()
+  }
+
   watchEffect(() => {
-    if (dataCategory.value) {
-      categoryHeader.value = dataCategory.value.category.name
-      categories.value = dataCategory.value.category.children.edges
+    if (dataCategories.value) {
+      categoryHeader.value = dataCategories.value.category.name
+      categories.value = dataCategories.value.category.children.edges
     } else if (data.value?.categories?.edges) {
       categories.value = data.value.categories.edges
     }
@@ -60,6 +75,7 @@ export const useCategories = () => {
     selectedCategory,
     categoryHeader,
     refetchCategories,
-    loadingCategories
+    loadingCategories,
+    fetchCategory
   }
 }

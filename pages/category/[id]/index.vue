@@ -25,9 +25,6 @@
 
 <template>
   <div>
-    <div style="align-self: flex-start">
-      <BreadcrumbBreadcrumb />
-    </div>
     <div style="display: flex; gap: 1rem">
       <div
         style="
