@@ -1,7 +1,7 @@
 <script setup lang="ts">
   const route = useRoute()
-  const excludedFromCardFilters = ['cart', 'account', 'login']
-  const excludedFromTopBar = ['index', 'cart', 'id']
+  const excludedFromCardFilters = ['cart', 'account', 'login', 'inquiry']
+  const excludedFromTopBar = ['index', 'cart', 'id', 'inquiry']
 
   const products = useProducts()
   const productTypes = computed(() => products.productTypes)

@@ -5,7 +5,6 @@ import { definePreset } from '@primeuix/themes'
 const MyPreset = definePreset(Material, {
   theme: {
     options: {
-      darkModeSelector: false,
       focusRing: {
         width: '10px',
         style: 'solid',

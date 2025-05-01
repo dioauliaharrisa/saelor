@@ -25,7 +25,6 @@
         return item.node.name === 'Compatible Models'
       })?.node?.choices?.edges || []
   )
-  console.log('🦆 ~ models:', models)
 
   const search = (event) => {
     const query = event.query.toLowerCase() // Get the user's input
@@ -40,8 +39,8 @@
     })
   }
   const searchModels = (event) => {
-    const query = event.query.toLowerCase() // Get the user's input
-    console.log('🦆 ~ search ~ query:', makes.value)
+    const query = event.query.toLowerCase()
+
     filteredModels.value = models.value?.filter((model) => {
       console.log(
         '🦆 ~ items.value=models.value.node?.filter ~ model:',
@@ -66,12 +65,9 @@
   )
 
   const onFormSubmit = ({ valid }) => {
+    console.log('🦆 ~ onFormSubmit ~ valid:', valid)
     if (valid) {
-      toast.add({
-        severity: 'success',
-        summary: 'Form is submitted.',
-        life: 3000
-      })
+      generatePDFInquiredProducts({})
     }
   }
 </script>
@@ -83,9 +79,9 @@
       :resolver="resolver"
       :initialValues="initialValues"
       @submit="onFormSubmit"
-      style="display: flex; flex-direction: column; gap: 3rem"
+      style="display: flex; flex-direction: column; gap: 2rem"
     >
-      <FloatLabel>
+      <FloatLabel variant="in">
         <AutoComplete
           id="compatible-make"
           v-model="value"
@@ -95,7 +91,7 @@
         />
         <label for="compatible-make">Compatible Make</label>
       </FloatLabel>
-      <FloatLabel>
+      <FloatLabel variant="in">
         <AutoComplete
           id="compatible-model"
           v-model="qModel"
@@ -105,6 +101,28 @@
         />
         <label for="compatible-model">Compatible Model</label>
       </FloatLabel>
+      <FloatLabel variant="in">
+        <AutoComplete
+          id="part-numbers"
+          v-model="qModel"
+          :suggestions="filteredModels"
+          option-label="node.name"
+          @complete="searchModels"
+        />
+        <label for="part-numbers">Model Part Numbers</label>
+      </FloatLabel>
+      <FloatLabel variant="in">
+        <AutoComplete
+          id="compatible-model"
+          v-model="qModel"
+          :suggestions="filteredModels"
+          option-label="node.name"
+          @complete="searchModels"
+        />
+        <label for="compatible-model">Compatible Model</label>
+      </FloatLabel>
+      <Button id="button-get-pdf" type="submit" label="Get PDF" />
+      <!-- :loading="loading" -->
     </Form>
   </div>
 </template>
@@ -118,6 +136,6 @@
     background-color: #ffffff;
     min-width: 300px;
 
-    padding: 1rem;
+    padding: 2rem;
   }
 </style>
