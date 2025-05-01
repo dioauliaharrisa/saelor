@@ -1,4 +1,3 @@
-
 // import Nora from '@primeuix/themes/nora'
 import Material from '@primeuix/themes/material'
 import { definePreset } from '@primeuix/themes'
@@ -6,7 +5,7 @@ import { definePreset } from '@primeuix/themes'
 const MyPreset = definePreset(Material, {
   theme: {
     options: {
-      darkModeSelector: false || 'none',
+      darkModeSelector: false,
       focusRing: {
         width: '10px',
         style: 'solid',
@@ -85,7 +84,10 @@ export default defineNuxtConfig({
   primevue: {
     options: {
       theme: {
-        preset: MyPreset
+        preset: MyPreset,
+        options: {
+          darkModeSelector: false
+        }
       }
     }
   },
