@@ -13,17 +13,16 @@
   --p-inputtext-border-radius: 1px;
   --p-iftalabel-focus-color: #000000;
   --p-inputtext-border-color: var(--secondary-color);
-  
 }
 
-@media (prefers-color-scheme:dark) {
+/* @media (prefers-color-scheme:dark) {
   :root{
     color-scheme:light !important;
   }
-}
+} */
 
 .p-button {
-  font-size: .8rem;
+  font-size: 0.8rem;
 }
 
 .p-inputtext {
@@ -35,6 +34,7 @@
   font-size: 1.5rem;
   font-weight: bold;
 }
+
 h2,
 h3,
 h4,
@@ -52,6 +52,13 @@ p {
   gap: 16px;
   max-width: calc(6 * 300px + 5 * 1rem);
   margin: 0 auto;
+}
+
+@media (max-width: 425px) {
+  .grid_cards {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0.5rem;
+  }
 }
 
 .j-button {

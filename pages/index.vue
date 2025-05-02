@@ -260,14 +260,9 @@
       grid-template-columns: repeat(2, 1fr);
       gap: 16px;
     }
-    .grid_cards {
-      grid-template-columns: repeat(2, 1fr);
-      padding: 0.5rem;
-    }
     .grid-cards-categories {
       display: grid;
       grid-template-columns: 1fr;
-      /* gap: 16px; */
     }
   }
   .mobile_filters {

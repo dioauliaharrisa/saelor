@@ -24,33 +24,29 @@
 </script>
 
 <template>
-  <div>
-    <div style="display: flex; gap: 1rem">
-      <div
-        style="
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 1rem;
-        "
-      >
-        <div class="grid_cards">
-          <CardProduct
-            v-for="n in data"
-            :key="n.id"
-            :product="n"
-            :loading="loading"
-          />
-        </div>
-        <Button
-          class="j-button"
-          :disabled="isFullyLoaded"
-          raised
-          @click="products.fetchMore()"
-          label="Load More"
-        />
-      </div>
+  <div
+    style="
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    "
+  >
+    <div class="grid_cards">
+      <CardProduct
+        v-for="n in data"
+        :key="n.id"
+        :product="n"
+        :loading="loading"
+      />
     </div>
+    <Button
+      class="j-button"
+      :disabled="isFullyLoaded"
+      raised
+      @click="products.fetchMore()"
+      label="Load More"
+    />
   </div>
 </template>
 
