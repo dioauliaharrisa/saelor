@@ -7,7 +7,6 @@
   const isFullyLoaded = useState<boolean>('isFullyLoaded', () => false)
   const categories = useCategories()
   const dataCategories = categories.data
-  console.log('🦆 ~ dataCategories:', dataCategories)
 
   const recentlyViewedProducts = ref(null)
 
@@ -88,7 +87,7 @@
       </div>
     </div>
     <h2>Browse equipment by industry application</h2>
-    <div class="grid_cards_collection">
+    <div class="grid-cards-categories">
       <CardCategories
         v-for="category in dataCategories"
         :key="category.node.id"
@@ -146,7 +145,7 @@
   h2 {
     padding: 1rem 0;
   }
-  .grid_cards_collection {
+  .grid-cards-categories {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     /* gap: 16px; */
@@ -258,9 +257,9 @@
   @media (max-width: 425px) {
     .grid_cards {
       grid-template-columns: repeat(2, 1fr);
-      padding: .5rem;
+      padding: 0.5rem;
     }
-    .grid_cards_collection {
+    .grid-cards-categories {
       display: grid;
       grid-template-columns: 1fr;
       /* gap: 16px; */

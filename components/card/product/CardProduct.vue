@@ -38,7 +38,7 @@
         :font-size="'.75rem'"
       />
       <div class="bottom-part">
-        <div style="display: flex">
+        <div class="wrapper-price">
           <p class="price">
             {{
               formatPrice(
@@ -131,12 +131,7 @@
     display: flex;
     justify-content: center;
   }
-  .bottom-part {
-    display: flex;
-    align-items: flex-end;
-    gap: 0.5rem;
-    min-width: 0;
-  }
+ 
 
   .CheckboxRoot {
     background-color: white;
@@ -193,6 +188,15 @@
 
     overflow: hidden; /* Prevent content overflow */
     text-overflow: ellipsis; /* Add ellipsis for overflowing text */
+  }
+  .wrapper-price {
+    display: flex;
+  }
+   .bottom-part {
+    /* display: flex; */
+    /* align-items: flex-end; */
+    gap: 0.5rem;
+    min-width: 0;
   }
 
   @media (max-width: 425px) {

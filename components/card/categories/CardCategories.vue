@@ -32,6 +32,8 @@
     background-color: white;
     max-height: 150px;
 
+    width :100%;
+
     margin: 2rem 0;
 
     cursor: pointer;
