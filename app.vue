@@ -3,7 +3,7 @@
     <NuxtRouteAnnouncer />
     <NuxtLayout>
       <!-- tackling layout mismatch bug -->
-      <div style="width: 100vw">
+      <div>
         <NuxtPage />
       </div>
       <Toast />

@@ -194,6 +194,18 @@
     overflow: hidden; /* Prevent content overflow */
     text-overflow: ellipsis; /* Add ellipsis for overflowing text */
   }
+
+  @media (max-width: 425px) {
+    .container {
+      width: 100%;
+    }
+    h4 {
+      text-overflow: ellipsis;
+      /* white-space: nowrap; */
+      overflow: hidden;
+    }
+  }
+
   .container img {
     flex: 1;
     width: 100%;

@@ -74,7 +74,7 @@
 </script>
 
 <template>
-  <div style="width: 100vw">
+  <div style="width: 100%">
     <DrawerFilters v-model:visible="isDrawerVisible" style="width: 100%" />
     <div v-if="recentlyViewedProducts">
       <h2>Recently Viewed Products</h2>
@@ -257,7 +257,8 @@
   }
   @media (max-width: 425px) {
     .grid_cards {
-      grid-template-columns: repeat(1, 1fr);
+      grid-template-columns: repeat(2, 1fr);
+      padding: .5rem;
     }
     .grid_cards_collection {
       display: grid;
