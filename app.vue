@@ -3,7 +3,7 @@
     <NuxtRouteAnnouncer />
     <NuxtLayout>
       <!-- tackling layout mismatch bug -->
-      <div>
+      <div style="width: 100vw">
         <NuxtPage />
       </div>
       <Toast />
@@ -15,7 +15,7 @@
   body {
     margin: 0;
     padding: 0;
-    width: 100%;
+    width: 100vw;
     height: 100dvh;
     font-family: Roboto;
   }

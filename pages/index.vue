@@ -71,25 +71,10 @@
       numScroll: 1
     }
   ])
-  // const getSeverity = (status) => {
-  //   switch (status) {
-  //     case 'INSTOCK':
-  //       return 'success'
-
-  //     case 'LOWSTOCK':
-  //       return 'warn'
-
-  //     case 'OUTOFSTOCK':
-  //       return 'danger'
-
-  //     default:
-  //       return null
-  //   }
-  // }
 </script>
-// material-symbols:filter-alt-sharp
+
 <template>
-  <div>
+  <div style="width: 100vw">
     <DrawerFilters v-model:visible="isDrawerVisible" style="width: 100%" />
     <div v-if="recentlyViewedProducts">
       <h2>Recently Viewed Products</h2>
