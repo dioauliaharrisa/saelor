@@ -21,12 +21,12 @@
           fluid
         />
         <Message
-          v-if="$form[`inquiry[${index}].make`]?.invalid"
+          v-if="$form?.inquiry?.[index]?.make?.invalid"
           severity="error"
           size="small"
           variant="simple"
         >
-          {{ $form[`inquiry[${index}].make`]?.error?.message }}
+          {{ $form?.inquiry?.[index]?.make?.error?.message }}
         </Message>
       </div>
 

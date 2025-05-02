@@ -33,7 +33,7 @@
         </div>
         <div class="part-2">
           <p style="font-weight: 700">
-            {{ product.variant.name }}
+            <!-- {{ product.variant.name }} -->
             {{ product.variant.product.name }}
           </p>
           <RichTextRenderer
@@ -93,7 +93,7 @@
 
 <style scoped>
   .cart-item {
-    max-height: 200px;
+    /* max-height: 200px; */
     width: 100%;
   }
   .card-content {
@@ -129,5 +129,42 @@
     width: 75px;
     aspect-ratio: 1/1;
     object-fit: cover;
+  }
+  @media (max-width: 425px) {
+    .card-content {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      grid-template:
+        'left right-top'
+        'left right-middle'
+        'left right-bottom';
+    }
+    .part_1 {
+      display: grid;
+      grid-area: left;
+      padding: 0;
+      grid-template-rows: 1fr 4fr;
+    }
+    .part_1 > span {
+      justify-self: start;
+      align-self: start;
+    }
+    .part-2 {
+      display: grid;
+      grid-area: right-top;
+      padding: 0;
+    }
+    .container-unit {
+      grid-area: right-middle;
+      display: flex;
+    }
+    .container-total {
+      display: grid;
+      grid-area: right-bottom;
+    }
+    /* dio: hiding the description if mobile */
+    .rich-text {
+      display: none;
+    }
   }
 </style>

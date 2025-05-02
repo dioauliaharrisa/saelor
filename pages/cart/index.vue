@@ -87,21 +87,15 @@
   .container_checkout_total_price {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-end;
-    padding: 2rem 0;
+    align-self: flex-end;
+    padding: 2rem;
     gap: 1rem;
   }
   .container_title {
     width: 100%;
+    padding: 0 2rem;
   }
-  hr {
-    background-color: yellow;
-    width: 100%;
-    height: 0.2rem;
-    border-radius: 5px;
-    border: none;
-  }
+
   .page {
     /* width: 100%; */
     min-width: 1200px;
@@ -116,8 +110,9 @@
   .text_indicator_cart_items {
     display: flex;
     flex-direction: column;
+    align-self: flex-start;
     gap: 2rem;
-    padding: 2rem 0;
+    padding: 2rem;
   }
   .container_no_items_cart {
     display: flex;
@@ -128,5 +123,52 @@
     flex-direction: column;
     gap: 0.5rem;
     width: 100%;
+  }
+  /* Media Queries for smaller screens */
+  @media (max-width: 425px) {
+    .page {
+      min-width: 320px; /* Set a minimum width for the page */
+      width: 100%; /* Ensures it stretches up to 100% of the available space */
+    }
+    .container_content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .container_title {
+      padding: 0 1rem;
+    }
+
+    .text_indicator_cart_items {
+      flex-direction: row;
+      gap: 0.5rem;
+      padding: 1rem;
+    }
+
+    .container_checkout_total_price {
+      align-items: center;
+      padding: 1rem 0;
+    }
+
+    .container {
+      gap: 1rem;
+      width: 100%;
+    }
+
+    .title {
+      font-size: 1.2rem; /* Adjust title font size for smaller screens */
+    }
+
+    .container_no_items_cart img {
+      width: 80%; /* Make image smaller */
+    }
+
+    .container_checkout_total_price p {
+      font-size: 0.9rem; /* Adjust price text for smaller screens */
+    }
+
+    Button {
+      width: 100%; /* Make button full width */
+    }
   }
 </style>
