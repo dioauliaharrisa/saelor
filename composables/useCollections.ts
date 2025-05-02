@@ -23,6 +23,7 @@ export const useCollections = () => {
   const { data, error } = useAsyncQuery(GET_COLLECTIONS)
 
   watchEffect(() => {
+    console.log('🦆 ~ useCollections ~ data:', data)
     collections.value = data.value?.collections?.edges || []
 
     if (error.value) {
@@ -34,5 +35,5 @@ export const useCollections = () => {
     }
   })
 
-  return { fetchCollection }
+  return { fetchCollection, collections }
 }
