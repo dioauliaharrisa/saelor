@@ -59,27 +59,6 @@
       :content="parsedContent"
       :font-size="'.75rem'"
     />
-
-    <hr id="divider-content" />
-
-    <div id="container-ctas">
-      <div class="icons">
-        <Icon
-          name="material-symbols:android-emergency-location-service"
-          style="color: black; font-size: 15px"
-        />
-        <p style="color: black; font-size: x-small; text-transform: uppercase">
-          Find A Dealer
-        </p>
-      </div>
-      <div class="icons">
-        <Icon
-          name="material-symbols:mail-rounded"
-          style="color: black; font-size: 15px"
-        />
-        <p style="color: black; font-size: x-small">Email</p>
-      </div>
-    </div>
   </Dialog>
 </template>
 
@@ -105,11 +84,7 @@
   .icons > p {
     text-transform: uppercase;
   }
-  #container-ctas {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 1rem;
-  }
+ 
 
   #divider-content {
     background-color: black;
