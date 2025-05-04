@@ -172,9 +172,7 @@
     justify-content: space-between;
     min-height: 60px;
     width: 100%;
-    max-width: 100%; /* Prevents horizontal overflow */
-    /* overflow-x: hidden; */
-    /* overflow-y: visible; */
+    max-width: 100%;
   }
   .box_content {
     display: flex;
@@ -187,10 +185,15 @@
   }
   .container-top-bar {
     width: 100%;
-    padding: 1rem;
+    padding: 1rem 3rem;
 
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+  }
+  @media (max-width: 425px) {
+    .container-top-bar {
+      padding: 1rem 1.5rem;
+    }
   }
 </style>
