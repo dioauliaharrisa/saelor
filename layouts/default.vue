@@ -87,7 +87,7 @@
 <template>
   <div class="container">
     <PanelHeader />
-    <div>
+    <div class="container-top-bar">
       <h1 v-if="!excludedFromTopBar.includes(route.name)">
         {{ displayTopBar }}
       </h1>
@@ -184,5 +184,13 @@
     gap: 2rem;
     padding: 1rem;
     background-color: #f0f0f0;
+  }
+  .container-top-bar {
+    width: 100%;
+    padding: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
 </style>

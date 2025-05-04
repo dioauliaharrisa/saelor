@@ -33,13 +33,6 @@
     </div>
 
     <div style="display: flex; flex-direction: column; gap: 1rem">
-      <Button
-        v-if="isBelowDesktop"
-        label="Filter"
-        variant="outlined"
-        style="max-width: 200px"
-        @click="isDrawerVisible = !isDrawerVisible"
-      ></Button>
       <div class="grid_cards">
         <div v-for="product in data" :key="product.node?.id" class="product">
           <CardProduct :product="product" />
@@ -58,11 +51,6 @@
   @media (max-width: 768px) {
     .grid_cards {
       grid-template-columns: repeat(2, 1fr);
-    }
-  }
-  @media (max-width: 425px) {
-    .grid_cards {
-      grid-template-columns: repeat(1, 1fr);
     }
   }
 </style>
