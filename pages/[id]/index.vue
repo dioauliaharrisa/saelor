@@ -138,7 +138,7 @@
         </Galleria>
       </div>
       <div class="container_product_name">
-        <p class="title">{{ product?.name }}</p>
+        <h2>{{ product?.name }}</h2>
         <p>{{ product?.variants?.[0]?.sku }}</p>
         <div style="display: flex; gap: 1rem">
           <p>{{ product?.pricing?.priceRange?.start?.currency }}</p>
@@ -154,7 +154,7 @@
         <p id="product-warranty-information" @click="visible = true">
           Warranty Information
         </p>
-        <div id="container-ctas">
+        <div class="container-ctas">
           <InputNumber
             v-model="quantity"
             show-buttons
@@ -196,8 +196,7 @@
       </div>
     </div>
     <div class="container-recommendation">
-      <div class="grid-cards">
-      </div>
+      <div class="grid-cards"></div>
     </div>
 
     <DialogWarrantyInformation v-model:visible="visible" />
@@ -205,7 +204,7 @@
 </template>
 
 <style scoped>
-  #container-ctas {
+  .container-ctas {
     display: flex;
     padding: 1rem 0;
     gap: 1rem;
@@ -238,8 +237,7 @@
   }
 
   .page {
-    width: 80vw;
-    margin: 0 auto;
+    /* margin: 0 auto; */
     padding: 2rem 0;
   }
   .container_product_display {
@@ -265,5 +263,31 @@
     flex: 1;
     padding: 2rem;
     flex-direction: column;
+  }
+  @media (max-width: 425px) {
+    .page {
+      max-width: 425px;
+      padding: 1rem;
+    }
+    .container_product_display {
+      flex-direction: column;
+      /* padding: 1rem; */
+    }
+    .container_product_image {
+      order: 1;
+    }
+    .container-ctas {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+    }
+    .container-product-informations {
+      padding: 1rem 0;
+    }
+    .title {
+      font-size: 0.875rem;
+    }
+    li {
+      font-size: 0.75rem;
+    }
   }
 </style>
