@@ -87,8 +87,11 @@
 <template>
   <div class="container">
     <PanelHeader />
-    <div class="container-top-bar">
-      <h1 v-if="!excludedFromTopBar.includes(route.name)">
+    <div
+      v-if="!excludedFromTopBar.includes(route.name)"
+      class="container-top-bar"
+    >
+      <h1>
         {{ displayTopBar }}
       </h1>
       <RichTextRenderer

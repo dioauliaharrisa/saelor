@@ -213,12 +213,10 @@
     height: 3rem;
     flex: 1;
   }
-
   .p-dialog-header {
     padding: 0;
     width: 100%;
   }
-
   #product-warranty-information {
     font-size: smaller;
     text-transform: uppercase;
@@ -235,7 +233,6 @@
     font-weight: 700;
     margin-bottom: 0;
   }
-
   .page {
     /* margin: 0 auto; */
     padding: 2rem 0;
@@ -245,19 +242,16 @@
     gap: 1rem;
     width: 100%;
   }
-
   .container_product_image {
     flex: 2;
     /* background-color: red; */
   }
-
   .container_product_image img {
     width: 100%;
     height: 100%; /* Ensure it scales correctly */
     /* max-height: 300px; Adjust as needed */
     object-fit: cover;
   }
-
   .container_product_name {
     display: flex;
     flex: 1;
@@ -279,6 +273,9 @@
     .container-ctas {
       display: grid;
       grid-template-rows: 1fr 1fr;
+    }
+    .container_product_name{
+      padding: 0;
     }
     .container-product-informations {
       padding: 1rem 0;
