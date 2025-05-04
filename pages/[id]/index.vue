@@ -88,7 +88,8 @@
     }
   ])
 
-  const quantity = ref(0)
+  const quantity = ref(1)
+  const haveNotReadWarranty = ref(false)
 </script>
 
 <template>
@@ -151,15 +152,25 @@
           :content="product.description"
           :font-size="'.75rem'"
         />
-        <p id="product-warranty-information" @click="visible = true">
-          Warranty Information
-        </p>
+        <div style="display: flex; gap: 0.25rem">
+          <Checkbox v-model="haveNotReadWarranty" binary />
+          <p class="product-warranty-information" style="color: #000000">
+            {{ `I have read the  ` }}
+          </p>
+          <p
+            class="product-warranty-information"
+            style="text-transform: uppercase"
+            @click="visible = true"
+          >
+            Warranty Information
+          </p>
+        </div>
         <div class="container-ctas">
           <InputNumber
             v-model="quantity"
             show-buttons
             button-layout="horizontal"
-            :min="0"
+            :min="1"
             :max="99"
             style="flex: 1; height: 3rem"
           >
@@ -171,6 +182,7 @@
             </template>
           </InputNumber>
           <Button
+            :disabled="!haveNotReadWarranty"
             id="button-add-to-cart"
             label="Add to cart"
             @click="handleAddToCart()"
@@ -217,13 +229,12 @@
     padding: 0;
     width: 100%;
   }
-  #product-warranty-information {
+  .product-warranty-information {
     font-size: smaller;
-    text-transform: uppercase;
     font-weight: 700;
     color: #0078d6;
   }
-  #product-warranty-information:hover {
+  .product-warranty-information:hover {
     cursor: pointer;
     color: navy;
     transition: color 0.3s ease;
@@ -274,7 +285,7 @@
       display: grid;
       grid-template-rows: 1fr 1fr;
     }
-    .container_product_name{
+    .container_product_name {
       padding: 0;
     }
     .container-product-informations {
