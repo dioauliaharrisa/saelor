@@ -1,4 +1,5 @@
 <script setup>
+  import imageNoProductsFound from '/no_products_available.png'
   const route = useRoute()
   const categoryId = route.params.id
 
@@ -32,6 +33,9 @@
       gap: 1rem;
     "
   >
+    <div v-if="!data.length" class="container_no_products_available">
+      <img :src="imageNoProductsFound" :alt="'no products found'" />
+    </div>
     <div class="grid_cards">
       <CardProduct
         v-for="n in data"

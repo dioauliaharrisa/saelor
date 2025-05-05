@@ -33,11 +33,10 @@
 
 <template>
   <div class="wrapper">
-    <DrawerFilters v-model:visible="isDrawerVisible" style="width: 100%" />
+    <DrawerFilters v-model:visible="isDrawerVisible" />
 
     <div class="header-left-part">
       <Button
-        style="width: 40px; height: 40px; padding: 0"
         class="button-drawer"
         @click="isDrawerVisible = !isDrawerVisible"
       >
@@ -123,6 +122,9 @@
 <style scoped>
   .button-drawer {
     background-color: var(--primary-color);
+    width: 40px;
+    height: 40px;
+    padding: 0;
   }
   #button-sign-in {
     background-color: var(--primary-color);
@@ -267,9 +269,18 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 425px) {
     .icon {
       font-size: 20px;
+    }
+    .wrapper {
+      padding: 0 1rem;
+    }
+    .header-left-part > img{
+      width: 115px;
+    }
+    .header-right-part {
+      margin: 0 1.5rem;
     }
   }
 </style>

@@ -31,8 +31,8 @@ const MyPreset = definePreset(Material, {
     button: {
       primary: {
         hover: {
-          background: '#b8e3ff', // Your custom hover background color
-          color: '#ffffff' // Your custom hover text color
+          background: '#b8e3ff', 
+          color: '#ffffff' 
         }
       }
     }

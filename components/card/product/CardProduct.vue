@@ -48,7 +48,7 @@
               )
             }}
           </p>
-          <p class="price-before-gst">EX-GST</p>
+          <p class="price-before-gst">(exc. GST)</p>
         </div>
         <div
           style="flex: 1; display: flex; flex-direction: column; gap: 0.5rem"
@@ -58,7 +58,7 @@
               v-model="quantity"
               show-buttons
               button-layout="horizontal"
-              :min="0"
+              :min="1"
               :max="99"
             >
               <template #incrementicon>
@@ -131,7 +131,6 @@
     display: flex;
     justify-content: center;
   }
- 
 
   .CheckboxRoot {
     background-color: white;
@@ -192,7 +191,7 @@
   .wrapper-price {
     display: flex;
   }
-   .bottom-part {
+  .bottom-part {
     /* display: flex; */
     /* align-items: flex-end; */
     gap: 0.5rem;

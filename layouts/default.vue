@@ -66,17 +66,13 @@
           const category = await fetchCategory(categoryId)
 
           let tempCatName = ''
-          console.log(
-            '🦆 ~ category?.data?.category?.ancestors?.forEach ~ category?.data?.category?.ancestors:',
-            category?.data?.category?.ancestors
-          )
+         
           category?.data?.category?.ancestors?.edges?.forEach(
             (eachAncestor) => {
               tempCatName += eachAncestor?.node?.name + ' > '
             }
           )
           tempCatName += category?.data?.category?.name
-          console.log('🦆 ~ watchEffect ~ tempCatName:', tempCatName)
 
           categoryName.value = tempCatName || null
         } catch (error) {

@@ -18,5 +18,7 @@
     width: 100vw;
     height: 100dvh;
     font-family: Roboto;
+    font-family: Montserrat;
+    font-family: Overpass;
   }
 </style>

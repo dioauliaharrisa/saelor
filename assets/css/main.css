@@ -35,6 +35,7 @@
   font-weight: bold;
 }
 
+h1,
 h2,
 h3,
 h4,
@@ -49,7 +50,7 @@ p {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   justify-items: center;
-  gap: 16px;
+  gap: 8px;
   max-width: calc(6 * 300px + 5 * 1rem);
   margin: 0 auto;
 }
@@ -57,7 +58,7 @@ p {
 @media (max-width: 425px) {
   .grid_cards {
     grid-template-columns: repeat(2, 1fr);
-    padding: 0.5rem;
+    /* padding: 0.25rem; */
   }
 }
 
@@ -98,4 +99,14 @@ p {
 /* for accordion text weirdly going centered */
 .p-accordion.p-component {
   width: 100%;
+}
+.p-drawer-left .p-drawer {
+  width: 100%;
+  max-width: 30%;
+}
+@media (max-width: 425px) {
+  .p-drawer-left .p-drawer {
+    width: 100%;
+    max-width: 100%;
+  }
 }

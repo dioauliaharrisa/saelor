@@ -8,7 +8,6 @@
   })
   const collections = useCollections()
   const dataCollections = computed(() => collections.collections?.value || [])
-  console.log('🦆 ~ dataCollections:', dataCollections)
   const useStore = useCartStore()
   const router = useRouter()
   const handleClick = (collection) => {

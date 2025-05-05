@@ -14,8 +14,20 @@
     :visible="visible"
     :header="`Hi there!`"
     @update:visible="emit('update:visible', $event)"
-    style="width: 300px; max-width: 30%"
   >
+    <!-- class="drawer" -->
     <CardFilters :onClose="handleClose" />
   </Drawer>
 </template>
+
+<style scoped>
+  :deep(.p-drawer-left > .p-drawer) {
+    width: 50% !important;
+    max-width: 40% !important;
+  }
+  @media (max-width: 425px) {
+    .drawer {
+      max-width: 100%;
+    }
+  }
+</style>

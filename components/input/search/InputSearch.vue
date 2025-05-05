@@ -16,6 +16,17 @@
       search: search.value
     })
   }
+
+  const breakpoints = useBreakpoints({
+    mobile: 0,
+    mobileLarge: 425,
+    tablet: 768,
+    laptop: 1024,
+    desktop: 1440
+  })
+  const inputSize = computed(() =>
+    breakpoints.smaller('mobileLarge') ? 'small' : 'large'
+  )
 </script>
 
 <template>
@@ -23,7 +34,7 @@
     <InputText
       v-model="search"
       placeholder="Search products"
-      size="large"
+      :size="inputSize"
       fluid
       @keydown.enter="applySearch"
     />
