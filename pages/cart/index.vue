@@ -18,6 +18,8 @@
     // return
     isDialogOpen.value = true
   }
+
+  const haveYetReadToS = ref(false)
 </script>
 
 <template>
@@ -46,10 +48,18 @@
         <p v-if="data.length > 0" class="title">
           Total Price: {{ formatPrice(totalPrice?.gross.amount) }}
         </p>
+        <div style="display: flex; gap: 0.5rem">
+          <Checkbox v-model="haveYetReadToS" inputId="tos" binary />
+          <label for="tos">
+            I have read the
+            <NuxtLink to="https://jayben.com.au/legal">Terms and Conditions</NuxtLink>
+          </label>
+        </div>
         <Button
           v-if="data.length > 0"
           id="button-proceed-to-checkout"
           label="Proceed to checkout via Purchase Order"
+          :disabled="!haveYetReadToS"
           @click="
             generatePurchaseOrderPdf({
               checkoutLines: data,

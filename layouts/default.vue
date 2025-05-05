@@ -1,6 +1,6 @@
 <script setup lang="ts">
   const route = useRoute()
-  const excludedFromCardFilters = ['cart', 'account', 'login', 'inquiry']
+  // const excludedFromCardFilters = ['cart', 'account', 'login', 'inquiry']
   const excludedFromTopBar = ['index', 'cart', 'id', 'inquiry']
 
   const products = useProducts()
@@ -24,12 +24,12 @@
 
   const routeName = computed(() => route.name)
 
-  const shouldHideCardFilters = computed((): boolean => {
-    const isBelowLaptop = breakpoints.smaller('desktop').value
-    const hasBannedURL = excludedFromCardFilters.includes(route.name)
+  // const shouldHideCardFilters = computed((): boolean => {
+  //   const isBelowLaptop = breakpoints.smaller('desktop').value
+  //   const hasBannedURL = excludedFromCardFilters.includes(route.name)
 
-    return isBelowLaptop || hasBannedURL
-  })
+  //   return isBelowLaptop || hasBannedURL
+  // })
   const { fetchCollection } = useCollections()
   const { fetchCategory } = useCategories()
 
@@ -156,9 +156,9 @@
       </div>
     </div>
     <div class="box_content">
-      <div v-if="!shouldHideCardFilters">
+      <!-- <div v-if="!shouldHideCardFilters">
         <CardFilters :loading="false" />
-      </div>
+      </div> -->
       <slot />
     </div>
     <PanelFooter />

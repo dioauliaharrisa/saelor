@@ -37,7 +37,6 @@
 
     <div class="header-left-part">
       <Button
-        v-if="isBelowDesktop"
         style="width: 40px; height: 40px; padding: 0"
         class="button-drawer"
         @click="isDrawerVisible = !isDrawerVisible"
@@ -176,6 +175,10 @@
     grid-area: left;
 
     cursor: pointer;
+
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    align-items: center;
   }
   .header-middle-part {
     grid-area: middle;

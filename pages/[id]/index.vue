@@ -89,7 +89,7 @@
   ])
 
   const quantity = ref(1)
-  const haveNotReadWarranty = ref(false)
+
 </script>
 
 <template>
@@ -157,7 +157,7 @@
           :font-size="'.75rem'"
         />
         <div style="display: flex; gap: 0.25rem">
-          <Checkbox v-model="haveNotReadWarranty" binary />
+         
           <p class="product-warranty-information" style="color: #000000">
             {{ `I have read the  ` }}
           </p>
@@ -186,7 +186,6 @@
             </template>
           </InputNumber>
           <Button
-            :disabled="!haveNotReadWarranty"
             id="button-add-to-cart"
             label="Add to cart"
             @click="handleAddToCart()"
