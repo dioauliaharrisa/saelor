@@ -11,6 +11,14 @@ export const GET_CATEGORY = gql`
           }
         }
       }
+      ancestors(first: 10) {
+        edges {
+          node {
+            id
+            name
+          }
+        }
+      }
     }
   }
 `

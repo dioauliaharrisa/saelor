@@ -64,7 +64,21 @@
       if (categoryId) {
         try {
           const category = await fetchCategory(categoryId)
-          categoryName.value = category?.data?.category?.name || null
+
+          let tempCatName = ''
+          console.log(
+            '🦆 ~ category?.data?.category?.ancestors?.forEach ~ category?.data?.category?.ancestors:',
+            category?.data?.category?.ancestors
+          )
+          category?.data?.category?.ancestors?.edges?.forEach(
+            (eachAncestor) => {
+              tempCatName += eachAncestor?.node?.name + ' > '
+            }
+          )
+          tempCatName += category?.data?.category?.name
+          console.log('🦆 ~ watchEffect ~ tempCatName:', tempCatName)
+
+          categoryName.value = tempCatName || null
         } catch (error) {
           console.error('Failed to fetch collection:', error)
           categoryName.value = null

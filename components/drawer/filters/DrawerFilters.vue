@@ -14,6 +14,7 @@
     :visible="visible"
     :header="`Hi there!`"
     @update:visible="emit('update:visible', $event)"
+    style="width: 300px; max-width: 30%"
   >
     <CardFilters :onClose="handleClose" />
   </Drawer>
