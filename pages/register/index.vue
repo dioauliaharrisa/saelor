@@ -216,6 +216,15 @@
             <span v-else>{{ $form[field.name].error.message }}</span>
           </Message>
         </div>
+        <div class="terms-and-conditions">
+          <Checkbox v-model="haveYetReadToS" inputId="tos" binary />
+          <label for="tos">
+            I have read the
+            <NuxtLink to="https://cdn.prod.website-files.com/5c663013b44ec5864964b279/62cb7b1d202ef9bb4892ea7f_JQP12-Terms%20of%20Trade.pdf">
+              Terms and Conditions
+            </NuxtLink>
+          </label>
+        </div>
         <Button
           id="button-submit"
           type="submit"
@@ -228,6 +237,12 @@
 </template>
 
 <style scoped>
+  .terms-and-conditions {
+    grid-column: span 2;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
   .container-header {
     display: flex;
     flex-direction: column;

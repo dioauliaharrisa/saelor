@@ -89,7 +89,6 @@
   ])
 
   const quantity = ref(1)
-
 </script>
 
 <template>
@@ -156,19 +155,6 @@
           :content="product.description"
           :font-size="'.75rem'"
         />
-        <div style="display: flex; gap: 0.25rem">
-         
-          <p class="product-warranty-information" style="color: #000000">
-            {{ `I have read the  ` }}
-          </p>
-          <p
-            class="product-warranty-information"
-            style="text-transform: uppercase"
-            @click="visible = true"
-          >
-            Warranty Information
-          </p>
-        </div>
         <div class="container-ctas">
           <InputNumber
             v-model="quantity"

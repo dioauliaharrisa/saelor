@@ -44,19 +44,22 @@
           :product="product"
         />
       </div>
-      <div class="container_checkout_total_price">
-        <p v-if="data.length > 0" class="title">
+      <div v-if="data.length > 0" class="container_checkout_total_price">
+        <p class="title">
           Total Price: {{ formatPrice(totalPrice?.gross.amount) }}
         </p>
         <div style="display: flex; gap: 0.5rem">
           <Checkbox v-model="haveYetReadToS" inputId="tos" binary />
           <label for="tos">
             I have read the
-            <NuxtLink to="https://jayben.com.au/legal">Terms and Conditions</NuxtLink>
+            <NuxtLink
+              to="https://cdn.prod.website-files.com/5c663013b44ec5864964b279/62cb7b1d202ef9bb4892ea7f_JQP12-Terms%20of%20Trade.pdf"
+            >
+              Terms and Conditions
+            </NuxtLink>
           </label>
         </div>
         <Button
-          v-if="data.length > 0"
           id="button-proceed-to-checkout"
           label="Proceed to checkout via Purchase Order"
           :disabled="!haveYetReadToS"
