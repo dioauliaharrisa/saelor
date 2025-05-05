@@ -23,6 +23,16 @@
 
 .p-button {
   font-size: 0.8rem;
+  transition: none !important;
+}
+.p-button:not(:disabled):active {
+  background: none !important;
+  border-color: transparent !important;
+  color: inherit !important;
+  box-shadow: none !important;
+}
+.p-button:not(:disabled):hover {
+  background: var(--primary-color) !important;
 }
 
 .p-inputtext {
@@ -59,6 +69,14 @@ p {
   .grid_cards {
     grid-template-columns: repeat(2, 1fr);
     /* padding: 0.25rem; */
+  }
+  .list-cards {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .p-drawer-left .p-drawer {
+    width: 100%;
+    max-width: 100%;
   }
 }
 
@@ -104,9 +122,10 @@ p {
   width: 100%;
   max-width: 30%;
 }
-@media (max-width: 425px) {
-  .p-drawer-left .p-drawer {
-    width: 100%;
-    max-width: 100%;
-  }
+
+:deep(.p-button:not(:disabled):hover) {
+  background: none !important;
+  border: none !important;
+  color: inherit !important;
 }
+

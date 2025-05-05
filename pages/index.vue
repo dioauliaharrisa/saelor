@@ -70,6 +70,15 @@
       numScroll: 1
     }
   ])
+
+  const modeView = ref<'grid' | 'list'>('grid')
+  const handleClickView = () => {
+    if (modeView.value === 'grid') {
+      modeView.value = 'list'
+    } else {
+      modeView.value = 'grid'
+    }
+  }
 </script>
 
 <template>
@@ -98,6 +107,18 @@
 
     <div v-if="data.length">
       <div class="sort-bar">
+        <Button class="button-grid-list" @click="handleClickView">
+          <template #icon>
+            <Icon
+              :name="
+                modeView === 'list'
+                  ? 'material-symbols:lists'
+                  : 'material-symbols:align-justify-stretch'
+              "
+              class="icon"
+            />
+          </template>
+        </Button>
         <Select
           v-model="selectedCity"
           :options="cities"
@@ -107,7 +128,7 @@
           @change="onSortChange"
         />
       </div>
-      <div class="grid_cards">
+      <div :class="modeView === 'grid' ? 'grid_cards' : 'list-cards'">
         <CardProduct
           v-for="product in data"
           :key="product.id"
@@ -130,6 +151,14 @@
 </template>
 
 <style scoped>
+  .button-grid-list {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  .icon {
+    color: white;
+    font-size: 1.5rem;
+  }
   .j-button {
     font-size: 15px;
     padding: 0 15px;
@@ -255,7 +284,7 @@
     }
   }
   @media (max-width: 425px) {
-    .grid_cards_recently_viewed_products{
+    .grid_cards_recently_viewed_products {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 16px;
