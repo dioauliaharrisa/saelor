@@ -1,4 +1,11 @@
 <script setup>
+  const { onClose } = defineProps({
+    onClose: {
+      type: Function,
+      required: false,
+      default: undefined
+    }
+  })
   const collections = useCollections()
   const dataCollections = computed(() => collections.collections?.value || [])
   console.log('🦆 ~ dataCollections:', dataCollections)
@@ -7,6 +14,7 @@
   const handleClick = (collection) => {
     useStore.breadcrumb = collection.node.name
     router.push(`/collections/${collection.node.id}`)
+    onClose?.()
   }
 </script>
 
@@ -22,6 +30,7 @@
           style="cursor: pointer"
           class="j-accordion-text"
           @click="handleClick(collection)"
+
         >
           {{ collection.node?.name }}
         </p>

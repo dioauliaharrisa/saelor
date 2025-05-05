@@ -1,8 +1,13 @@
 <script setup lang="ts">
-  defineProps({
+  const { onClose } = defineProps({
     category: {
       type: Object,
       default: () => ({ node: { name: '', id: '', children: { edges: [] } } })
+    },
+    onClose: {
+      type: Function,
+      required: false,
+      default: undefined
     }
   })
   const router = useRouter()
@@ -10,6 +15,7 @@
   const handleClick = (category) => {
     // useStore.breadcrumb = category.node.name
     router.push(`/category/${category.node.id}`)
+    onClose?.()
   }
 </script>
 

@@ -142,8 +142,12 @@
         <h2>{{ product?.name }}</h2>
         <p>{{ product?.variants?.[0]?.sku }}</p>
         <div style="display: flex; gap: 1rem">
-          <p>{{ product?.pricing?.priceRange?.start?.currency }}</p>
-          <p>{{ product?.pricing?.priceRange?.start?.gross?.amount }}</p>
+          <p style="font-weight: 700; padding: 1rem 0; text-transform: none">
+            {{
+              formatPrice(product?.pricing?.priceRange?.start?.gross?.amount)
+            }}
+            {{ `(exc. GST)` }}
+          </p>
         </div>
         <p>Stocks: {{ product?.variants?.[0]?.quantityAvailable }}</p>
         <Divider />

@@ -40,8 +40,8 @@
     <Divider align="center" type="dotted">
       <b>Shop by</b>
     </Divider>
-    <AccordionSidePanelShopByCollections />
-    <AccordionSidePanelShopByCategories />
+    <AccordionSidePanelShopByCollections :onClose="onClose" />
+    <AccordionSidePanelShopByCategories :onClose="onClose" />
     <Divider align="center" type="dotted">
       <b>Filter</b>
     </Divider>
